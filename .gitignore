@@ -1,0 +1,7 @@
+.next
+.cache
+.pnpm-home
+.pnpm-store
+Library
+node_modules
+npm-debug.log
