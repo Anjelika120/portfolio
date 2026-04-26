@@ -416,7 +416,7 @@ export const portfolio = {
     description:
       "Portfolio of Anjelika Tan, a product and platform generalist focused on integrations, workflows, internal tools, and AI-assisted systems in B2B SaaS.",
     siteUrl: "https://example.com",
-    socialImage: "/opengraph-image"
+    socialImage: "/me2.png"
   }
 } as const;
 
