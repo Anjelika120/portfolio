@@ -8,6 +8,7 @@ type RoadmapPhase = {
   detailTitle?: string;
   description: string;
   changes: readonly string[];
+  decision?: string;
   shaped: string;
 };
 
@@ -117,6 +118,15 @@ export function EvolutionRoadmap({ phases }: EvolutionRoadmapProps) {
             ))}
           </ul>
         </div>
+
+        {selectedPhase.decision ? (
+          <div className="mt-5">
+            <p className="text-base font-medium text-ink">Important decision</p>
+            <p className="mt-2 max-w-3xl text-base leading-8 text-mist">
+              {selectedPhase.decision}
+            </p>
+          </div>
+        ) : null}
 
         <div className="mt-5">
           <p className="text-base font-medium text-ink">What I shaped</p>

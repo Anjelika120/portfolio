@@ -250,7 +250,7 @@ export const portfolio = {
       impactLine: "High daily redemption volume across clients",
       railNoteLabel: "What I shaped",
       railNote:
-        "Permissions, statuses, eligibility, refunds, and supporting workflows",
+        "Permissions, redemption methods, statuses, refunds, and supporting workflows",
       bullets: [
         "Owned logic across products, permissions, redemption methods, and catalogue structure",
         "Designed real-time eligibility checks for fintech-related use cases",
@@ -265,27 +265,27 @@ export const portfolio = {
           title: "Voucher",
           detailTitle: "Voucher redemption",
           description:
-            "The store started as a simple voucher redemption flow, where users spent platform-earned coins on voucher rewards.",
+            "The store started as a simple voucher redemption flow, mainly for prop trading firms, where users spent platform-earned coins on voucher rewards.",
           changes: [
-            "Products were mainly voucher-based",
+            "Products were initially voucher-based",
             "Access followed a category-first visibility model",
-            "Users redeemed rewards using in-platform currency",
-            "The system was designed for a much simpler redemption flow than what it later became"
+            "Users needed category permission before they could see products under it",
+            "The redemption experience was straightforward, with users receiving voucher codes after purchase"
           ],
           shaped:
-            "I was involved from the earliest version of the store and saw first-hand where the original structure would become limiting as new client needs emerged."
+            "I joined from the first iteration, which gave me a strong view of where the original structure worked well and where it would later become limiting as client needs grew."
         },
         {
           phase: "02",
           title: "Commerce",
           detailTitle: "Commerce handoff",
           description:
-            "The system later expanded to support Stripe and WooCommerce-backed purchase flows. Product and payment management stayed on those external systems, while our platform focused on purchase access and redemption flow.",
+            "The system later expanded to support Stripe and WooCommerce-backed purchase flows, while product and payment management stayed on those external systems.",
           changes: [
             "Added Stripe-backed purchase flows",
+            "Supported both one-time and recurring purchase setups",
             "Added WooCommerce-backed purchase flows",
-            "Supported both one-time and recurring product setups",
-            "Kept product management and payment handling outside the platform instead of rebuilding those capabilities internally"
+            "Kept product management and payment handling outside the platform, while our product handled access and redemption flow"
           ],
           shaped:
             "This phase clarified that the harder product work was not payment itself, but how store logic connected external commerce systems with internal reward and redemption flows."
@@ -295,28 +295,33 @@ export const portfolio = {
           title: "Redemption",
           detailTitle: "Redemption methods",
           description:
-            "As client needs expanded beyond vouchers, the store had to support more complex redemption methods such as account credit and physical reward claims. This introduced more operational and validation logic.",
+            "As client needs expanded beyond vouchers, the store had to support more complex redemption types such as account credit and physical reward claims.",
           changes: [
-            "Expanded beyond voucher-code rewards into account credit and physical delivery",
             "Added configurable redemption fields based on claim type",
-            "Allowed CRM-linked fields, such as account selection, to be used during redemption",
-            "Introduced API-based checks for more sensitive claims"
+            "Allowed different fields depending on reward type",
+            "Supported CRM-linked values, such as account selection, during redemption",
+            "Expanded the system to support account credit and physical delivery flows"
           ],
+          decision:
+            "For account-credit redemption, I initially supported a manual acknowledgement step where users confirmed they held equal value in their account balance. That proved unreliable and created refund and support issues, so I replaced it with API-based validation before the claim could move forward.",
           shaped:
-            "One important shift here was moving away from manual user acknowledgement and toward API validation, after the original flow caused refund and support issues."
+            "This phase pushed the store beyond basic redemption and into more operationally sensitive flows where validation and claim handling mattered much more."
         },
         {
           phase: "04",
           title: "Permissions",
           detailTitle: "Permissions",
           description:
-            "As clients grew more complex, the original category-parent permission model became difficult to manage, especially when clients needed regional access control across many roles. This led to a full rethink of how store access should work.",
+            "As clients requested more granular regional access, the original category-parent permission model became difficult to manage across many roles and edge cases.",
           changes: [
             "Reworked the original category-parent permission structure",
-            "Allowed product-level permissions to override category-level access",
+            "Allowed product-level rules to override category-level access",
             "Introduced explicit access states: no access, view only, and full access",
-            "Defined precedence rules for overlapping roles so the system stayed manageable across many regional roles"
+            "Added purchase limits on top of access rules",
+            "Designed precedence rules for overlapping roles"
           ],
+          decision:
+            "One of the hardest tradeoffs was deciding how precedence should work when users held conflicting roles. I chose full access to take priority over view only and no access, and simplified default behavior so the system stayed manageable without becoming overly complex.",
           shaped:
             "This was one of the biggest logic redesigns in the system and a strong example of turning a client-specific pain point into reusable platform logic."
         },
@@ -325,16 +330,19 @@ export const portfolio = {
           title: "Operations",
           detailTitle: "Statuses, refunds, and operations",
           description:
-            "As the store matured, it needed to support more operationally flexible workflows. I helped shape a more configurable status and refund system so the product could support different client processes and future fulfilment partners.",
+            "As the store matured, it needed to support more flexible operational handling across different client workflows and future fulfilment partners.",
           changes: [
             "Structured order flow into four broad status categories: Purchase, In Progress, Completed, and Refunded",
-            "Allowed products and redemption methods to override the first status shown after purchase",
-            "Supported manual or API-driven status updates instead of hardcoding automatic fulfilment behavior",
+            "Allowed products to define a starting status",
+            "Allowed redemption methods to override that starting status, with redemption method taking highest priority",
+            "Kept status changes manual or API-driven rather than hardcoding one fulfilment flow",
             "Added refund rules, including request-based or automatic refund flows",
-            "Built supporting transaction tooling to help teams manage redemption activity more effectively"
+            "Built supporting order history and transaction tooling for teams managing redemption activity"
           ],
+          decision:
+            "I designed statuses as configurable categories rather than a fixed lifecycle, so the same system could support different fulfilment and refund models across clients.",
           shaped:
-            "I also worked with fulfilment-related workflows and built supporting transaction tooling when the default order history was not flexible enough for clients managing activity across regions."
+            "I also knew we would eventually need to work with fulfilment partners, so I helped shape the status model early and later worked with a fulfilment company around those flows. On the operational side, I also built additional transaction tooling when the default history workflow was too rigid for clients managing activity across regions."
         }
       ],
       detailSections: [
@@ -351,23 +359,6 @@ export const portfolio = {
           layout: "default",
           body:
             "I was involved from the first version and later owned major logic decisions across Stripe, WooCommerce, redemption methods, permissions, statuses, refunds, and supporting workflows. A big part of the role was deciding when a client request should stay custom and when it needed to become reusable platform capability."
-        },
-        {
-          heading: "Key decisions",
-          body:
-            "The hardest area was permissions. The original category-parent model became difficult to manage once clients needed granular regional access across many roles.",
-          items: [
-            "Redesigned access so products could override category rules with clear precedence across no access, view only, and full access states.",
-            "Expanded order handling into Purchase, In Progress, Completed, and Refunded, while allowing redemption methods to override the first status shown."
-          ],
-          layout: "compact-bullets"
-        },
-        {
-          heading: "Eligibility and operations",
-          items: [],
-          layout: "default",
-          body:
-            "For account-credit redemption, I replaced a manual acknowledgement step with API-based validation after it proved unreliable and created refund and support issues. I also worked on order history and transaction tooling to support teams managing redemption activity where clients needed more flexibility than the default workflow provided."
         },
         {
           heading: "Outcome",
@@ -388,27 +379,120 @@ export const portfolio = {
     {
       id: "milestone-gamification-engine",
       label: "Platform thinking",
-      featured: false,
-      detailLayout: "default",
-      title: "Milestone gamification engine",
+      featured: true,
+      detailLayout: "feature",
+      title: "Milestone",
       summary:
-        "A repeatable reward framework shaped around milestone tracking, product rules, and engagement design.",
-      tags: ["Reward rules", "Trading data", "Reusable campaigns"],
-      railTags: ["Reward rules", "Trading data", "Reusable campaigns"],
+        "Built out milestone from a simple reward flow into a flexible backend engine for coins, XP, roles, approvals, hidden permissions, recurring campaigns, and integration-driven logic.",
+      tags: ["Rules engine", "Permissions", "Backend systems"],
+      railTags: ["Rules engine", "Permissions", "Backend systems"],
       scope: "",
       impactLabel: "Impact",
       impactLine: "",
       railNoteLabel: "",
       railNote: "",
       bullets: [
-        "Integrated custom fields and external trading data",
-        "Involved product rules, reward logic, and engagement design",
-        "Designed for repeatable platform-wide use cases"
+        "Evolved from simple rewards into a flexible rules engine",
+        "Powered roles, permissions, approvals, and backend control",
+        "Supported recurring campaigns and integration-driven logic"
       ],
       detail:
-        "The milestone engine combined product mechanics with platform reuse. It connected external trading data and internal custom fields to a rule system that could support repeated campaigns, while keeping the logic adaptable enough for future milestones, reward types, and engagement flows.",
+        "Milestone evolved from a simple reward mechanic into a reusable backend system for progression, permissions, approvals, and structured business logic.",
       evolutionPhases: [],
-      detailSections: []
+      detailSections: [
+        {
+          heading: "Overview",
+          items: [],
+          layout: "default",
+          body:
+            "Milestone started as a simple gamification flow for awarding coins and XP when users met certain conditions. Over time, it became much more than a reward feature. As the platform gained access to richer data through integrations, webhooks, bulk updates, and CRM systems, milestone evolved into a flexible rules engine for progression, role assignment, submissions, approvals, resets, and repeatable engagement logic. Importantly, milestone was not always a visible user-facing feature. In many cases, it operated in the background to assign roles, control permissions, and trigger access changes elsewhere in the product."
+        },
+        {
+          heading: "What I owned",
+          items: [],
+          layout: "default",
+          body:
+            "I was involved in milestone from the beginning and shaped it across its full evolution. That included core condition logic, reward behavior, role assignment, progression models, approval flows, user-facing rule phrasing, resets, start dates, and newer urgency mechanics such as limited redemption windows. It was one of the systems that came most directly out of my hands."
+        },
+        {
+          heading: "Core capabilities",
+          items: [],
+          layout: "default",
+          body:
+            "Milestone became useful because it could combine product rules, external data, hidden backend logic, and user-facing progression in the same system."
+        },
+        {
+          heading: "Data-driven conditions",
+          items: [
+            "Used custom fields and external system data as milestone conditions",
+            "Enabled reward logic from CRM, webhook, and bulk-update data",
+            "Supported use cases where users were rewarded when tracked business events occurred"
+          ],
+          layout: "compact-bullets",
+          body:
+            "As integrations expanded, milestone stopped depending on in-platform actions alone and became a broader rules layer that could react to external signals."
+        },
+        {
+          heading: "Rewards and role logic",
+          items: [
+            "Awarded coins and XP when conditions were met",
+            "Added role assignment, removal, and overwrite behavior",
+            "Enabled hidden milestones that ran purely as backend permission logic"
+          ],
+          layout: "compact-bullets",
+          body:
+            "Milestone eventually supported tiers, access changes, and backend control, not just visible reward mechanics. I also used hidden milestone logic to award regional roles that determined access to the store."
+        },
+        {
+          heading: "Progression models",
+          items: [
+            "Added progressive logic where later stages stayed locked until earlier ones were cleared",
+            "Added non-progressive logic where tasks could be completed independently",
+            "Supported more flexible campaign structures such as multi-platform review actions"
+          ],
+          layout: "compact-bullets",
+          body:
+            "Different campaigns needed different progression behavior, so milestone had to support both sequential and independent completion models without assuming one default structure."
+        },
+        {
+          heading: "Submission and approval workflows",
+          items: [
+            "Added support for text and image submissions",
+            "Allowed required fields and admin-configured submission instructions",
+            "Added approval and rejection workflows for actions that could not be validated automatically",
+            "Introduced custom conditions around review-based milestone handling"
+          ],
+          layout: "compact-bullets",
+          body:
+            "This pushed milestone beyond automated tracking and into hybrid workflows where platform logic and operational review had to work together."
+        },
+        {
+          heading: "Recurring and urgency mechanics",
+          items: [
+            "Improved user-facing condition phrasing without changing admin setup logic",
+            "Added start-date and reset logic for recurring milestone use cases",
+            "Added limited-redemption windows to create urgency and support repeatable engagement loops",
+            "Used milestone as the basis for the Trustpilot review flow once completion conditions were met"
+          ],
+          layout: "compact-bullets",
+          body:
+            "As milestone grew more complex, it also had to become easier to understand and more reusable over time, especially for recurring engagement and time-based reward behavior."
+        },
+        {
+          heading: "Outcome",
+          items: [],
+          layout: "default",
+          body:
+            "Milestone grew from a simple reward mechanic into one of the platform’s most flexible backend systems. It powered coins, XP, role assignment, approvals, hidden access control, recurring campaigns, and integration-driven rewards. In practice, it became just as important as the store and, in some ways, more widely used because it controlled the logic behind how progression, access, and reward behavior worked across the product."
+        },
+        {
+          heading: "What I learned",
+          items: [],
+          layout: "default",
+          body:
+            "This project taught me that gamification becomes much more powerful when it stops being about points alone and starts acting as a reusable system for progression, permissions, behavior, and structured business logic."
+        }
+      ]
     }
   ],
   seo: {

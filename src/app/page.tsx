@@ -424,18 +424,22 @@ function FeaturedCaseStudyDetail({
           </div>
 
           <div className="space-y-4 pt-1">
-            <div>
-              <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                Used for
-              </p>
-              <p className="mt-2 text-base leading-7 text-ink">{project.scope}</p>
-            </div>
-            <div>
-              <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                {project.impactLabel}
-              </p>
-              <p className="mt-2 text-base leading-7 text-mist">{project.impactLine}</p>
-            </div>
+            {project.scope ? (
+              <div>
+                <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
+                  Used for
+                </p>
+                <p className="mt-2 text-base leading-7 text-ink">{project.scope}</p>
+              </div>
+            ) : null}
+            {project.impactLine ? (
+              <div>
+                <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
+                  {project.impactLabel}
+                </p>
+                <p className="mt-2 text-base leading-7 text-mist">{project.impactLine}</p>
+              </div>
+            ) : null}
             {project.railNote ? (
               <div>
                 <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
