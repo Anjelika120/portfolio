@@ -125,7 +125,7 @@ export const portfolio = {
   additionalWork: {
     title: "Additional work",
     description:
-      "Broader work across product, integrations, and operations that supports the featured case studies above.",
+      "Broader work across product, integrations, and operations that complements the featured case studies below.",
     groups: [
       {
         title: "Integrations",

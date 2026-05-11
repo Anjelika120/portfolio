@@ -1,5 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
+import { DownloadOpenLink } from "@/components/download-open-link";
 import { EvolutionRoadmap } from "@/components/evolution-roadmap";
 import { portfolio, type Portfolio } from "@/data/portfolio";
 import hubspotLogo from "../../public/logo/HubSpot-Logo.png";
@@ -143,15 +144,20 @@ function ActionLink({
       : "inline-flex items-center justify-center rounded-full border border-line/70 bg-paper/45 px-5 py-3 text-[0.98rem] font-medium text-ink transition hover:border-accent hover:text-accent";
 
   return (
-    <a
-      href={href}
-      className={className}
-      download={download}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noreferrer" : undefined}
-    >
-      {children}
-    </a>
+    download ? (
+      <DownloadOpenLink href={href} className={className} download={download}>
+        {children}
+      </DownloadOpenLink>
+    ) : (
+      <a
+        href={href}
+        className={className}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noreferrer" : undefined}
+      >
+        {children}
+      </a>
+    )
   );
 }
 
@@ -257,55 +263,6 @@ function AdditionalWorkGroupColumn({ group }: { group: AdditionalWorkGroup }) {
   );
 }
 
-function CaseStudyVisual({ project }: { project: CaseStudy }) {
-  if (project.id === "ai-prd-workflow") {
-    return (
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[1.6rem] bg-[linear-gradient(135deg,#edf3f1_0%,#f7f4ed_100%)]">
-        <div className="absolute left-7 top-7 h-28 w-44 rounded-[1.4rem] border border-white/80 bg-white/82 shadow-[0_18px_40px_rgba(31,41,51,0.08)]" />
-        <div className="absolute right-8 top-12 h-24 w-28 rounded-[1.2rem] border border-white/60 bg-accent/14" />
-        <div className="absolute bottom-8 left-8 right-8 h-20 rounded-[1.3rem] border border-line/50 bg-white/74" />
-        <div className="absolute bottom-16 left-14 h-2 w-24 rounded-full bg-accent/75" />
-        <div className="absolute bottom-16 left-44 h-2 w-16 rounded-full bg-line" />
-        <div className="absolute bottom-11 left-14 h-2 w-44 rounded-full bg-line/80" />
-      </div>
-    );
-  }
-
-  if (project.id === "store-redemption-eligibility") {
-    return (
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[1.6rem] bg-[linear-gradient(135deg,#f5f1e8_0%,#faf8f3_100%)]">
-        <div className="absolute left-8 top-9 h-28 w-28 rounded-[1.5rem] bg-accent/14" />
-        <div className="absolute left-40 top-9 h-28 w-36 rounded-[1.5rem] border border-line/60 bg-white/80" />
-        <div className="absolute right-9 top-9 h-52 w-px bg-line/70" />
-        <div className="absolute bottom-10 left-10 right-12 grid grid-cols-4 gap-3">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <div
-              key={`store-node-${index}`}
-              className={`h-5 rounded-full ${
-                index % 3 === 0 ? "bg-accent/70" : "bg-line/80"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative aspect-[4/3] overflow-hidden rounded-[1.6rem] bg-[linear-gradient(135deg,#f1ebe2_0%,#f8f6f0_100%)]">
-      <div className="absolute inset-x-8 bottom-9 flex items-end gap-4">
-        <div className="h-20 w-16 rounded-t-[1.2rem] bg-accent/24" />
-        <div className="h-32 w-16 rounded-t-[1.2rem] bg-accent/40" />
-        <div className="h-24 w-16 rounded-t-[1.2rem] bg-accent/55" />
-        <div className="h-40 w-16 rounded-t-[1.2rem] bg-accent/65" />
-      </div>
-      <div className="absolute left-10 right-10 top-16 h-px bg-line/70" />
-      <div className="absolute left-10 right-10 top-28 h-px bg-line/50" />
-      <div className="absolute left-10 right-10 top-40 h-px bg-line/40" />
-    </div>
-  );
-}
-
 function CaseStudyCard({
   project,
   index
@@ -318,8 +275,6 @@ function CaseStudyCard({
       href={`#${project.id}`}
       className="group flex h-full flex-col gap-4 rounded-[1.85rem] border border-white/70 bg-paper/78 p-5 shadow-[0_18px_46px_rgba(31,41,51,0.05)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(31,41,51,0.08)] sm:p-6"
     >
-      <CaseStudyVisual project={project} />
-
       <div className="flex items-center justify-between gap-4">
         <p className="text-[0.92rem] uppercase tracking-[0.16em] text-accent">{project.label}</p>
         <span className="text-[0.92rem] text-mist">0{index + 1}</span>
@@ -682,26 +637,27 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="mt-12 space-y-6">
-            {selectedWork.map((project, index) => (
-              <CaseStudyDetail key={project.id} project={project} index={index} />
-            ))}
-          </div>
-        </section>
+          <div
+            id="supporting-work"
+            className="mt-12 rounded-[1.8rem] bg-paper/70 px-6 py-6 shadow-[0_16px_44px_rgba(31,41,51,0.05)] sm:px-7"
+          >
+            <SectionHeading
+              eyebrow="Supporting Work"
+              title={additionalWork.title}
+              description={additionalWork.description}
+            />
 
-        <section id="supporting-work" className="scroll-mt-28 py-16">
-          <SectionHeading
-            eyebrow="Supporting Work"
-            title={additionalWork.title}
-            description={additionalWork.description}
-          />
-
-          <div className="mt-7 rounded-[1.8rem] bg-paper/70 px-6 py-6 shadow-[0_16px_44px_rgba(31,41,51,0.05)] sm:px-7">
-            <div className="grid gap-7 md:grid-cols-2 md:gap-x-12">
+            <div className="mt-7 grid gap-7 md:grid-cols-2 md:gap-x-12">
               {additionalWork.groups.map((group) => (
                 <AdditionalWorkGroupColumn key={group.title} group={group} />
               ))}
             </div>
+          </div>
+
+          <div className="mt-12 space-y-6">
+            {selectedWork.map((project, index) => (
+              <CaseStudyDetail key={project.id} project={project} index={index} />
+            ))}
           </div>
         </section>
 
@@ -734,9 +690,13 @@ export default function HomePage() {
                 >
                   LinkedIn
                 </a>
-                <a className="block transition hover:text-accent" href={person.resumeHref} download>
+                <DownloadOpenLink
+                  className="block transition hover:text-accent"
+                  href={person.resumeHref}
+                  download
+                >
                   Download Resume
-                </a>
+                </DownloadOpenLink>
               </div>
             </div>
           </div>
@@ -756,9 +716,9 @@ export default function HomePage() {
             >
               LinkedIn
             </a>
-            <a href={person.resumeHref} download className="transition hover:text-ink">
+            <DownloadOpenLink href={person.resumeHref} download className="transition hover:text-ink">
               Resume
-            </a>
+            </DownloadOpenLink>
           </div>
         </footer>
       </div>
