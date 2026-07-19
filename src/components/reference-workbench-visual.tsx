@@ -73,6 +73,11 @@ export type ReferenceWorkbenchTile = {
 export type ReferenceWorkbenchVisualProps = {
   inputs?: readonly ReferenceWorkbenchInput[];
   capabilityTiles?: readonly ReferenceWorkbenchTile[];
+  supportText: string;
+  technicalText: string;
+  proofLine: string;
+  primaryAction: { label: string; href: string };
+  secondaryAction: { label: string; href: string };
   aboutText?: string;
   aboutFacts?: readonly ReferenceAboutFact[];
   aboutName?: string;
@@ -342,6 +347,11 @@ function iconForLabel(label: string): ReferenceWorkbenchIcon {
 export function ReferenceWorkbenchVisual({
   inputs = defaultInputs,
   capabilityTiles = defaultCapabilityTiles,
+  supportText,
+  technicalText,
+  proofLine,
+  primaryAction,
+  secondaryAction,
   aboutText = "I work best where product, operations, and technical constraints overlap, especially when the system needs to become easier to explain, build, and run.",
   aboutFacts = defaultAboutFacts,
   aboutName = "Anjelika Tan",
@@ -462,6 +472,10 @@ export function ReferenceWorkbenchVisual({
           </div>
         </div>
 
+        <div className="order-2 lg:hidden">
+          <MobileWorkbenchFlow />
+        </div>
+
         <div className="order-1 flex flex-col gap-4 lg:order-2 lg:col-start-2 lg:row-start-1">
           <div className="space-y-3">
             <div className="inline-flex rounded-full bg-accent px-3 py-1 text-sm font-semibold text-white">
@@ -475,9 +489,25 @@ export function ReferenceWorkbenchVisual({
                 <p className="mt-2 max-w-xl text-xs leading-5 text-muted sm:text-sm sm:leading-6">{caption}</p>
               ) : null}
             </div>
-            <p className="rounded-lg border border-line bg-surface px-3 py-2 text-xs font-semibold leading-5 text-muted lg:hidden">
-              Best viewed on desktop for the full system map. On mobile, I’ve simplified it into a linear walkthrough.
+            <p className="max-w-2xl text-base leading-7 text-ink sm:text-lg sm:leading-8">{supportText}</p>
+            <p className="max-w-2xl text-sm leading-6 text-muted">{technicalText}</p>
+            <p className="max-w-2xl border-t border-line pt-3 text-sm font-semibold leading-6 text-ink">
+              {proofLine}
             </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={primaryAction.href}
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-4 py-3 text-sm font-semibold text-canvas transition hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              >
+                {primaryAction.label}
+              </a>
+              <a
+                href={secondaryAction.href}
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-surface px-4 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+              >
+                {secondaryAction.label}
+              </a>
+            </div>
             <CapabilityPills tiles={normalizedCapabilities.slice(0, 5)} />
           </div>
         </div>
@@ -494,6 +524,28 @@ export function ReferenceWorkbenchVisual({
       </div>
 
     </figure>
+  );
+}
+
+function MobileWorkbenchFlow() {
+  const stages = [
+    ["Client signal", "A request, operating gap or failure exposes a wider need."],
+    ["Product decision", "Scope, rules, trade-offs and team boundaries become testable."],
+    ["Delivery, evidence and limits", "QA, launch and live use show what worked and what remains open."]
+  ];
+
+  return (
+    <ol className="grid gap-3 lg:hidden">
+      {stages.map(([label, detail]) => (
+        <li key={label} className="grid grid-cols-[2rem_1fr] gap-3 border-t border-line py-4">
+          <span aria-hidden="true" className="text-accent">-&gt;</span>
+          <span>
+            <strong className="block text-ink">{label}</strong>
+            <span className="text-muted">{detail}</span>
+          </span>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -605,7 +657,7 @@ function AboutMePanel({
   aboutLinks: readonly ReferenceAboutLink[];
 }) {
   const actionClassName =
-    "inline-flex min-h-9 items-center justify-center rounded-full border border-line bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface";
+    "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface";
 
   return (
     <div className="rounded-lg border border-line bg-surface p-3">

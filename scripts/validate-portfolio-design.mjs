@@ -78,7 +78,7 @@ const checks = [
     name: "hero bio moves Computer Science background into about me",
     pass:
       files.data.includes("With a Computer Science background") &&
-      files.page.includes("aboutText={person.heroLines[0]}") &&
+      files.page.includes("aboutText={person.heroLines[1]}") &&
       !files.page.includes("caption={person.heroLines[0]}")
   },
   {
@@ -98,8 +98,13 @@ const checks = [
     pass: files.page.includes("PortfolioFrame") && files.frameNav.includes("AT")
   },
   {
-    name: "page nav matches the reference labels",
-    pass: files.frameNav.includes("Work") && files.frameNav.includes("Systems") && files.frameNav.includes("Experience") && files.frameNav.includes("About") && files.frameNav.includes("Contact")
+    name: "page nav uses the approved section labels",
+    pass:
+      ["Overview", "Selected work", "Capabilities", "AI practice", "Experience", "Contact"].every((label) =>
+        files.frameNav.includes(`label: "${label}"`)
+      ) &&
+      !files.frameNav.includes('label: "Systems"') &&
+      !files.frameNav.includes('label: "About"')
   },
   {
     name: "hero renders the reference workbench visual",
@@ -132,8 +137,7 @@ const checks = [
     name: "reference visual keeps the messy input map desktop-only",
     pass:
       files.referenceWorkbench.includes("hidden min-h") &&
-      files.referenceWorkbench.includes("lg:block") &&
-      files.referenceWorkbench.includes("Best viewed on desktop for the full system map")
+      files.referenceWorkbench.includes("lg:block")
   },
   {
     name: "reference hero replaces the workflow explainer with about me",
@@ -164,19 +168,26 @@ const checks = [
       !files.referenceWorkbench.includes('markerEnd="url(#reference-workbench-arrow)"')
   },
   {
-    name: "reference visual includes mobile desktop-fit note",
-    pass: files.referenceWorkbench.includes("Best viewed on desktop for the full system map")
+    name: "reference visual replaces the mobile apology with a compact workbench flow",
+    pass:
+      files.referenceWorkbench.includes("function MobileWorkbenchFlow") &&
+      files.referenceWorkbench.includes("Client signal") &&
+      files.referenceWorkbench.includes("Product decision") &&
+      files.referenceWorkbench.includes("Delivery, evidence and limits") &&
+      files.referenceWorkbench.includes('className="grid gap-3 lg:hidden"') &&
+      !files.referenceWorkbench.includes("Best viewed on desktop") &&
+      !files.referenceWorkbench.includes("On mobile, I’ve simplified")
   },
   {
     name: "reference visual includes messy word animation hooks",
     pass: files.referenceWorkbench.includes("messy-word") && files.globals.includes("messyLetter")
   },
   {
-    name: "page merges clarity strip into the detailed What I make clearer section",
+    name: "page merges clarity strip into the detailed Capabilities section",
     pass:
       files.page.includes('id="work"') &&
-      files.page.includes("What I make clearer") &&
-      files.page.includes("The useful part is making product logic easier to run.") &&
+      files.page.includes('label="Capabilities"') &&
+      files.page.includes("I make the rules, failures and handoffs easier to see.") &&
       files.page.includes("person.heroLines[1]") &&
       files.page.includes("InputStoryExplorer") &&
       !files.page.includes("function ClarityStrip") &&
@@ -216,8 +227,16 @@ const checks = [
       !files.clarityInteractions.includes('id="messy-input-story-panel" className="rounded-[12px] border border-line bg-surface p-5 sm:p-6"')
   },
   {
-    name: "page uses the Selected systems section label",
-    pass: files.page.includes("Selected systems")
+    name: "page uses the approved section labels and direct section copy",
+    pass:
+      files.page.includes('eyebrow="Overview"') &&
+      files.page.includes('label="Selected work"') &&
+      files.page.includes('label="Capabilities"') &&
+      files.page.includes('sectionLabel="AI practice"') &&
+      files.page.includes('label="Experience"') &&
+      files.page.includes(">Contact</p>") &&
+      files.page.includes("I make the rules, failures and handoffs easier to see.") &&
+      files.page.includes("Let's talk about the product, platform or integration problem you're trying to untangle.")
   },
   {
     name: "flagship cases match the approved Product Manager hierarchy",
@@ -327,10 +346,44 @@ checks.push(
     name: "landmarks and mobile navigation are accessible",
     pass:
       files.page.includes('id="main-content"') &&
+      files.page.indexOf("<FrameNav />") < files.page.indexOf('<main id="main-content">') &&
+      files.page.indexOf("</main>") < files.page.indexOf("<PortfolioFooter") &&
       files.frameNav.includes("Skip to main content") &&
+      files.frameNav.includes('href="#main-content"') &&
+      files.frameNav.includes("const [isMenuOpen, setIsMenuOpen] = useState(false)") &&
+      files.frameNav.includes("const triggerRef = useRef<HTMLButtonElement>(null)") &&
       files.frameNav.includes("aria-expanded") &&
       files.frameNav.includes("aria-controls") &&
-      files.frameNav.includes("Escape")
+      files.frameNav.includes('id="mobile-portfolio-nav"') &&
+      files.frameNav.includes("Escape") &&
+      files.frameNav.includes("triggerRef.current?.focus()") &&
+      files.frameNav.includes('window.matchMedia("(min-width: 768px)")') &&
+      files.frameNav.includes("min-h-11 min-w-11")
+  },
+  {
+    name: "hero support, technical proof and independent actions are exact",
+    pass:
+      files.data.includes('intro: "I take complex B2B2C products from 0 to 1."') &&
+      files.page.includes("supportText={person.heroLines[0]}") &&
+      files.page.includes("technicalText={person.heroTechnical}") &&
+      files.page.includes("proofLine={person.heroProof}") &&
+      files.page.includes('label: "View flagship case"') &&
+      files.page.includes('label: "View resume"') &&
+      files.referenceWorkbench.includes("supportText: string") &&
+      files.referenceWorkbench.includes("technicalText: string") &&
+      files.referenceWorkbench.includes("proofLine: string") &&
+      files.referenceWorkbench.includes("primaryAction: { label: string; href: string }") &&
+      files.referenceWorkbench.includes("secondaryAction: { label: string; href: string }") &&
+      files.referenceWorkbench.indexOf("{supportText}") < files.referenceWorkbench.indexOf("{proofLine}") &&
+      files.referenceWorkbench.includes("{technicalText}") &&
+      files.referenceWorkbench.includes("{primaryAction.label}") &&
+      files.referenceWorkbench.includes("{secondaryAction.label}")
+  },
+  {
+    name: "global layout does not clip horizontal overflow",
+    pass:
+      !/html\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/s.test(files.globals) &&
+      !/body\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/s.test(files.globals)
   },
   {
     name: "capabilities use tabs and ecosystems use static articles",

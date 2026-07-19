@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type FrameNavItem = {
   href: string;
@@ -9,11 +9,11 @@ type FrameNavItem = {
 };
 
 const frameNavItems: readonly FrameNavItem[] = [
-  { href: "/#top", id: "top", label: "Work" },
-  { href: "/#systems", id: "systems", label: "Systems" },
-  { href: "/#product-memory", id: "product-memory", label: "AI + Memory" },
+  { href: "/#top", id: "top", label: "Overview" },
+  { href: "/#systems", id: "systems", label: "Selected work" },
+  { href: "/#work", id: "work", label: "Capabilities" },
+  { href: "/#product-memory", id: "product-memory", label: "AI practice" },
   { href: "/#experience", id: "experience", label: "Experience" },
-  { href: "/#work", id: "work", label: "About" },
   { href: "/#contact", id: "contact", label: "Contact" }
 ];
 
@@ -69,41 +69,110 @@ function useActiveFrameSection(items: readonly FrameNavItem[]) {
 
 export function FrameNav() {
   const activeId = useActiveFrameSection(frameNavItems);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false);
+        triggerRef.current?.focus();
+      }
+    }
+
+    function closeAtDesktop() {
+      if (window.matchMedia("(min-width: 768px)").matches) setIsMenuOpen(false);
+    }
+
+    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("resize", closeAtDesktop);
+
+    return () => {
+      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("resize", closeAtDesktop);
+    };
+  }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/85 bg-canvas/94 backdrop-blur-sm">
-      <div className="grid min-h-[4.8rem] grid-cols-[auto_1fr_auto] items-center gap-4 px-6 sm:px-9">
-        <a href="/#top" className="font-serif text-3xl leading-none tracking-[-0.04em] text-ink" aria-label="Anjelika Tan home">
-          AT
-        </a>
-        <nav aria-label="Portfolio sections" className="mx-auto hidden items-center gap-10 md:flex">
-          {frameNavItems.map((item) => {
-            const isActive = activeId === item.id;
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-[60] focus:m-3 focus:min-h-11 focus:bg-ink focus:px-4 focus:py-3 focus:text-canvas"
+      >
+        Skip to main content
+      </a>
+      <header className="sticky top-0 z-50 border-b border-line/85 bg-canvas/94 backdrop-blur-sm">
+        <div className="grid min-h-[4.8rem] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 sm:px-6 lg:px-9">
+          <a
+            href="/#top"
+            className="inline-flex min-h-11 min-w-11 items-center font-serif text-3xl leading-none tracking-[-0.04em] text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+            aria-label="Anjelika Tan home"
+          >
+            AT
+          </a>
+          <nav aria-label="Portfolio sections" className="mx-auto hidden items-center gap-3 md:flex lg:gap-6 xl:gap-10">
+            {frameNavItems.map((item) => {
+              const isActive = activeId === item.id;
 
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                aria-current={isActive ? "location" : undefined}
-                className="group relative py-2 text-sm font-semibold text-muted transition hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-              >
-                {item.label}
-                <span
-                  className={`absolute inset-x-0 -bottom-1 mx-auto h-0.5 max-w-11 rounded-full bg-accent transition ${
-                    isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
-                  }`}
-                />
-              </a>
-            );
-          })}
-        </nav>
-        <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-full border border-line bg-ink text-canvas" aria-hidden="true">
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7">
-            <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? "location" : undefined}
+                  className="group relative inline-flex min-h-11 items-center py-2 text-sm font-semibold text-muted transition hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                >
+                  {item.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-0 -bottom-1 mx-auto h-0.5 max-w-11 rounded-full bg-accent transition ${
+                      isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
+                    }`}
+                  />
+                </a>
+              );
+            })}
+          </nav>
+          <button
+            ref={triggerRef}
+            type="button"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-portfolio-nav"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-ink transition hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas md:hidden"
+          >
+            Menu
+          </button>
+          <div className="ml-auto hidden h-11 w-11 items-center justify-center rounded-full border border-line bg-ink text-canvas md:flex" aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7">
+              <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </div>
         </div>
-      </div>
-    </header>
+        {isMenuOpen ? (
+          <nav id="mobile-portfolio-nav" aria-label="Mobile portfolio sections" className="border-t border-line bg-canvas px-6 py-3 md:hidden">
+            <ul className="grid gap-1">
+              {frameNavItems.map((item) => {
+                const isActive = activeId === item.id;
+
+                return (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      aria-current={isActive ? "location" : undefined}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex min-h-11 items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-ink transition hover:bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                      {item.label}
+                      <span aria-hidden="true" className="text-accent">-&gt;</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        ) : null}
+      </header>
+    </>
   );
 }
