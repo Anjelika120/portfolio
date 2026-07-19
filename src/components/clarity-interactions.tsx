@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { type StaticImageData } from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { Portfolio } from "@/data/portfolio";
 import hubspotLogo from "../../public/logo/HubSpot-Logo.png";
 import trustpilotLogo from "../../public/logo/Trustpilot_Logo.png";
@@ -272,7 +272,27 @@ export function WorkbenchVisual({ artifacts }: { artifacts: readonly WorkbenchAr
 
 export function InputStoryExplorer({ stories }: { stories: readonly WorkbenchStory[] }) {
   const [activeLabel, setActiveLabel] = useState(stories[0]?.label ?? "");
+  const [focusedLabel, setFocusedLabel] = useState(stories[0]?.label ?? "");
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const activeStory = stories.find((story) => story.label === activeLabel) ?? stories[0];
+
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1
+      : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 0;
+
+    if (!direction) {
+      return;
+    }
+
+    event.preventDefault();
+    const nextIndex = (index + direction + stories.length) % stories.length;
+    const nextStory = stories[nextIndex];
+
+    if (nextStory) {
+      setFocusedLabel(nextStory.label);
+      tabRefs.current[nextIndex]?.focus();
+    }
+  }
 
   useEffect(() => {
     function selectStoryById(storyId: string) {
@@ -284,6 +304,7 @@ export function InputStoryExplorer({ stories }: { stories: readonly WorkbenchSto
 
       if (selectedStory) {
         setActiveLabel(selectedStory.label);
+        setFocusedLabel(selectedStory.label);
       }
     }
 
@@ -293,6 +314,7 @@ export function InputStoryExplorer({ stories }: { stories: readonly WorkbenchSto
 
       if (hashStory) {
         setActiveLabel(hashStory.label);
+        setFocusedLabel(hashStory.label);
       }
     }
 
@@ -320,37 +342,48 @@ export function InputStoryExplorer({ stories }: { stories: readonly WorkbenchSto
 
   return (
     <div className="space-y-5">
-      <div className="-mx-5 overflow-x-auto px-5 pb-2 sm:-mx-9 sm:px-9 lg:mx-0 lg:px-0">
-        <div className="flex min-w-max gap-2 lg:min-w-0 lg:flex-wrap">
-          {stories.map((story) => {
-            const isActive = activeStory.label === story.label;
+      <div role="tablist" aria-label="Product capabilities" className="flex flex-wrap gap-2">
+        {stories.map((story, index) => {
+          const isActive = activeStory.label === story.label;
+          const isFocused = focusedLabel === story.label;
 
-            return (
-              <button
-                key={story.label}
-                id={storyAnchorId(story)}
-                type="button"
-                aria-pressed={isActive}
-                aria-controls="messy-input-story-panel"
-                onClick={() => {
-                  setActiveLabel(story.label);
-                  window.history.replaceState(null, "", `#${storyAnchorId(story)}`);
-                }}
-                onFocus={() => setActiveLabel(story.label)}
-                className={`min-w-[8.75rem] rounded-full border px-4 py-2.5 text-center text-sm font-semibold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas lg:min-w-0 ${
-                  isActive
-                    ? "border-accent bg-accent text-white"
-                    : "border-line bg-surface text-muted hover:border-accent/70 hover:text-ink"
-                }`}
-              >
-                <span className="block whitespace-nowrap">{story.label}</span>
-              </button>
-            );
-          })}
-        </div>
+          return (
+            <button
+              key={story.label}
+              id={storyAnchorId(story)}
+              ref={(tab) => {
+                tabRefs.current[index] = tab;
+              }}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="messy-input-story-panel"
+              tabIndex={isFocused ? 0 : -1}
+              onClick={() => {
+                setActiveLabel(story.label);
+                setFocusedLabel(story.label);
+                window.history.replaceState(null, "", `#${storyAnchorId(story)}`);
+              }}
+              onKeyDown={(event) => handleTabKeyDown(event, index)}
+              className={`min-h-11 rounded-full border px-4 py-2.5 text-center text-sm font-semibold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+                isActive
+                  ? "border-accent bg-accent text-white"
+                  : "border-line bg-surface text-muted hover:border-accent/70 hover:text-ink"
+              }`}
+            >
+              <span className="block whitespace-nowrap">{story.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      <article id="messy-input-story-panel" data-work-dossier className="border-y border-line py-6 sm:py-7">
+      <article
+        id="messy-input-story-panel"
+        role="tabpanel"
+        aria-labelledby={storyAnchorId(activeStory)}
+        data-work-dossier
+        className="border-y border-line py-6 sm:py-7"
+      >
         <div className="grid gap-7 lg:grid-cols-[minmax(0,0.58fr)_minmax(16rem,0.42fr)] lg:items-start">
           <div>
             <div className="flex flex-wrap items-center gap-3">
@@ -386,30 +419,14 @@ export function InputStoryExplorer({ stories }: { stories: readonly WorkbenchSto
 }
 
 function PlatformGroupColumn({
-  group,
-  activeGroup,
-  setActiveGroup
+  group
 }: {
   group: PlatformGroup;
-  activeGroup: string;
-  setActiveGroup: (title: string) => void;
 }) {
-  const isActive = activeGroup === group.title;
-  const isDimmed = Boolean(activeGroup) && !isActive;
-
   return (
-    <button
-      type="button"
-      aria-pressed={isActive}
-      onClick={() => setActiveGroup(group.title)}
-      onFocus={() => setActiveGroup(group.title)}
-      onMouseEnter={() => setActiveGroup(group.title)}
-      className={`rounded-lg border border-line bg-surface p-5 text-left transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
-        isDimmed ? "opacity-55" : "opacity-100"
-      }`}
-    >
-      <p className="text-sm font-semibold text-accent">{group.title}</p>
-      <p className="mt-2 min-h-12 text-sm leading-6 text-muted">{group.description}</p>
+    <article className="rounded-lg border border-line bg-surface p-5">
+      <h3 className="text-sm font-semibold text-accent">{group.title}</h3>
+      <p className="mt-2 text-sm leading-6 text-muted">{group.description}</p>
       <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-4">
         {group.items.map((item) => {
           const logo = platformLogoMap[item];
@@ -433,22 +450,15 @@ function PlatformGroupColumn({
           );
         })}
       </div>
-    </button>
+    </article>
   );
 }
 
 export function PlatformEcosystem({ groups }: { groups: readonly PlatformGroup[] }) {
-  const [activeGroup, setActiveGroup] = useState<string>(groups[0]?.title ?? "");
-
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {groups.map((group) => (
-        <PlatformGroupColumn
-          key={group.title}
-          group={group}
-          activeGroup={activeGroup}
-          setActiveGroup={setActiveGroup}
-        />
+        <PlatformGroupColumn key={group.title} group={group} />
       ))}
     </div>
   );

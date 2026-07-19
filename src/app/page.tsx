@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { InputStoryExplorer, PlatformEcosystem } from "@/components/clarity-interactions";
-import { DownloadOpenLink } from "@/components/download-open-link";
 import { FrameNav } from "@/components/frame-nav";
 import { PortfolioFrame } from "@/components/portfolio-frame";
 import { ReferenceWorkbenchVisual } from "@/components/reference-workbench-visual";
@@ -14,7 +13,6 @@ type ActionLinkProps = {
   href: string;
   children: ReactNode;
   variant?: "primary" | "secondary" | "quiet";
-  download?: boolean;
   external?: boolean;
 };
 
@@ -29,7 +27,6 @@ function ActionLink({
   href,
   children,
   variant = "secondary",
-  download = false,
   external = false
 }: ActionLinkProps) {
   const classNameByVariant = {
@@ -42,14 +39,6 @@ function ActionLink({
   };
 
   const className = classNameByVariant[variant];
-
-  if (download) {
-    return (
-      <DownloadOpenLink href={href} className={className} download={download}>
-        {children}
-      </DownloadOpenLink>
-    );
-  }
 
   return (
     <a
@@ -160,9 +149,8 @@ function WorkbenchHero() {
       external: true
     },
     {
-      label: "Resume",
-      href: person.resumeHref,
-      download: true
+      label: "View resume",
+      href: person.resumeHref
     },
     {
       label: "Email me",
@@ -395,13 +383,12 @@ function ContactPanel() {
           <a className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8" href={person.linkedin} target="_blank" rel="noreferrer">
             LinkedIn
           </a>
-          <DownloadOpenLink
+          <a
             className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8"
             href={person.resumeHref}
-            download
           >
-            Resume
-          </DownloadOpenLink>
+            View resume
+          </a>
         </div>
       </div>
     </section>
@@ -422,9 +409,9 @@ function PortfolioFooter() {
           <a href={person.linkedin} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition hover:text-ink">
             LinkedIn
           </a>
-          <DownloadOpenLink href={person.resumeHref} download className="inline-flex min-h-11 items-center transition hover:text-ink">
-            Resume
-          </DownloadOpenLink>
+          <a href={person.resumeHref} download className="inline-flex min-h-11 items-center transition hover:text-ink">
+            Download resume PDF
+          </a>
         </div>
       </div>
     </footer>
@@ -502,8 +489,8 @@ export default function HomePage() {
             title="A short career anchor for context."
             description={experience.description}
             action={
-              <ActionLink href={person.resumeHref} download>
-                Resume
+              <ActionLink href={person.resumeHref}>
+                View resume
               </ActionLink>
             }
           />

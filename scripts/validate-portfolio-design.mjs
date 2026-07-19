@@ -8,6 +8,7 @@ const files = {
   data: readSource("src/data/portfolio.ts"),
   layout: readSource("src/app/layout.tsx"),
   clarityInteractions: readSource("src/components/clarity-interactions.tsx"),
+  downloadOpenLink: readSource("src/components/download-open-link.tsx"),
   frameNav: readSource("src/components/frame-nav.tsx"),
   referenceWorkbench: readSource("src/components/reference-workbench-visual.tsx"),
   caseDetail: readSource("src/components/case-study-detail.tsx"),
@@ -22,6 +23,13 @@ const files = {
   resume: readSource("resume-source.md"),
   resumeGenerator: readSource("scripts/generate_resume_pdf.py")
 };
+
+const platformEcosystemStart = files.clarityInteractions.indexOf("function PlatformGroupColumn");
+const inputStoryExplorerSource = files.clarityInteractions.slice(
+  files.clarityInteractions.indexOf("export function InputStoryExplorer"),
+  platformEcosystemStart
+);
+const platformEcosystemSource = files.clarityInteractions.slice(platformEcosystemStart);
 
 const checks = [
   {
@@ -147,7 +155,7 @@ const checks = [
       files.referenceWorkbench.includes("aboutName") &&
       files.referenceWorkbench.includes("aboutPortrait") &&
       files.referenceWorkbench.includes("LinkedIn") &&
-      files.referenceWorkbench.includes("Resume") &&
+      files.referenceWorkbench.includes("View resume") &&
       files.referenceWorkbench.includes("Email me") &&
       !files.referenceWorkbench.includes('href="#about"') &&
       !files.referenceWorkbench.includes("<WorkflowPanel")
@@ -212,8 +220,9 @@ const checks = [
       files.clarityInteractions.includes("export function InputStoryExplorer") &&
       files.clarityInteractions.includes("window.location.hash") &&
       files.clarityInteractions.includes("setActiveLabel(hashStory.label)") &&
-      files.clarityInteractions.includes("overflow-x-auto") &&
-      files.clarityInteractions.includes("min-w-max") &&
+      files.clarityInteractions.includes('role="tablist"') &&
+      files.clarityInteractions.includes("flex flex-wrap gap-2") &&
+      !files.clarityInteractions.includes("min-w-max") &&
       !files.clarityInteractions.includes("rounded-[12px] border px-4 py-3") &&
       !files.clarityInteractions.includes("rounded-lg bg-canvas px-3 py-3")
   },
@@ -430,13 +439,52 @@ checks.push(
       !/body\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/s.test(files.globals)
   },
   {
-    name: "capabilities use tabs and ecosystems use static articles",
+    name: "capabilities use manual-activation tabs with roving keyboard focus",
     pass:
-      files.clarityInteractions.includes('role="tablist"') &&
-      files.clarityInteractions.includes('role="tab"') &&
-      files.clarityInteractions.includes('role="tabpanel"') &&
-      files.clarityInteractions.includes("<article") &&
-      !files.clarityInteractions.includes("aria-pressed={isActive}")
+      inputStoryExplorerSource.includes('role="tablist"') &&
+      inputStoryExplorerSource.includes('role="tab"') &&
+      inputStoryExplorerSource.includes('role="tabpanel"') &&
+      inputStoryExplorerSource.includes("aria-selected={isActive}") &&
+      inputStoryExplorerSource.includes('aria-controls="messy-input-story-panel"') &&
+      inputStoryExplorerSource.includes("aria-labelledby={storyAnchorId(activeStory)}") &&
+      inputStoryExplorerSource.includes("tabIndex={isFocused ? 0 : -1}") &&
+      inputStoryExplorerSource.includes("useRef<Array<HTMLButtonElement | null>>([])") &&
+      inputStoryExplorerSource.includes('event.key === "ArrowRight"') &&
+      inputStoryExplorerSource.includes('event.key === "ArrowDown"') &&
+      inputStoryExplorerSource.includes('event.key === "ArrowLeft"') &&
+      inputStoryExplorerSource.includes('event.key === "ArrowUp"') &&
+      inputStoryExplorerSource.includes("event.preventDefault()") &&
+      inputStoryExplorerSource.includes("tabRefs.current[nextIndex]?.focus()") &&
+      inputStoryExplorerSource.includes("onKeyDown={(event) => handleTabKeyDown(event, index)}") &&
+      inputStoryExplorerSource.includes("min-h-11") &&
+      inputStoryExplorerSource.includes("focus-visible:ring-2") &&
+      !inputStoryExplorerSource.includes("onFocus={() => setActiveLabel") &&
+      !inputStoryExplorerSource.includes("min-w-max")
+  },
+  {
+    name: "ecosystem groups are static articles",
+    pass:
+      platformEcosystemSource.includes("<article") &&
+      platformEcosystemSource.includes("<h3") &&
+      !platformEcosystemSource.includes("activeGroup") &&
+      !platformEcosystemSource.includes("aria-pressed") &&
+      !platformEcosystemSource.includes("onClick") &&
+      !platformEcosystemSource.includes("onFocus") &&
+      !platformEcosystemSource.includes("onMouseEnter") &&
+      !platformEcosystemSource.includes("opacity-55")
+  },
+  {
+    name: "resume controls each perform one clearly labelled action",
+    pass:
+      files.downloadOpenLink === "" &&
+      !files.page.includes("DownloadOpenLink") &&
+      !files.referenceWorkbench.includes("DownloadOpenLink") &&
+      !files.referenceWorkbench.includes("link.download") &&
+      files.page.includes('label: "View resume"') &&
+      (files.page.match(/View resume/g) ?? []).length === 4 &&
+      (files.referenceWorkbench.match(/View resume/g) ?? []).length === 1 &&
+      files.page.includes("Download resume PDF") &&
+      (files.page.match(/\bdownload\b/g) ?? []).length === 1
   },
   {
     name: "case pages end with onward actions",

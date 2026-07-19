@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useMemo, useState, type CSSProperties, type ReactNode } from "react";
-import { DownloadOpenLink } from "@/components/download-open-link";
 import type { Portfolio } from "@/data/portfolio";
 
 type PortfolioWorkbenchArtifact = Portfolio["person"]["workbenchArtifacts"][number];
@@ -59,7 +58,6 @@ export type ReferenceAboutLink = {
   label: string;
   href: string;
   external?: boolean;
-  download?: boolean;
 };
 
 export type ReferenceWorkbenchTile = {
@@ -216,7 +214,7 @@ const defaultAboutLinks = [
     href: "#contact"
   },
   {
-    label: "Resume",
+    label: "View resume",
     href: "#contact"
   },
   {
@@ -691,23 +689,17 @@ function AboutMePanel({
         </dl>
 
         <div className="flex flex-wrap gap-2">
-          {aboutLinks.map((link) =>
-            link.download ? (
-              <DownloadOpenLink key={link.label} href={link.href} download className={actionClassName}>
-                {link.label}
-              </DownloadOpenLink>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className={actionClassName}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noreferrer" : undefined}
-              >
-                {link.label}
-              </a>
-            )
-          )}
+          {aboutLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className={actionClassName}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
       </div>
     </div>
