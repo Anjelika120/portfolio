@@ -600,6 +600,7 @@ checks.push(
     name: "selected work renders typed evidence labels and the confidentiality note",
     pass:
       files.page.includes("project.impactLabel") &&
+      files.page.includes("The lead case follows a client programme from data and product rules through launch and live operation. The next three show how I shaped and expanded the platform systems underneath it with engineering, design and QA.") &&
       files.page.includes("Client names, screenshots and identifying operational details are generalized or omitted. Metrics are labelled as production, QA/test or bounded operational evidence.") &&
       [
         "Bounded operational check",

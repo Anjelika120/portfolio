@@ -440,7 +440,7 @@ export default function HomePage() {
             <SectionIntro
               label="Selected work"
               title="One client lifecycle and three platform systems."
-              description="The lead case shows how the pieces operated together. The next three go deeper on the product systems underneath it."
+              description="The lead case follows a client programme from data and product rules through launch and live operation. The next three show how I shaped and expanded the platform systems underneath it with engineering, design and QA."
               action={
                 <a
                   href="#supporting-work"
