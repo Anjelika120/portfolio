@@ -100,7 +100,7 @@ def parse_resume(path: Path) -> dict:
             data[heading.lower()] = entries
             continue
 
-        if heading == "SELECTED STRENGTHS":
+        if heading in {"SELECTED STRENGTHS", "SKILLS"}:
             strengths: List[str] = []
             while index < len(lines):
                 skip_blank()
@@ -224,6 +224,22 @@ def make_styles(body_size: float) -> dict:
     }
 
 
+def format_contact(value: str) -> str:
+    parts = []
+    for raw_part in value.split(" | "):
+        part = raw_part.strip()
+        safe_part = escape(part)
+        if "@" in part and " " not in part:
+            parts.append(f'<link href="mailto:{safe_part}">{safe_part}</link>')
+        elif part.startswith("linkedin.com/"):
+            parts.append(f'<link href="https://{safe_part}">{safe_part}</link>')
+        elif part.endswith(".vercel.app"):
+            parts.append(f'<link href="https://{safe_part}">{safe_part}</link>')
+        else:
+            parts.append(safe_part)
+    return " &nbsp;|&nbsp; ".join(parts)
+
+
 def build_story(data: dict, body_size: float):
     styles = make_styles(body_size)
     date_width = 1.45 * inch
@@ -231,7 +247,7 @@ def build_story(data: dict, body_size: float):
     story = [
         Paragraph(escape(data["name"]), styles["name"]),
         Paragraph(escape(data["title"]), styles["title"]),
-        Paragraph(escape(data["contact"]), styles["contact"]),
+        Paragraph(format_contact(data["contact"]), styles["contact"]),
         Paragraph(escape(data["summary"]), styles["summary"]),
         Paragraph("EXPERIENCE", styles["section"]),
     ]
@@ -266,17 +282,17 @@ def build_story(data: dict, body_size: float):
         story.append(Spacer(1, 3))
         for bullet in entry.bullets:
             story.append(
-                Paragraph(f"&bull;&nbsp; {escape(bullet)}", styles["bullet"])
+                Paragraph(f"-&nbsp; {escape(bullet)}", styles["bullet"])
             )
         story.append(Spacer(1, 4))
 
-    story.append(Paragraph("SELECTED STRENGTHS", styles["section"]))
+    story.append(Paragraph("SKILLS", styles["section"]))
     for strength in data["strengths"]:
         if ":" in strength:
             label, value = strength.split(":", 1)
-            text = f"&bull;&nbsp; <b>{escape(label.strip())}</b>: {escape(value.strip())}"
+            text = f"-&nbsp; <b>{escape(label.strip())}</b>: {escape(value.strip())}"
         else:
-            text = f"&bull;&nbsp; {escape(strength)}"
+            text = f"-&nbsp; {escape(strength)}"
         story.append(Paragraph(text, styles["strength"]))
     story.append(Spacer(1, 4))
 
