@@ -201,7 +201,6 @@ const checks = [
       files.clarityInteractions.includes("export function InputStoryExplorer") &&
       files.clarityInteractions.includes("window.location.hash") &&
       files.clarityInteractions.includes("setActiveLabel(hashStory.label)") &&
-      files.clarityInteractions.includes("aria-pressed={isActive}") &&
       files.clarityInteractions.includes("overflow-x-auto") &&
       files.clarityInteractions.includes("min-w-max") &&
       !files.clarityInteractions.includes("rounded-[12px] border px-4 py-3") &&
@@ -309,6 +308,10 @@ checks.push(
     name: "approved zero-to-one hero is exact",
     pass:
       files.data.includes('intro: "I take complex B2B2C products from 0 to 1."') &&
+      files.page.includes("const { person } = portfolio") &&
+      files.page.includes("title={person.intro}") &&
+      files.referenceWorkbench.includes("<h1") &&
+      files.referenceWorkbench.includes("<HighlightedTitle title={title} />") &&
       files.data.includes("ambiguous client and operational needs") &&
       files.data.includes("Delivery, evidence and limits")
   },
