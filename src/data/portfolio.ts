@@ -918,7 +918,8 @@ export const portfolio = {
     description:
       "Portfolio of Anjelika Tan, a Product Manager taking complex B2B2C products from client need to launch and live operation across APIs, integrations, workflows, commerce, identity and AI-enabled product operations.",
     siteUrl: "https://portfolio-black-tau-27.vercel.app",
-    socialImage: "/opengraph-image"
+    socialImage: "/opengraph-image",
+    socialImageAlt: "Anjelika Tan Product Manager portfolio preview"
   }
 } as const;
 

@@ -502,12 +502,70 @@ checks.push(
       files.caseFooter.includes("Discuss this work")
   },
   {
-    name: "social images have real dimensions",
+    name: "about portrait uses responsive next image delivery",
     pass:
+      files.referenceWorkbench.includes('import Image from "next/image"') &&
+      files.referenceWorkbench.includes("<Image") &&
+      files.referenceWorkbench.includes("src={aboutPortrait.src}") &&
+      files.referenceWorkbench.includes("alt={aboutPortrait.alt}") &&
+      files.referenceWorkbench.includes("width={72}") &&
+      files.referenceWorkbench.includes("height={72}") &&
+      files.referenceWorkbench.includes('sizes="72px"')
+  },
+  {
+    name: "homepage social image has real dimensions and portfolio content",
+    pass:
+      files.homeOg.includes('import { ImageResponse } from "next/og"') &&
       files.homeOg.includes("width: 1200") &&
       files.homeOg.includes("height: 630") &&
+      files.homeOg.includes('contentType = "image/png"') &&
+      files.homeOg.includes("portfolio.person.name") &&
+      files.homeOg.includes("portfolio.person.title") &&
+      files.homeOg.includes("portfolio.person.intro")
+  },
+  {
+    name: "case social images are static, typed and case specific",
+    pass:
+      files.caseOg.includes('import { ImageResponse } from "next/og"') &&
       files.caseOg.includes("width: 1200") &&
-      files.caseOg.includes("height: 630")
+      files.caseOg.includes("height: 630") &&
+      files.caseOg.includes('contentType = "image/png"') &&
+      files.caseOg.includes("generateStaticParams") &&
+      files.caseOg.includes("portfolio.selectedWork.map") &&
+      files.caseOg.includes("project.caseTitle") &&
+      files.caseOg.includes("project.impactLabel")
+  },
+  {
+    name: "homepage metadata uses absolute canonical and social URLs",
+    pass:
+      files.layout.includes("new URL(\"/\", portfolio.seo.siteUrl).toString()") &&
+      files.layout.includes("new URL(portfolio.seo.socialImage, portfolio.seo.siteUrl).toString()") &&
+      files.layout.includes("canonical: homeUrl") &&
+      files.layout.includes("url: homeUrl") &&
+      files.layout.includes("url: homeSocialImageUrl") &&
+      files.layout.includes("images: [homeSocialImageUrl]")
+  },
+  {
+    name: "case metadata is complete and uses absolute route URLs",
+    pass:
+      files.caseRoute.includes("new URL(`/work/${project.id}`, portfolio.seo.siteUrl).toString()") &&
+      files.caseRoute.includes("new URL(`/work/${project.id}/opengraph-image`, portfolio.seo.siteUrl).toString()") &&
+      files.caseRoute.includes("canonical: caseUrl") &&
+      files.caseRoute.includes("openGraph:") &&
+      files.caseRoute.includes("url: caseUrl") &&
+      files.caseRoute.includes("url: socialImageUrl") &&
+      files.caseRoute.includes("twitter:") &&
+      files.caseRoute.includes('card: "summary_large_image"') &&
+      files.caseRoute.includes("images: [socialImageUrl]")
+  },
+  {
+    name: "square portrait is not reused as a social image",
+    pass:
+      !files.layout.includes("me2.png") &&
+      !files.caseRoute.includes("me2.png") &&
+      !files.homeOg.includes("me2.png") &&
+      !files.caseOg.includes("me2.png") &&
+      !files.data.includes('socialImage: "/me2.png"')
   }
 );
 

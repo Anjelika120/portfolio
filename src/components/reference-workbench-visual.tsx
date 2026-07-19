@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useId, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import type { Portfolio } from "@/data/portfolio";
 
@@ -666,9 +667,12 @@ function AboutMePanel({
 
       <div className="grid gap-3">
         <div className="grid gap-3 sm:grid-cols-[4.5rem_1fr] sm:items-start">
-          <img
+          <Image
             src={aboutPortrait.src}
             alt={aboutPortrait.alt}
+            width={72}
+            height={72}
+            sizes="72px"
             className="h-[4.5rem] w-[4.5rem] rounded-lg border border-line bg-canvas object-cover"
           />
           <div>
