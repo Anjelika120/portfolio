@@ -12,7 +12,7 @@ export const portfolio = {
     heroProof:
       "0-to-1 capabilities: workflow execution, client-owned identity and a source-linked AI practice. Platform evolution and live operation: multi-region loyalty, Store and large-community operations.",
     portrait: {
-      src: "/me2.png",
+      src: "/me2-portrait.png",
       alt: "Portrait of Anjelika Tan"
     },
     email: "anjelikatan99@gmail.com",
@@ -218,7 +218,7 @@ export const portfolio = {
       "PRDs and engineering tickets",
       "QA plans and acceptance checks",
       "Research and evidence audits",
-      "Successor handover and onboarding support by design",
+      "Successor handover",
       "Client and support context without secrets"
     ],
     yamlStory: {

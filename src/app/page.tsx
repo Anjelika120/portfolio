@@ -175,7 +175,7 @@ function WorkbenchHero() {
   });
 
   return (
-    <section id="top" className="reference-hero scroll-mt-28 px-5 pb-5 pt-6 sm:px-9 sm:pb-7 lg:px-10 lg:pt-8">
+    <section id="top" tabIndex={-1} className="reference-hero scroll-mt-28 px-5 pb-5 pt-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 sm:pb-7 lg:px-10 lg:pt-8">
       <ReferenceWorkbenchVisual
         inputs={heroInputs}
         eyebrow={person.title}
@@ -234,8 +234,6 @@ function SectionIntro({
 function SystemCaseCard({ project, index }: { project: CaseStudy; index: number }) {
   const icons = ["link", "cart", "sliders", "file"];
   const icon = icons[index] ?? "spark";
-  const statuses = ["Account lifecycle", "Production correction", "Production exposure", "QA scale validation"];
-  const status = statuses[index] ?? "Evidence-led case";
   const isLeadCase = index === 0;
 
   return (
@@ -250,7 +248,7 @@ function SystemCaseCard({ project, index }: { project: CaseStudy; index: number 
           <MiniIcon type={icon} />
         </span>
         <span className="rounded-lg border border-line bg-canvas px-3 py-1.5 text-xs font-semibold text-muted">
-          {status}
+          {project.impactLabel}
         </span>
       </div>
       <div className={`mt-8 space-y-3 ${isLeadCase ? "lg:grid lg:grid-cols-[0.56fr_0.44fr] lg:gap-12 lg:space-y-0" : ""}`}>
@@ -261,7 +259,7 @@ function SystemCaseCard({ project, index }: { project: CaseStudy; index: number 
         <p className={`${isLeadCase ? "max-w-2xl" : "max-w-sm"} mt-3 text-pretty text-base leading-7 text-muted`}>{project.summary}</p>
         </div>
         <div className="border-t border-line pt-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Evidence</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Observed result</p>
           <p className="mt-2 text-sm leading-6 text-ink">{project.outcomeLine}</p>
         </div>
       </div>
@@ -277,7 +275,7 @@ function ProductMemorySection({ sectionLabel }: { sectionLabel: string }) {
   const { productMemory } = portfolio;
 
   return (
-    <section id="product-memory" className="scroll-mt-28 border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+    <section id="product-memory" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
       <div className="overflow-hidden rounded-[18px] bg-ink text-canvas">
         <div className="grid gap-10 p-6 sm:p-8 lg:grid-cols-[0.58fr_0.42fr] lg:p-10">
           <div>
@@ -368,7 +366,7 @@ function ContactPanel() {
   const { person } = portfolio;
 
   return (
-    <section id="contact" className="scroll-mt-28 px-5 py-20 sm:px-7 lg:px-9">
+    <section id="contact" tabIndex={-1} className="scroll-mt-28 px-5 py-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-7 lg:px-9">
       <div className="mx-auto grid max-w-7xl gap-8 rounded-lg bg-ink p-6 text-canvas sm:p-8 lg:grid-cols-[0.62fr_0.38fr] lg:p-10">
         <div>
           <p className="text-sm font-semibold text-yellow">Contact</p>
@@ -434,11 +432,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#eef1eb] px-3 py-3 text-ink sm:px-5 sm:py-5">
       <PortfolioFrame>
-        <FrameNav />
+        <FrameNav isHomePage />
         <main id="main-content">
           <WorkbenchHero />
 
-          <section id="systems" className="scroll-mt-28 border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+          <section id="systems" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
             <SectionIntro
               label="Selected work"
               title="One client lifecycle and three platform systems."
@@ -452,6 +450,9 @@ export default function HomePage() {
                 </a>
               }
             />
+            <p className="mt-5 max-w-4xl text-sm leading-6 text-muted">
+              Client names, screenshots and identifying operational details are generalized or omitted. Metrics are labelled as production, QA/test or bounded operational evidence.
+            </p>
             <div className="mt-8 grid gap-6 lg:grid-cols-3">
               {orderedWork.map((project, index) => (
                 <SystemCaseCard key={project.id} project={project} index={index} />
@@ -459,7 +460,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section id="work" className="scroll-mt-28 border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+          <section id="work" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
             <SectionIntro
               label="Capabilities"
               title="I make the rules, failures and handoffs easier to see."
@@ -483,7 +484,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="experience" className="scroll-mt-28 border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+        <section id="experience" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
           <SectionIntro
             label="Experience"
             title="A short career anchor for context."

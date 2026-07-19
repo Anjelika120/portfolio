@@ -104,7 +104,7 @@ export default async function WorkCasePage({ params }: WorkPageProps) {
   return (
     <div className="min-h-screen bg-[#eef1eb] px-3 py-3 text-ink sm:px-5 sm:py-5">
       <PortfolioFrame>
-        <FrameNav />
+        <FrameNav isHomePage={false} />
         <main id="main-content">
           <section id="top" className="px-5 py-10 sm:px-9 lg:px-10">
             <a

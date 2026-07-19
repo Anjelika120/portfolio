@@ -61,6 +61,24 @@ describe("InputStoryExplorer", () => {
   });
 
   it.each([
+    ["ArrowDown", "{ArrowDown}", "Webhooks"],
+    ["ArrowUp", "{ArrowUp}", "AI Automation"]
+  ])("moves roving focus with %s without activating the destination", async (_label, key, destinationLabel) => {
+    const user = userEvent.setup();
+    render(<InputStoryExplorer stories={stories} />);
+
+    const firstTab = screen.getByRole("tab", { name: "API" });
+    const destination = screen.getByRole("tab", { name: destinationLabel });
+
+    firstTab.focus();
+    await user.keyboard(key);
+
+    expect(document.activeElement).toBe(destination);
+    expect(destination.getAttribute("aria-selected")).toBe("false");
+    expect(firstTab.getAttribute("aria-selected")).toBe("true");
+  });
+
+  it.each([
     ["Enter", "{Enter}"],
     ["Space", " "]
   ])("activates the focused tab with %s and retains tab focus", async (_label, key) => {

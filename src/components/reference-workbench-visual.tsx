@@ -394,9 +394,17 @@ export function ReferenceWorkbenchVisual({
         className
       )}
     >
-      <div className="grid gap-4 lg:grid-cols-[0.96fr_1.04fr] lg:grid-rows-[auto_1fr]">
-        <div className="order-2 hidden min-h-[30rem] overflow-hidden rounded-lg bg-surface/65 p-3 sm:min-h-[32rem] sm:p-5 lg:order-1 lg:row-span-2 lg:block lg:min-h-[33.5rem] relative">
+      <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] xl:grid-rows-[auto_1fr]">
+        <div className="relative order-2 hidden min-h-[30rem] overflow-hidden rounded-lg bg-surface/65 p-3 sm:min-h-[32rem] sm:p-5 xl:order-1 xl:row-span-2 xl:block xl:min-h-[33.5rem]">
           <ConnectorField activeIndex={normalizedInputs.findIndex((input) => input.id === currentActiveInputId)} />
+
+          <div
+            data-workbench-destination
+            className="absolute right-3 top-[43%] z-20 w-[7.5rem] rounded-lg border border-accent/40 bg-canvas/95 px-3 py-3 text-left"
+          >
+            <span className="block text-[0.68rem] font-semibold text-accent">Product decision</span>
+            <span className="mt-1 block text-xs font-semibold leading-5 text-ink">Testable delivery</span>
+          </div>
 
           <div className="mb-3 flex items-start gap-2 text-sm font-semibold italic leading-5 text-ink/76 sm:absolute sm:left-4 sm:top-4 sm:z-10 sm:max-w-[9rem]">
             <span>hover me!</span>
@@ -471,11 +479,11 @@ export function ReferenceWorkbenchVisual({
           </div>
         </div>
 
-        <div className="order-2 lg:hidden">
+        <div className="order-2 xl:hidden">
           <MobileWorkbenchFlow />
         </div>
 
-        <div className="order-1 flex flex-col gap-4 lg:order-2 lg:col-start-2 lg:row-start-1">
+        <div className="order-1 flex min-w-0 flex-col gap-4 xl:order-2 xl:col-start-2 xl:row-start-1">
           <div className="space-y-3">
             <div className="inline-flex rounded-full bg-accent px-3 py-1 text-sm font-semibold text-white">
               {eyebrow}
@@ -511,14 +519,23 @@ export function ReferenceWorkbenchVisual({
           </div>
         </div>
 
-        <div className="order-4 lg:order-3 lg:col-start-2 lg:row-start-2 lg:self-end">
-          <AboutMePanel
-            aboutText={aboutText}
-            aboutFacts={aboutFacts}
-            aboutName={aboutName}
-            aboutPortrait={aboutPortrait}
-            aboutLinks={aboutLinks}
-          />
+        <div className="order-4 xl:order-3 xl:col-start-2 xl:row-start-2 xl:self-end">
+          <div className="sm:hidden">
+            <MobileAboutIdentifier
+              aboutName={aboutName}
+              aboutPortrait={aboutPortrait}
+              role={eyebrow}
+            />
+          </div>
+          <div className="hidden sm:block">
+            <AboutMePanel
+              aboutText={aboutText}
+              aboutFacts={aboutFacts}
+              aboutName={aboutName}
+              aboutPortrait={aboutPortrait}
+              aboutLinks={aboutLinks}
+            />
+          </div>
         </div>
       </div>
 
@@ -528,23 +545,67 @@ export function ReferenceWorkbenchVisual({
 
 function MobileWorkbenchFlow() {
   const stages = [
-    ["Client signal", "A request, operating gap or failure exposes a wider need."],
-    ["Product decision", "Scope, rules, trade-offs and team boundaries become testable."],
-    ["Delivery, evidence and limits", "QA, launch and live use show what worked and what remains open."]
+    {
+      label: "Client signal",
+      detail: "See selected work where a live need exposed a wider platform problem.",
+      href: "#systems"
+    },
+    {
+      label: "Product decision",
+      detail: "See capabilities covering rules, trade-offs and testable boundaries.",
+      href: "#work"
+    },
+    {
+      label: "Delivery, evidence and limits",
+      detail: "See the flagship case for QA, launch, live use and explicit limits.",
+      href: "/work/multi-region-loyalty-programme"
+    }
   ];
 
   return (
-    <ol className="grid gap-3 lg:hidden">
-      {stages.map(([label, detail]) => (
-        <li key={label} className="grid grid-cols-[2rem_1fr] gap-3 border-t border-line py-4">
-          <span aria-hidden="true" className="text-accent">-&gt;</span>
-          <span>
-            <strong className="block text-ink">{label}</strong>
-            <span className="text-muted">{detail}</span>
-          </span>
+    <ol className="grid gap-1 xl:hidden">
+      {stages.map((stage) => (
+        <li key={stage.label} className="border-t border-line">
+          <a
+            href={stage.href}
+            className="grid min-h-11 grid-cols-[2rem_minmax(0,1fr)] items-center gap-3 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+          >
+            <span aria-hidden="true" className="text-accent">-&gt;</span>
+            <span>
+              <strong className="block text-ink">{stage.label}</strong>
+              <span className="text-sm leading-6 text-muted">{stage.detail}</span>
+            </span>
+          </a>
         </li>
       ))}
     </ol>
+  );
+}
+
+function MobileAboutIdentifier({
+  aboutName,
+  aboutPortrait,
+  role
+}: {
+  aboutName: string;
+  aboutPortrait: ReferenceAboutPortrait;
+  role: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 border-t border-line pt-4">
+      <Image
+        src={aboutPortrait.src}
+        alt={aboutPortrait.alt}
+        width={48}
+        height={48}
+        sizes="48px"
+        className="h-12 w-12 rounded-lg border border-line bg-canvas object-cover"
+      />
+      <div>
+        <p className="text-sm font-semibold text-ink">{aboutName}</p>
+        <p className="mt-0.5 text-sm text-muted">{role}</p>
+      </div>
+    </div>
   );
 }
 

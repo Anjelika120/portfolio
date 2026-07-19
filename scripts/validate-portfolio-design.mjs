@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 
 function readSource(path) {
   return existsSync(path) ? readFileSync(path, "utf8") : "";
@@ -23,6 +23,20 @@ const files = {
   resume: readSource("resume-source.md"),
   resumeGenerator: readSource("scripts/generate_resume_pdf.py")
 };
+
+const optimizedPortraitPath = "public/me2-portrait.png";
+const optimizedPortrait = existsSync(optimizedPortraitPath)
+  ? {
+      bytes: statSync(optimizedPortraitPath).size,
+      data: readFileSync(optimizedPortraitPath)
+    }
+  : { bytes: Number.POSITIVE_INFINITY, data: Buffer.alloc(0) };
+const optimizedPortraitWidth = optimizedPortrait.data.length >= 24
+  ? optimizedPortrait.data.readUInt32BE(16)
+  : 0;
+const optimizedPortraitHeight = optimizedPortrait.data.length >= 24
+  ? optimizedPortrait.data.readUInt32BE(20)
+  : 0;
 
 const platformEcosystemStart = files.clarityInteractions.indexOf("function PlatformGroupColumn");
 const inputStoryExplorerSource = files.clarityInteractions.slice(
@@ -145,7 +159,7 @@ const checks = [
     name: "reference visual keeps the messy input map desktop-only",
     pass:
       files.referenceWorkbench.includes("hidden min-h") &&
-      files.referenceWorkbench.includes("lg:block")
+      files.referenceWorkbench.includes("xl:block")
   },
   {
     name: "reference hero replaces the workflow explainer with about me",
@@ -182,7 +196,7 @@ const checks = [
       files.referenceWorkbench.includes("Client signal") &&
       files.referenceWorkbench.includes("Product decision") &&
       files.referenceWorkbench.includes("Delivery, evidence and limits") &&
-      files.referenceWorkbench.includes('className="grid gap-3 lg:hidden"') &&
+      files.referenceWorkbench.includes('className="grid gap-1 xl:hidden"') &&
       !files.referenceWorkbench.includes("Best viewed on desktop") &&
       !files.referenceWorkbench.includes("On mobile, I’ve simplified")
   },
@@ -265,9 +279,9 @@ const checks = [
     pass:
       files.page.includes("href={`/work/${project.id}`}") &&
       files.page.includes("project.outcomeLine") &&
-      files.page.includes("Production correction") &&
-      files.page.includes("Production exposure") &&
-      files.page.includes("QA scale validation")
+      files.page.includes("project.impactLabel") &&
+      !files.page.includes('const statuses = [') &&
+      !files.page.includes(">Evidence</p>")
   },
   {
     name: "homepage does not inline deep case-study notes",
@@ -295,7 +309,11 @@ const checks = [
   },
   {
     name: "frame nav exposes the current section",
-    pass: files.frameNav.includes("aria-current={isActive ? \"location\" : undefined}")
+    pass:
+      files.frameNav.includes("isHomePage") &&
+      files.frameNav.includes("aria-current={isActive ? \"location\" : undefined}") &&
+      files.page.includes("<FrameNav isHomePage />") &&
+      files.caseRoute.includes("<FrameNav isHomePage={false} />")
   },
   {
     name: "clarity section copy includes technical Product Manager content anchors",
@@ -392,12 +410,12 @@ checks.push(
     name: "landmarks and mobile navigation are accessible",
     pass:
       files.page.includes('id="main-content"') &&
-      files.page.includes("<FrameNav />") &&
-      files.page.indexOf("<FrameNav />") < files.page.indexOf('<main id="main-content">') &&
+      files.page.includes("<FrameNav isHomePage />") &&
+      files.page.indexOf("<FrameNav isHomePage />") < files.page.indexOf('<main id="main-content">') &&
       files.page.indexOf("</main>") < files.page.indexOf("<PortfolioFooter") &&
       files.caseRoute.includes('<main id="main-content">') &&
-      files.caseRoute.includes("<FrameNav />") &&
-      files.caseRoute.indexOf("<FrameNav />") < files.caseRoute.indexOf('<main id="main-content">') &&
+      files.caseRoute.includes("<FrameNav isHomePage={false} />") &&
+      files.caseRoute.indexOf("<FrameNav isHomePage={false} />") < files.caseRoute.indexOf('<main id="main-content">') &&
       files.caseRoute.indexOf('<main id="main-content">') < files.caseRoute.indexOf("</main>") &&
       files.frameNav.includes("Skip to main content") &&
       files.frameNav.includes('href="#main-content"') &&
@@ -408,7 +426,7 @@ checks.push(
       files.frameNav.includes('id="mobile-portfolio-nav"') &&
       files.frameNav.includes("Escape") &&
       files.frameNav.includes("triggerRef.current?.focus()") &&
-      files.frameNav.includes('window.matchMedia("(min-width: 768px)")') &&
+      files.frameNav.includes('window.matchMedia("(min-width: 1280px)")') &&
       files.frameNav.includes("min-h-11 min-w-11")
   },
   {
@@ -436,7 +454,11 @@ checks.push(
     name: "global layout does not clip horizontal overflow",
     pass:
       !/html\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/s.test(files.globals) &&
-      !/body\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/s.test(files.globals)
+      !/body\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/s.test(files.globals) &&
+      !files.frameNav.includes("md:flex") &&
+      !files.referenceWorkbench.includes("lg:grid-cols-[0.96fr_1.04fr]") &&
+      !readSource("src/components/portfolio-frame.tsx").includes("overflow-hidden") &&
+      files.referenceWorkbench.includes("minmax(0,")
   },
   {
     name: "capabilities use manual-activation tabs with roving keyboard focus",
@@ -510,7 +532,13 @@ checks.push(
       files.referenceWorkbench.includes("alt={aboutPortrait.alt}") &&
       files.referenceWorkbench.includes("width={72}") &&
       files.referenceWorkbench.includes("height={72}") &&
-      files.referenceWorkbench.includes('sizes="72px"')
+      files.referenceWorkbench.includes('sizes="72px"') &&
+      files.data.includes('src: "/me2-portrait.png"') &&
+      optimizedPortraitWidth > 0 &&
+      optimizedPortraitWidth <= 180 &&
+      optimizedPortraitHeight > 0 &&
+      optimizedPortraitHeight <= 180 &&
+      optimizedPortrait.bytes <= 100_000
   },
   {
     name: "homepage social image has real dimensions and portfolio content",
@@ -521,7 +549,8 @@ checks.push(
       files.homeOg.includes('contentType = "image/png"') &&
       files.homeOg.includes("portfolio.person.name") &&
       files.homeOg.includes("portfolio.person.title") &&
-      files.homeOg.includes("portfolio.person.intro")
+      files.homeOg.includes("portfolio.person.intro") &&
+      files.homeOg.includes("export const alt = portfolio.seo.socialImageAlt")
   },
   {
     name: "case social images are static, typed and case specific",
@@ -566,6 +595,64 @@ checks.push(
       !files.homeOg.includes("me2.png") &&
       !files.caseOg.includes("me2.png") &&
       !files.data.includes('socialImage: "/me2.png"')
+  },
+  {
+    name: "selected work renders typed evidence labels and the confidentiality note",
+    pass:
+      files.page.includes("project.impactLabel") &&
+      files.page.includes("Client names, screenshots and identifying operational details are generalized or omitted. Metrics are labelled as production, QA/test or bounded operational evidence.") &&
+      [
+        "Bounded operational check",
+        "Production outcome",
+        "Production exposure",
+        "QA/test validation"
+      ].every((label) => files.data.includes(`impactLabel: "${label}"`))
+  },
+  {
+    name: "AI actual uses stay separate from onboarding support by design",
+    pass:
+      !/uses:\s*\[[\s\S]*?onboarding support by design[\s\S]*?\]/.test(files.data) &&
+      files.data.includes("It is designed to support onboarding, but I do not claim team-wide onboarding use or adoption.")
+  },
+  {
+    name: "mobile workbench links to evidence and uses a compact identity",
+    pass:
+      files.referenceWorkbench.includes("function MobileWorkbenchFlow") &&
+      files.referenceWorkbench.includes('href: "#systems"') &&
+      files.referenceWorkbench.includes('href: "#work"') &&
+      files.referenceWorkbench.includes("min-h-11") &&
+      files.referenceWorkbench.includes("function MobileAboutIdentifier") &&
+      files.referenceWorkbench.includes("sm:hidden") &&
+      files.referenceWorkbench.includes("hidden sm:block")
+  },
+  {
+    name: "desktop workbench connectors land on a labelled decision output",
+    pass:
+      files.referenceWorkbench.includes("Product decision") &&
+      files.referenceWorkbench.includes("Testable delivery") &&
+      files.referenceWorkbench.includes("data-workbench-destination")
+  },
+  {
+    name: "mobile menu selection transfers focus to a focusable homepage destination",
+    pass:
+      files.frameNav.includes("handleMobileNavigation") &&
+      files.frameNav.includes("destination.focus({ preventScroll: true })") &&
+      files.frameNav.includes('destination.scrollIntoView({ block: "start" })') &&
+      files.frameNav.includes("requestAnimationFrame") &&
+      ["top", "systems", "work", "product-memory", "experience", "contact"].every((id) =>
+        new RegExp(`id=[\"']${id}[\"'][^>]*tabIndex=\\{-1\\}`).test(files.page) &&
+        new RegExp(`id=[\"']${id}[\"'][^>]*focus-visible:ring-2`).test(files.page)
+      )
+  },
+  {
+    name: "resume generation rejects multi-page or unlinked contact output",
+    pass:
+      files.resumeGenerator.includes("if chosen_pages != 1:") &&
+      files.resumeGenerator.includes("verify_required_links") &&
+      files.resumeGenerator.includes("mailto:") &&
+      files.resumeGenerator.includes("linkedin.com/") &&
+      files.resumeGenerator.includes(".vercel.app") &&
+      files.resumeGenerator.indexOf("verify_required_links") < files.resumeGenerator.indexOf("OUTPUT.write_bytes")
   }
 );
 
