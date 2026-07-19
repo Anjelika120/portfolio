@@ -2,12 +2,15 @@ export const portfolio = {
   person: {
     name: "Anjelika Tan",
     title: "Product Manager",
-    intro:
-      "I turn complex client workflows into safe, operable product capabilities.",
+    intro: "I take complex B2B2C products from 0 to 1.",
     heroLines: [
-      "With a Computer Science background, I work across B2B2C SaaS products where APIs, integrations, workflows, commerce, identity, AI-enabled product operations and live client delivery meet.",
-      "I am most useful when a client request exposes a wider platform problem. I clarify the contract, make the trade-offs visible and follow the work through engineering, QA, release and live operation."
+      "I turn ambiguous client and operational needs into testable product capabilities, then carry them through engineering, QA, launch and live use.",
+      "I'm a Product Manager with a Computer Science background. I work best when a client need exposes a bigger platform problem, whether that means a new workflow, integration, identity rule or operating tool."
     ],
+    heroTechnical:
+      "My Computer Science background helps me work closely with APIs, integrations, workflows and AI-enabled product operations.",
+    heroProof:
+      "0-to-1 capabilities: workflow execution, client-owned identity and a source-linked AI practice. Platform evolution and live operation: multi-region loyalty, Store and large-community operations.",
     portrait: {
       src: "/me2.png",
       alt: "Portrait of Anjelika Tan"
@@ -129,7 +132,7 @@ export const portfolio = {
         title: "AI-enabled product work grounded in durable context",
         preview: "I build product memory that keeps AI useful without hiding uncertainty.",
         body:
-          "I built an AI-ready product memory from feature intent, decisions, trade-offs, known gaps and evidence boundaries. It supports PRDs, tickets, QA, research, onboarding and handover, while keeping source confidence, human review, attribution and secret exclusion explicit. A YAML PRD generator was one supporting workflow, not the whole story.",
+          "I built an AI-ready product memory from feature intent, decisions, trade-offs, known gaps and evidence boundaries. I use the record for requirements, QA planning, research and handover. It is designed to support onboarding, but I do not claim team-wide onboarding use or adoption. Source confidence, human review, attribution and secret exclusion stay explicit. A YAML PRD generator was one supporting workflow, not the whole story.",
         points: [
           "Source-qualified context before generation",
           "Human review, visible assumptions and attribution",
@@ -140,7 +143,7 @@ export const portfolio = {
   },
   whatIWorkOn: {
     description:
-      "The product problems where my technical and operational context is most useful.",
+      "With a Computer Science background, I work on B2B2C SaaS product problems where technical and operational context matters.",
     intro:
       "I work across the boundary between a client need and the platform contract required to support it safely.",
     areas: [
@@ -215,7 +218,7 @@ export const portfolio = {
       "PRDs and engineering tickets",
       "QA plans and acceptance checks",
       "Research and evidence audits",
-      "New-starter and successor handover",
+      "Successor handover and onboarding support by design",
       "Client and support context without secrets"
     ],
     yamlStory: {
@@ -224,7 +227,7 @@ export const portfolio = {
         "Rob introduced the concept. Thuta built the generator. I adopted, operationalised, tested and refined the AI-assisted workflow on live product work. No measured time, quality or defect improvement is claimed. The useful lesson was narrower: generated requirements became safer when the workflow retrieved product, repository, schema and design-system context first, then required a person to review the result."
     },
     evidenceLimit:
-      "This is evidence of a working product-operations practice and durable handover, not proof that AI improved delivery speed, defect rates or team adoption."
+      "I use this record for requirements, QA planning, research and handover. It is designed to support onboarding, but I do not claim team-wide onboarding use or adoption. This is evidence of a working product-operations practice, not proof that AI improved delivery speed or defect rates."
   },
   experience: {
     description:
@@ -312,9 +315,23 @@ export const portfolio = {
       tags: ["B2B2C platform", "Client integrations", "Live operations"],
       railTags: ["Account lifecycle", "Multi-region delivery", "Shared authorship"],
       scope: "Data integration, embedded experiences, automated fulfilment and programme operation",
-      impactLabel: "Evidence",
+      impactLabel: "Bounded operational check",
       impactLine:
         "In one reconciliation window, 66 trading-credit orders had 66 matching success messages with no missing message or duplicate in that comparison. A later 19-order gap exposed the limit and triggered further investigation.",
+      team: "Client stakeholders, product, engineering, QA, portal and data teams",
+      delivery: "Live multi-region operation with ongoing incident recovery",
+      artifact: {
+        title: "Account lifecycle",
+        caption: "A sanitized view of the product boundaries that had to work as one programme.",
+        stages: [
+          { label: "Data and identity", detail: "Field mapping, account matching and launch risks" },
+          { label: "Member experience", detail: "Authenticated regional reward surfaces" },
+          { label: "Fulfilment", detail: "Eligibility, trading-credit automation and order states" },
+          { label: "Operation", detail: "Monitoring, reconciliation, support and recovery" }
+        ],
+        contribution: "Connected client goals and incidents to product rules and testable team handoffs.",
+        evidence: "Live programme use is proven; the 66-to-66 check was bounded and a later 19-order outage remained visible."
+      },
       railNoteLabel: "My role",
       railNote:
         "Client-facing product and integration coordination across stakeholders, engineering, QA, portal, data and operations teams",
@@ -467,9 +484,23 @@ export const portfolio = {
       tags: ["Commerce", "API and SDK", "Operational systems"],
       railTags: ["B2B2C Store", "Platform contracts", "Production outcome"],
       scope: "Store, redemption and integration product work",
-      impactLabel: "Evidence",
+      impactLabel: "Production outcome",
       impactLine:
         "Correct historical status responses for nearly 3,000 Store purchases in production, followed by positive client feedback.",
+      team: "Product, engineering, QA, UX, SDK, API and client support teams",
+      delivery: "Production correction for historical and future status responses",
+      artifact: {
+        title: "Redemption lifecycle",
+        caption: "A sanitized view of the Store contract from eligibility through historical status.",
+        stages: [
+          { label: "Eligibility", detail: "Permissions, account checks and diagnostic states" },
+          { label: "Purchase", detail: "Product fields, redemption method and order creation" },
+          { label: "Fulfilment", detail: "Internal or external delivery with bounded callback scope" },
+          { label: "Status and history", detail: "Future-write correction and historical read-time status" }
+        ],
+        contribution: "I defined reusable product contracts, migration choices, failure states and QA checks.",
+        evidence: "Correct status responses for nearly 3,000 historical purchases reached production; callback runtime use was not verified."
+      },
       railNoteLabel: "My role",
       railNote:
         "Product contracts, scope, state behaviour, migration choices, supportability and QA follow-through",
@@ -600,9 +631,23 @@ export const portfolio = {
       tags: ["Workflow automation", "Reliability", "Platform strategy"],
       railTags: ["Execution model", "Progressive delivery", "Operational exposure"],
       scope: "Custom and Data Workflow product development",
-      impactLabel: "Evidence",
+      impactLabel: "Production exposure",
       impactLine:
         "Production use was internally confirmed for client workflows; volume, sustained reliability and external acceptance remain unmeasured.",
+      team: "Product, engineering, QA, UX and client-facing teams",
+      delivery: "Production exposure with unresolved reliability limits",
+      artifact: {
+        title: "Workflow execution lifecycle",
+        caption: "A sanitized view of the execution contract used to define scope and operational checks.",
+        stages: [
+          { label: "Trigger", detail: "HTTP, webhook, Store Purchase and data events" },
+          { label: "Queue", detail: "Run state, concurrency and idempotent ingestion" },
+          { label: "Actions", detail: "Transformations, conditions, branching and bulk updates" },
+          { label: "Error and history", detail: "Stop behaviour, retry, run history and investigation" }
+        ],
+        contribution: "I sequenced the work and defined execution, failure and recovery rules.",
+        evidence: "Named-client production use was internally confirmed; volume, sustained reliability and external acceptance were not measured."
+      },
       railNoteLabel: "My role",
       railNote:
         "Product sequencing, execution semantics, review, client context and release follow-through",
@@ -735,9 +780,23 @@ export const portfolio = {
       tags: ["Scale", "Bulk operations", "Product operations"],
       railTags: ["300k QA validation", "Background jobs", "Honest limits"],
       scope: "User management, bulk operations and exports",
-      impactLabel: "Evidence",
+      impactLabel: "QA/test validation",
       impactLine:
         "A test environment showed about 360 MB of duplicated Redux state at 200,000 records; later QA exercised 200,000 to 300,000-record scenarios.",
+      team: "Product, engineering, QA, support and client operations teams",
+      delivery: "QA scale validation with smaller production batch use",
+      artifact: {
+        title: "Bulk operation lifecycle",
+        caption: "Delivery, evidence and limits for a sanitized large-community job.",
+        stages: [
+          { label: "Queued", detail: "Validated input, run creation and cancellation before processing" },
+          { label: "Running", detail: "Batched work, progress state and inspectable API logs" },
+          { label: "Partial or error", detail: "Row outcomes, retry limits and duplicate-effect risk" },
+          { label: "Cancelled or duplicate", detail: "Queued cancellation, restart behaviour and idempotency follow-up" }
+        ],
+        contribution: "I expanded a page-performance issue into requirements for state, queues, logs and recovery.",
+        evidence: "QA validated a 300,000-record list and a 50,000-record multi-field update under 15 minutes; production use is proven at smaller batch sizes."
+      },
       railNoteLabel: "My role",
       railNote:
         "Problem framing, requirements, QA scope, operational controls and client-use follow-through",
@@ -855,11 +914,11 @@ export const portfolio = {
     }
   ],
   seo: {
-    title: "Anjelika Tan | Product Manager for B2B2C Platforms",
+    title: "Anjelika Tan | Product Manager for 0-to-1 B2B2C Products",
     description:
-      "Portfolio of Anjelika Tan, a Product Manager working across B2B2C SaaS platforms, APIs, integrations, workflows, commerce, identity, AI-enabled product operations and live delivery.",
+      "Portfolio of Anjelika Tan, a Product Manager taking complex B2B2C products from client need to launch and live operation across APIs, integrations, workflows, commerce, identity and AI-enabled product operations.",
     siteUrl: "https://portfolio-black-tau-27.vercel.app",
-    socialImage: "/me2.png"
+    socialImage: "/opengraph-image"
   }
 } as const;
 

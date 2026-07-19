@@ -2,7 +2,7 @@
 Product Manager
 anjelikatan99@gmail.com | +65 9641 1517 | Melbourne, VIC | Work and Holiday visa; seeking sponsorship | portfolio-black-tau-27.vercel.app | linkedin.com/in/anjelika-tan-219522148
 
-Product Manager with a Computer Science background and experience translating client and operational needs into reusable B2B2C SaaS platform products. Work spans APIs, integrations, workflow automation, commerce, identity, large-scale operations and live delivery. I also build AI-enabled product workflows grounded in durable context, explicit evidence boundaries and human review.
+Product Manager with a Computer Science background who takes complex B2B2C products from ambiguous client need to testable capability, launch and live operation. My work spans APIs, integrations, workflow automation, commerce, identity and large-scale operations. I also use source-linked product context and human review to make AI-assisted delivery safer.
 
 ## EXPERIENCE
 
@@ -30,7 +30,7 @@ Dec 2021 - Jan 2024
 - Delivery & Quality: cross-functional delivery, QA/UAT, release management, incident response, client operations, roadmap sequencing
 - Systems & Operations: workflow automation, observability, idempotency, asynchronous and queued processing, bulk operations, permissions
 - Technical Fluency: data mapping, SQL-backed integrations, event-driven workflows, SQS concepts, Figma, ClickUp
-- AI Product Operations: grounded agent workflows, product knowledge systems, context engineering, human-in-the-loop review, Claude, ChatGPT, Codex, Cursor
+- AI Product Operations: AI-enabled product workflows, grounded agent workflows, product knowledge systems, context engineering, human-in-the-loop review, Claude, ChatGPT, Codex, Cursor
 - Languages: English (native), Chinese (fluent), Japanese (conversational)
 
 ## EDUCATION
