@@ -381,8 +381,9 @@ export function InputStoryExplorer({ stories }: { stories: readonly WorkbenchSto
         id="messy-input-story-panel"
         role="tabpanel"
         aria-labelledby={storyAnchorId(activeStory)}
+        tabIndex={0}
         data-work-dossier
-        className="border-y border-line py-6 sm:py-7"
+        className="border-y border-line py-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas sm:py-7"
       >
         <div className="grid gap-7 lg:grid-cols-[minmax(0,0.58fr)_minmax(16rem,0.42fr)] lg:items-start">
           <div>
