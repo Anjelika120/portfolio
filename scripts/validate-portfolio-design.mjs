@@ -342,12 +342,42 @@ checks.push(
       files.data.includes("Delivery, evidence and limits")
   },
   {
-    name: "case evidence fields and artifacts are structured",
+    name: "case headers render complete evidence metadata from portfolio data",
     pass:
       ["team", "delivery", "artifact"].every((field) => files.data.includes(`${field}:`)) &&
+      files.caseRoute.includes("<dl") &&
+      files.caseRoute.includes("<dt") &&
+      files.caseRoute.includes("<dd") &&
+      [
+        ["My role", "project.railNote"],
+        ["Scope", "project.scope"],
+        ["Team", "project.team"],
+        ["Delivery", "project.delivery"],
+        ["Evidence type", "project.impactLabel"],
+        ["Observed result", "project.impactLine"]
+      ].every(([label, binding]) => files.caseRoute.includes(`["${label}", ${binding}]`))
+  },
+  {
+    name: "case artifacts are semantic, mounted and linear on mobile",
+    pass:
+      files.caseDetail.includes("<CaseStudyArtifact artifact={project.artifact} />") &&
       files.caseArtifact.includes("<figure") &&
       files.caseArtifact.includes("<figcaption") &&
-      files.caseDetail.includes("Observed result")
+      files.caseArtifact.includes('<ol className="mt-6 grid gap-3 md:grid-cols-4">') &&
+      files.caseArtifact.includes("artifact.stages.map") &&
+      files.caseArtifact.includes("Observed result or limit")
+  },
+  {
+    name: "case detail preserves its narrative without repeating header metadata",
+    pass:
+      files.caseDetail.includes("{project.detail}") &&
+      ![
+        "project.caseTitle",
+        "project.summary",
+        "project.railTags",
+        "project.impactLabel",
+        "project.impactLine"
+      ].some((binding) => files.caseDetail.includes(binding))
   },
   {
     name: "landmarks and mobile navigation are accessible",
@@ -411,8 +441,16 @@ checks.push(
   {
     name: "case pages end with onward actions",
     pass:
+      files.caseRoute.includes("<CaseStudyFooter nextProject={nextProject} />") &&
+      files.caseRoute.includes("(currentIndex + 1) % orderedWork.length") &&
+      files.caseFooter.includes('aria-label="Case study actions"') &&
+      files.caseFooter.includes("min-h-11") &&
+      (files.caseFooter.match(/className={actionClassName}/g) ?? []).length === 3 &&
+      files.caseFooter.includes("href={`/work/${nextProject.id}`}") &&
       files.caseFooter.includes("Next case") &&
+      files.caseFooter.includes('href="/#systems"') &&
       files.caseFooter.includes("Back to selected work") &&
+      files.caseFooter.includes('href="mailto:anjelikatan99@gmail.com"') &&
       files.caseFooter.includes("Discuss this work")
   },
   {
