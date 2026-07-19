@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CaseStudyDetail } from "@/components/case-study-detail";
+import { CaseStudyFooter } from "@/components/case-study-footer";
 import { FrameNav } from "@/components/frame-nav";
 import { PortfolioFrame } from "@/components/portfolio-frame";
 import { portfolio, type Portfolio } from "@/data/portfolio";
@@ -34,6 +35,12 @@ function findProject(id: string) {
   };
 }
 
+function findNextProject(id: string) {
+  const currentIndex = orderedWork.findIndex((project) => project.id === id);
+
+  return orderedWork[(currentIndex + 1) % orderedWork.length] ?? orderedWork[0];
+}
+
 export function generateStaticParams() {
   return portfolio.selectedWork.map((project) => ({
     id: project.id
@@ -65,6 +72,8 @@ export default async function WorkCasePage({ params }: WorkPageProps) {
     notFound();
   }
 
+  const nextProject = findNextProject(project.id);
+
   return (
     <div className="min-h-screen bg-[#eef1eb] px-3 py-3 text-ink sm:px-5 sm:py-5">
       <PortfolioFrame>
@@ -87,21 +96,28 @@ export default async function WorkCasePage({ params }: WorkPageProps) {
                 </h1>
                 <p className="mt-5 max-w-3xl text-base leading-8 text-muted">{project.summary}</p>
               </div>
-              <div className="rounded-lg border border-line bg-surface p-5">
-                <p className="text-xs font-semibold text-accent">Snapshot</p>
-                <div className="mt-4 grid gap-3">
-                  {project.railTags.map((tag) => (
-                    <span key={tag} className="rounded-md bg-canvas px-3 py-2 text-sm font-semibold text-ink">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <dl className="divide-y divide-line border-y border-line">
+                {[
+                  ["My role", project.railNote],
+                  ["Scope", project.scope],
+                  ["Team", project.team],
+                  ["Delivery", project.delivery],
+                  ["Evidence type", project.impactLabel],
+                  ["Observed result", project.impactLine]
+                ].map(([label, value]) => (
+                  <div key={label} className="grid gap-1 py-3 sm:grid-cols-[7rem_1fr] lg:grid-cols-1">
+                    <dt className="text-xs font-semibold text-accent">{label}</dt>
+                    <dd className="text-sm leading-6 text-ink">{value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
             <div className="mt-10 border-t border-line">
               <CaseStudyDetail project={project} index={index} />
             </div>
+
+            <CaseStudyFooter nextProject={nextProject} />
           </section>
         </main>
       </PortfolioFrame>

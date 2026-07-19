@@ -1,4 +1,5 @@
 import { EvolutionRoadmap } from "@/components/evolution-roadmap";
+import { CaseStudyArtifact } from "@/components/case-study-artifact";
 import type { Portfolio } from "@/data/portfolio";
 
 type CaseStudy = Portfolio["selectedWork"][number];
@@ -64,7 +65,7 @@ export function CaseStudyDetail({ project, index }: { project: CaseStudy; index:
             {[
               ["Problem", project.problemLine],
               ["Decision", project.decisionLine],
-              ["Outcome", project.outcomeLine]
+              ["Observed result", project.outcomeLine]
             ].map(([label, value]) => (
               <div key={label} className="rounded-lg bg-canvas p-4">
                 <p className="text-xs font-semibold text-accent">{label}</p>
@@ -72,6 +73,8 @@ export function CaseStudyDetail({ project, index }: { project: CaseStudy; index:
               </div>
             ))}
           </div>
+
+          <CaseStudyArtifact artifact={project.artifact} />
 
           {leadSections.map((section) => (
             <FeatureDetailSection

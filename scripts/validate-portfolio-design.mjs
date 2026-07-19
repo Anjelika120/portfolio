@@ -269,8 +269,12 @@ const checks = [
     pass: files.caseRoute.includes("generateStaticParams") && files.caseRoute.includes("notFound")
   },
   {
-    name: "case-study detail component keeps transformation framing",
-    pass: files.caseDetail.includes("Problem") && files.caseDetail.includes("Decision") && files.caseDetail.includes("Outcome")
+    name: "case-study detail component keeps evidence-qualified transformation framing",
+    pass:
+      files.caseDetail.includes("Problem") &&
+      files.caseDetail.includes("Decision") &&
+      files.caseDetail.includes('"Observed result"') &&
+      !files.caseDetail.includes('["Outcome", project.outcomeLine]')
   },
   {
     name: "roadmap includes a progress line",
