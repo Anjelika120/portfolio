@@ -6,12 +6,17 @@ function readSource(path) {
 
 const files = {
   data: readSource("src/data/portfolio.ts"),
+  layout: readSource("src/app/layout.tsx"),
   clarityInteractions: readSource("src/components/clarity-interactions.tsx"),
   frameNav: readSource("src/components/frame-nav.tsx"),
   referenceWorkbench: readSource("src/components/reference-workbench-visual.tsx"),
   caseDetail: readSource("src/components/case-study-detail.tsx"),
+  caseArtifact: readSource("src/components/case-study-artifact.tsx"),
+  caseFooter: readSource("src/components/case-study-footer.tsx"),
   caseRoute: readSource("src/app/work/[id]/page.tsx"),
   page: readSource("src/app/page.tsx"),
+  homeOg: readSource("src/app/opengraph-image.tsx"),
+  caseOg: readSource("src/app/work/[id]/opengraph-image.tsx"),
   roadmap: readSource("src/components/evolution-roadmap.tsx"),
   globals: readSource("src/app/globals.css"),
   resume: readSource("resume-source.md"),
@@ -298,6 +303,57 @@ const checks = [
     pass: files.globals.includes("prefers-reduced-motion")
   }
 ];
+
+checks.push(
+  {
+    name: "approved zero-to-one hero is exact",
+    pass:
+      files.data.includes('intro: "I take complex B2B2C products from 0 to 1."') &&
+      files.data.includes("ambiguous client and operational needs") &&
+      files.data.includes("Delivery, evidence and limits")
+  },
+  {
+    name: "case evidence fields and artifacts are structured",
+    pass:
+      ["team", "delivery", "artifact"].every((field) => files.data.includes(`${field}:`)) &&
+      files.caseArtifact.includes("<figure") &&
+      files.caseArtifact.includes("<figcaption") &&
+      files.caseDetail.includes("Observed result")
+  },
+  {
+    name: "landmarks and mobile navigation are accessible",
+    pass:
+      files.page.includes('id="main-content"') &&
+      files.frameNav.includes("Skip to main content") &&
+      files.frameNav.includes("aria-expanded") &&
+      files.frameNav.includes("aria-controls") &&
+      files.frameNav.includes("Escape")
+  },
+  {
+    name: "capabilities use tabs and ecosystems use static articles",
+    pass:
+      files.clarityInteractions.includes('role="tablist"') &&
+      files.clarityInteractions.includes('role="tab"') &&
+      files.clarityInteractions.includes('role="tabpanel"') &&
+      files.clarityInteractions.includes("<article") &&
+      !files.clarityInteractions.includes("aria-pressed={isActive}")
+  },
+  {
+    name: "case pages end with onward actions",
+    pass:
+      files.caseFooter.includes("Next case") &&
+      files.caseFooter.includes("Back to selected work") &&
+      files.caseFooter.includes("Discuss this work")
+  },
+  {
+    name: "social images have real dimensions",
+    pass:
+      files.homeOg.includes("width: 1200") &&
+      files.homeOg.includes("height: 630") &&
+      files.caseOg.includes("width: 1200") &&
+      files.caseOg.includes("height: 630")
+  }
+);
 
 const bannedHeroLanguage = [
   "magic",
