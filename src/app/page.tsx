@@ -190,7 +190,7 @@ function WorkbenchHero() {
     <section id="top" className="reference-hero scroll-mt-28 px-5 pb-5 pt-6 sm:px-9 sm:pb-7 lg:px-10 lg:pt-8">
       <ReferenceWorkbenchVisual
         inputs={heroInputs}
-        eyebrow="Overview"
+        eyebrow={person.title}
         title={person.intro}
         supportText={person.heroLines[0]}
         technicalText={person.heroTechnical}

@@ -229,7 +229,8 @@ const checks = [
   {
     name: "page uses the approved section labels and direct section copy",
     pass:
-      files.page.includes('eyebrow="Overview"') &&
+      files.frameNav.includes('label: "Overview"') &&
+      files.page.includes("eyebrow={person.title}") &&
       files.page.includes('label="Selected work"') &&
       files.page.includes('label="Capabilities"') &&
       files.page.includes('sectionLabel="AI practice"') &&
@@ -328,6 +329,8 @@ checks.push(
     pass:
       files.data.includes('intro: "I take complex B2B2C products from 0 to 1."') &&
       files.page.includes("const { person } = portfolio") &&
+      files.page.includes("eyebrow={person.title}") &&
+      !files.page.includes('eyebrow="Overview"') &&
       files.page.includes("title={person.intro}") &&
       files.referenceWorkbench.includes("<h1") &&
       files.referenceWorkbench.includes("<HighlightedTitle title={title} />") &&
@@ -346,8 +349,13 @@ checks.push(
     name: "landmarks and mobile navigation are accessible",
     pass:
       files.page.includes('id="main-content"') &&
+      files.page.includes("<FrameNav />") &&
       files.page.indexOf("<FrameNav />") < files.page.indexOf('<main id="main-content">') &&
       files.page.indexOf("</main>") < files.page.indexOf("<PortfolioFooter") &&
+      files.caseRoute.includes('<main id="main-content">') &&
+      files.caseRoute.includes("<FrameNav />") &&
+      files.caseRoute.indexOf("<FrameNav />") < files.caseRoute.indexOf('<main id="main-content">') &&
+      files.caseRoute.indexOf('<main id="main-content">') < files.caseRoute.indexOf("</main>") &&
       files.frameNav.includes("Skip to main content") &&
       files.frameNav.includes('href="#main-content"') &&
       files.frameNav.includes("const [isMenuOpen, setIsMenuOpen] = useState(false)") &&
@@ -374,10 +382,12 @@ checks.push(
       files.referenceWorkbench.includes("proofLine: string") &&
       files.referenceWorkbench.includes("primaryAction: { label: string; href: string }") &&
       files.referenceWorkbench.includes("secondaryAction: { label: string; href: string }") &&
-      files.referenceWorkbench.indexOf("{supportText}") < files.referenceWorkbench.indexOf("{proofLine}") &&
-      files.referenceWorkbench.includes("{technicalText}") &&
-      files.referenceWorkbench.includes("{primaryAction.label}") &&
-      files.referenceWorkbench.includes("{secondaryAction.label}")
+      files.referenceWorkbench.indexOf("{supportText}") < files.referenceWorkbench.indexOf("{technicalText}") &&
+      files.referenceWorkbench.indexOf("{technicalText}") < files.referenceWorkbench.indexOf("{proofLine}") &&
+      files.referenceWorkbench.indexOf("href={primaryAction.href}") < files.referenceWorkbench.indexOf("href={secondaryAction.href}") &&
+      files.referenceWorkbench.indexOf("{primaryAction.label}") < files.referenceWorkbench.indexOf("{secondaryAction.label}") &&
+      files.page.includes("href: `/work/${caseOrder[0]}`") &&
+      files.page.includes("href: person.resumeHref")
   },
   {
     name: "global layout does not clip horizontal overflow",
