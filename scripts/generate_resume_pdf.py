@@ -233,7 +233,7 @@ def format_contact(value: str) -> str:
             parts.append(f'<link href="mailto:{safe_part}">{safe_part}</link>')
         elif part.startswith("linkedin.com/"):
             parts.append(f'<link href="https://{safe_part}">{safe_part}</link>')
-        elif part.endswith(".vercel.app"):
+        elif part == "anjelikatan.com":
             parts.append(f'<link href="https://{safe_part}">{safe_part}</link>')
         else:
             parts.append(safe_part)
@@ -351,10 +351,10 @@ def required_contact_links(contact: str) -> set[str]:
             links.add(f"mailto:{part}")
         elif part.startswith("linkedin.com/"):
             links.add(f"https://{part}")
-        elif part.endswith(".vercel.app"):
+        elif part == "anjelikatan.com":
             links.add(f"https://{part}")
 
-    required_types = ("mailto:", "https://linkedin.com/", ".vercel.app")
+    required_types = ("mailto:", "https://linkedin.com/", "https://anjelikatan.com")
     if not all(any(marker in link for link in links) for marker in required_types):
         raise RuntimeError("Resume source must include email, LinkedIn, and portfolio contact URLs")
 

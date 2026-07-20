@@ -1,6 +1,6 @@
 # ANJELIKA TAN
 Product Manager
-anjelikatan99@gmail.com | +65 9641 1517 | Melbourne, VIC | Work and Holiday visa; seeking sponsorship | portfolio-black-tau-27.vercel.app | linkedin.com/in/anjelika-tan-219522148
+anjelikatan99@gmail.com | 0494 726 205 | Melbourne, VIC | anjelikatan.com | linkedin.com/in/anjelika-tan-219522148
 
 Product Manager with a Computer Science background who takes complex B2B2C products from ambiguous client need to testable capability, launch and live operation. My work spans APIs, integrations, workflow automation, commerce, identity and large-scale operations. I also use source-linked product context and human review to make AI-assisted delivery safer.
 

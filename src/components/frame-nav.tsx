@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { portfolio } from "@/data/portfolio";
 
 type FrameNavItem = {
   href: string;
@@ -10,8 +11,8 @@ type FrameNavItem = {
 
 const frameNavItems: readonly FrameNavItem[] = [
   { href: "/#top", id: "top", label: "Overview" },
-  { href: "/#systems", id: "systems", label: "Selected work" },
   { href: "/#work", id: "work", label: "Capabilities" },
+  { href: "/#systems", id: "systems", label: "Selected work" },
   { href: "/#product-memory", id: "product-memory", label: "AI practice" },
   { href: "/#experience", id: "experience", label: "Experience" },
   { href: "/#contact", id: "contact", label: "Contact" }
@@ -130,13 +131,13 @@ export function FrameNav({ isHomePage }: { isHomePage: boolean }) {
         Skip to main content
       </a>
       <header className="sticky top-0 z-50 border-b border-line/85 bg-canvas/94 backdrop-blur-sm">
-        <div className="grid min-h-[4.8rem] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-4 sm:px-6 lg:px-9">
+        <div className="grid min-h-[4.8rem] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 px-4 sm:px-6 lg:px-9">
           <a
             href="/#top"
-            className="inline-flex min-h-11 min-w-11 items-center font-serif text-3xl leading-none tracking-[-0.04em] text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+            className="inline-flex min-h-11 items-center justify-self-start font-serif text-xl leading-none tracking-[-0.03em] text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas sm:text-2xl"
             aria-label="Anjelika Tan home"
           >
-            AT
+            {portfolio.person.name}
           </a>
           <nav aria-label="Portfolio sections" className="mx-auto hidden min-w-0 items-center gap-5 xl:flex 2xl:gap-10">
             {frameNavItems.map((item) => {
@@ -166,16 +167,10 @@ export function FrameNav({ isHomePage }: { isHomePage: boolean }) {
             aria-expanded={isMenuOpen}
             aria-controls="mobile-portfolio-nav"
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-ink transition hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas xl:hidden"
+            className="col-start-3 inline-flex min-h-11 min-w-11 items-center justify-center justify-self-end rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-ink transition hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas xl:hidden"
           >
             Menu
           </button>
-          <div className="ml-auto hidden h-11 w-11 items-center justify-center rounded-full border border-line bg-ink text-canvas xl:flex" aria-hidden="true">
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7">
-              <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-          </div>
         </div>
         {isMenuOpen ? (
           <nav id="mobile-portfolio-nav" aria-label="Mobile portfolio sections" className="border-t border-line bg-canvas px-6 py-3 xl:hidden">

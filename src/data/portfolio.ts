@@ -2,15 +2,13 @@ export const portfolio = {
   person: {
     name: "Anjelika Tan",
     title: "Product Manager",
-    intro: "I take complex B2B2C products from 0 to 1.",
+    intro: "I build B2B2C products from the first messy brief to live operation.",
     heroLines: [
-      "I turn ambiguous client and operational needs into testable product capabilities, then carry them through engineering, QA, launch and live use.",
-      "I'm a Product Manager with a Computer Science background. I work best when a client need exposes a bigger platform problem, whether that means a new workflow, integration, identity rule or operating tool."
+      "I turn complex client and operational needs into new product capabilities, then stay close through engineering, QA, launch and live use.",
+      "I'm a Product Manager who enjoys finding the bigger platform problem behind a one-off client request. I work across workflows, integrations, identity and commerce, including the operational details that determine whether a feature still works once it is live."
     ],
-    heroTechnical:
-      "My Computer Science background helps me work closely with APIs, integrations, workflows and AI-enabled product operations.",
     heroProof:
-      "0-to-1 capabilities: workflow execution, client-owned identity and a source-linked AI practice. Platform evolution and live operation: multi-region loyalty, Store and large-community operations.",
+      "0-to-1 work: workflow execution, client-owned identity and AI-ready product memory.",
     portrait: {
       src: "/me2-portrait.png",
       alt: "Portrait of Anjelika Tan"
@@ -18,16 +16,6 @@ export const portfolio = {
     email: "anjelikatan99@gmail.com",
     linkedin: "https://www.linkedin.com/in/anjelika-tan-219522148/",
     resumeHref: "/resume.pdf",
-    glance: [
-      {
-        label: "Production",
-        value: "Correct statuses returned for nearly 3,000 historical Store purchases"
-      },
-      {
-        label: "QA/test",
-        value: "300k-record list; 50k multi-field update under 15 minutes"
-      }
-    ],
     workbenchArtifacts: [
       {
         label: "API",
@@ -143,7 +131,7 @@ export const portfolio = {
   },
   whatIWorkOn: {
     description:
-      "With a Computer Science background, I work on B2B2C SaaS product problems where technical and operational context matters.",
+      "I work on B2B2C SaaS product problems where technical and operational context matters.",
     intro:
       "I work across the boundary between a client need and the platform contract required to support it safely.",
     areas: [
@@ -189,7 +177,7 @@ export const portfolio = {
     label: "How I work with AI",
     title: "Building product memory that humans and AI can actually use",
     description:
-      "AI is useful in product work when it can retrieve the decision behind a feature, distinguish evidence from inference and show where human judgment is still required. I built a product memory system around those needs rather than treating a prompt or generator as the product.",
+      "I use AI as a layer over product context, not a substitute for it. I built a product memory that records why a feature exists, what changed, where the evidence came from and which decisions still need a person.",
     problem:
       "Important context was scattered across tickets, chats, PRDs, QA notes, designs and production follow-up. That made it easy for both people and AI tools to repeat an old assumption, miss a trade-off or present test evidence as a production outcome.",
     memoryLayers: [
@@ -250,9 +238,9 @@ export const portfolio = {
     ]
   },
   platforms: {
-    title: "Product surfaces and systems",
+    title: "The tools behind the work",
     description:
-      "Technology I have worked with as a product manager across integrations, data, engagement and commerce.",
+      "I have used these systems directly while testing APIs, mapping data, setting up workflows and supporting live products.",
     groups: [
       {
         title: "CRM and data",
@@ -268,6 +256,11 @@ export const portfolio = {
         title: "Commerce and trust",
         description: "Store logic, external catalogue experiments and governed review flows.",
         items: ["Stripe", "WooCommerce", "Trustpilot"]
+      },
+      {
+        title: "Product and operations",
+        description: "API testing, workflow automation and support operations.",
+        items: ["Postman", "Activepieces", "Intercom"]
       }
     ]
   },
@@ -917,7 +910,7 @@ export const portfolio = {
     title: "Anjelika Tan | Product Manager for 0-to-1 B2B2C Products",
     description:
       "Portfolio of Anjelika Tan, a Product Manager taking complex B2B2C products from client need to launch and live operation across APIs, integrations, workflows, commerce, identity and AI-enabled product operations.",
-    siteUrl: "https://portfolio-black-tau-27.vercel.app",
+    siteUrl: "https://anjelikatan.com",
     socialImage: "/opengraph-image",
     socialImageAlt: "Anjelika Tan Product Manager portfolio preview"
   }

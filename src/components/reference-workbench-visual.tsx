@@ -45,11 +45,6 @@ export type ReferenceWorkbenchInput = {
   storyPoints?: readonly string[];
 };
 
-export type ReferenceAboutFact = {
-  label: string;
-  value: string;
-};
-
 export type ReferenceAboutPortrait = {
   src: string;
   alt: string;
@@ -61,24 +56,13 @@ export type ReferenceAboutLink = {
   external?: boolean;
 };
 
-export type ReferenceWorkbenchTile = {
-  id?: string;
-  label: string;
-  description?: string;
-  icon?: ReferenceWorkbenchIcon;
-  tone?: ReferenceWorkbenchTone;
-};
-
 export type ReferenceWorkbenchVisualProps = {
   inputs?: readonly ReferenceWorkbenchInput[];
-  capabilityTiles?: readonly ReferenceWorkbenchTile[];
   supportText: string;
-  technicalText: string;
   proofLine: string;
   primaryAction: { label: string; href: string };
   secondaryAction: { label: string; href: string };
   aboutText?: string;
-  aboutFacts?: readonly ReferenceAboutFact[];
   aboutName?: string;
   aboutPortrait?: ReferenceAboutPortrait;
   aboutLinks?: readonly ReferenceAboutLink[];
@@ -95,9 +79,6 @@ type NormalizedInput = Required<Pick<ReferenceWorkbenchInput, "id" | "label" | "
   Pick<ReferenceWorkbenchInput, "lane" | "href"> & {
     storyPoints: readonly string[];
   };
-
-type NormalizedTile = Required<Pick<ReferenceWorkbenchTile, "id" | "label" | "icon" | "tone">> &
-  Pick<ReferenceWorkbenchTile, "description">;
 
 type InputLayoutStyle = CSSProperties & {
   "--card-rotate"?: string;
@@ -155,55 +136,6 @@ const defaultInputs = [
   }
 ] satisfies readonly ReferenceWorkbenchInput[];
 
-const defaultCapabilityTiles = [
-  {
-    id: "complex-rules",
-    label: "Complex rules",
-    description: "I define and simplify",
-    icon: "rules",
-    tone: "ink"
-  },
-  {
-    id: "integrations",
-    label: "Integrations",
-    description: "I connect and harden",
-    icon: "integrations",
-    tone: "accent"
-  },
-  {
-    id: "workflows",
-    label: "Workflows",
-    description: "I design and operate",
-    icon: "workflow",
-    tone: "accent"
-  },
-  {
-    id: "tools",
-    label: "Tools",
-    description: "I build for teams",
-    icon: "tools",
-    tone: "coral"
-  },
-  {
-    id: "automation",
-    label: "Automation",
-    description: "I use it to remove friction",
-    icon: "automation",
-    tone: "yellow"
-  }
-] satisfies readonly ReferenceWorkbenchTile[];
-
-const defaultAboutFacts = [
-  {
-    label: "Focus",
-    value: "Product, platform, and workflow systems"
-  },
-  {
-    label: "Domain",
-    value: "B2B2C SaaS with fintech-related workflows"
-  }
-] satisfies readonly ReferenceAboutFact[];
-
 const defaultAboutPortrait = {
   src: "/me2.png",
   alt: "Portrait of Anjelika Tan"
@@ -212,10 +144,6 @@ const defaultAboutPortrait = {
 const defaultAboutLinks = [
   {
     label: "LinkedIn",
-    href: "#contact"
-  },
-  {
-    label: "View resume",
     href: "#contact"
   },
   {
@@ -302,16 +230,6 @@ function normalizeInputs(inputs: readonly ReferenceWorkbenchInput[]): Normalized
   }));
 }
 
-function normalizeTiles(tiles: readonly ReferenceWorkbenchTile[]): NormalizedTile[] {
-  return tiles.map((tile, index) => ({
-    id: (tile.id ?? slugify(tile.label)) || `tile-${index + 1}`,
-    label: tile.label,
-    description: tile.description,
-    icon: tile.icon ?? iconForLabel(tile.label),
-    tone: tile.tone ?? "accent"
-  }));
-}
-
 function toneForIndex(index: number): ReferenceWorkbenchTone {
   if (index === 4) {
     return "yellow";
@@ -345,14 +263,11 @@ function iconForLabel(label: string): ReferenceWorkbenchIcon {
 
 export function ReferenceWorkbenchVisual({
   inputs = defaultInputs,
-  capabilityTiles = defaultCapabilityTiles,
   supportText,
-  technicalText,
   proofLine,
   primaryAction,
   secondaryAction,
   aboutText = "I work best where product, operations, and technical constraints overlap, especially when the system needs to become easier to explain, build, and run.",
-  aboutFacts = defaultAboutFacts,
   aboutName = "Anjelika Tan",
   aboutPortrait = defaultAboutPortrait,
   aboutLinks = defaultAboutLinks,
@@ -366,7 +281,6 @@ export function ReferenceWorkbenchVisual({
 }: ReferenceWorkbenchVisualProps) {
   const headingId = useId();
   const normalizedInputs = useMemo(() => normalizeInputs(inputs), [inputs]);
-  const normalizedCapabilities = useMemo(() => normalizeTiles(capabilityTiles), [capabilityTiles]);
   const firstInputId = normalizedInputs[0]?.id ?? "";
   const [uncontrolledActiveInputId, setUncontrolledActiveInputId] = useState(
     defaultActiveInputId ?? firstInputId
@@ -397,14 +311,6 @@ export function ReferenceWorkbenchVisual({
       <div className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] xl:grid-rows-[auto_1fr]">
         <div className="relative order-2 hidden min-h-[30rem] overflow-hidden rounded-lg bg-surface/65 p-3 sm:min-h-[32rem] sm:p-5 xl:order-1 xl:row-span-2 xl:block xl:min-h-[33.5rem]">
           <ConnectorField activeIndex={normalizedInputs.findIndex((input) => input.id === currentActiveInputId)} />
-
-          <div
-            data-workbench-destination
-            className="absolute right-3 top-[43%] z-20 w-[7.5rem] rounded-lg border border-accent/40 bg-canvas/95 px-3 py-3 text-left"
-          >
-            <span className="block text-[0.68rem] font-semibold text-accent">Product decision</span>
-            <span className="mt-1 block text-xs font-semibold leading-5 text-ink">Testable delivery</span>
-          </div>
 
           <div className="mb-3 flex items-start gap-2 text-sm font-semibold italic leading-5 text-ink/76 sm:absolute sm:left-4 sm:top-4 sm:z-10 sm:max-w-[9rem]">
             <span>hover me!</span>
@@ -497,7 +403,6 @@ export function ReferenceWorkbenchVisual({
               ) : null}
             </div>
             <p className="max-w-2xl text-base leading-7 text-ink sm:text-lg sm:leading-8">{supportText}</p>
-            <p className="max-w-2xl text-sm leading-6 text-muted">{technicalText}</p>
             <p className="max-w-2xl border-t border-line pt-3 text-sm font-semibold leading-6 text-ink">
               {proofLine}
             </p>
@@ -515,7 +420,6 @@ export function ReferenceWorkbenchVisual({
                 {secondaryAction.label}
               </a>
             </div>
-            <CapabilityPills tiles={normalizedCapabilities.slice(0, 5)} />
           </div>
         </div>
 
@@ -530,7 +434,6 @@ export function ReferenceWorkbenchVisual({
           <div className="hidden sm:block">
             <AboutMePanel
               aboutText={aboutText}
-              aboutFacts={aboutFacts}
               aboutName={aboutName}
               aboutPortrait={aboutPortrait}
               aboutLinks={aboutLinks}
@@ -551,7 +454,7 @@ function MobileWorkbenchFlow() {
       href: "#systems"
     },
     {
-      label: "Product decision",
+      label: "Product shape",
       detail: "See capabilities covering rules, trade-offs and testable boundaries.",
       href: "#work"
     },
@@ -684,34 +587,13 @@ function ConnectorField({ activeIndex }: { activeIndex: number }) {
   );
 }
 
-function CapabilityPills({ tiles }: { tiles: readonly NormalizedTile[] }) {
-  return (
-    <div className="flex flex-wrap gap-x-4 gap-y-3">
-      {tiles.map((tile) => {
-        const tone = toneClassNames[tile.tone];
-
-        return (
-          <span key={tile.id} className="inline-flex items-center gap-2 text-sm font-semibold text-muted">
-            <span aria-hidden="true" className={cn("flex h-7 w-7 items-center justify-center rounded-full", tone.soft, tone.text)}>
-              <WorkbenchIcon name={tile.icon} className="h-3.5 w-3.5" />
-            </span>
-            {tile.label}
-          </span>
-        );
-      })}
-    </div>
-  );
-}
-
 function AboutMePanel({
   aboutText,
-  aboutFacts,
   aboutName,
   aboutPortrait,
   aboutLinks
 }: {
   aboutText: string;
-  aboutFacts: readonly ReferenceAboutFact[];
   aboutName: string;
   aboutPortrait: ReferenceAboutPortrait;
   aboutLinks: readonly ReferenceAboutLink[];
@@ -743,15 +625,6 @@ function AboutMePanel({
             </p>
           </div>
         </div>
-
-        <dl className="grid gap-2 sm:grid-cols-2">
-          {aboutFacts.slice(0, 2).map((fact) => (
-            <div key={fact.label} className="rounded-lg bg-canvas px-3 py-2">
-              <dt className="text-[0.68rem] font-semibold leading-4 text-accent">{fact.label}</dt>
-              <dd className="mt-1 text-xs font-semibold leading-5 text-ink">{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
 
         <div className="flex flex-wrap gap-2">
           {aboutLinks.map((link) => (

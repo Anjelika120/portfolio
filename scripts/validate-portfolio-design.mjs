@@ -97,11 +97,11 @@ const checks = [
       files.data.includes("Incoming events and outgoing callbacks")
   },
   {
-    name: "hero bio moves Computer Science background into about me",
+    name: "hero and about copy avoid repeating the Computer Science background",
     pass:
-      files.data.includes("With a Computer Science background") &&
+      !files.data.includes("heroTechnical") &&
       files.page.includes("aboutText={person.heroLines[1]}") &&
-      !files.page.includes("caption={person.heroLines[0]}")
+      !files.referenceWorkbench.includes("technicalText")
   },
   {
     name: "hero keeps the B2B2C setting visible",
@@ -117,7 +117,21 @@ const checks = [
   },
   {
     name: "page uses the screenshot-inspired portfolio frame",
-    pass: files.page.includes("PortfolioFrame") && files.frameNav.includes("AT")
+    pass:
+      files.page.includes("PortfolioFrame") &&
+      files.frameNav.includes('import { portfolio } from "@/data/portfolio"') &&
+      files.frameNav.includes("{portfolio.person.name}") &&
+      !files.frameNav.includes("\n            AT\n")
+  },
+  {
+    name: "header removes the unused theme control",
+    pass:
+      !files.frameNav.includes('hidden h-11 w-11 items-center justify-center rounded-full border border-line bg-ink') &&
+      !files.frameNav.includes('<circle cx="12" cy="12" r="3" />')
+  },
+  {
+    name: "mobile menu remains pinned to the right header column",
+    pass: files.frameNav.includes("col-start-3") && files.frameNav.includes("justify-self-end")
   },
   {
     name: "page nav uses the approved section labels",
@@ -162,25 +176,15 @@ const checks = [
       files.referenceWorkbench.includes("xl:block")
   },
   {
-    name: "reference hero replaces the workflow explainer with about me",
+    name: "reference hero keeps a concise about panel without proof cards",
     pass:
       files.referenceWorkbench.includes("About me") &&
-      files.referenceWorkbench.includes("aboutFacts") &&
       files.referenceWorkbench.includes("aboutName") &&
       files.referenceWorkbench.includes("aboutPortrait") &&
       files.referenceWorkbench.includes("LinkedIn") &&
-      files.referenceWorkbench.includes("View resume") &&
       files.referenceWorkbench.includes("Email me") &&
-      !files.referenceWorkbench.includes('href="#about"') &&
+      !files.referenceWorkbench.includes("aboutFacts") &&
       !files.referenceWorkbench.includes("<WorkflowPanel")
-  },
-  {
-    name: "about me facts remove current role and use B2B2C domain",
-    pass:
-      files.data.includes("B2B2C") &&
-      !files.data.includes('label: "Current role"') &&
-      files.page.includes("heroAboutFacts") &&
-      files.page.includes('fact.label !== "Current role"')
   },
   {
     name: "reference connectors avoid unexplained standalone marks",
@@ -194,7 +198,7 @@ const checks = [
     pass:
       files.referenceWorkbench.includes("function MobileWorkbenchFlow") &&
       files.referenceWorkbench.includes("Client signal") &&
-      files.referenceWorkbench.includes("Product decision") &&
+      files.referenceWorkbench.includes("Product shape") &&
       files.referenceWorkbench.includes("Delivery, evidence and limits") &&
       files.referenceWorkbench.includes('className="grid gap-1 xl:hidden"') &&
       !files.referenceWorkbench.includes("Best viewed on desktop") &&
@@ -209,8 +213,7 @@ const checks = [
     pass:
       files.page.includes('id="work"') &&
       files.page.includes('label="Capabilities"') &&
-      files.page.includes("I make the rules, failures and handoffs easier to see.") &&
-      files.page.includes("person.heroLines[1]") &&
+      files.page.includes("I define how the product should behave, fail and recover.") &&
       files.page.includes("InputStoryExplorer") &&
       !files.page.includes("function ClarityStrip") &&
       !files.page.includes("clarityTiles") &&
@@ -259,8 +262,33 @@ const checks = [
       files.page.includes('sectionLabel="AI practice"') &&
       files.page.includes('label="Experience"') &&
       files.page.includes(">Contact</p>") &&
-      files.page.includes("I make the rules, failures and handoffs easier to see.") &&
+      files.page.includes("I define how the product should behave, fail and recover.") &&
       files.page.includes("Let's talk about the product, platform or integration problem you're trying to untangle.")
+  },
+  {
+    name: "reviewed homepage copy is direct and personal",
+    pass:
+      files.data.includes("finding the bigger platform problem behind a one-off client request") &&
+      files.page.includes("Most of my work sits across APIs, webhooks, workflows, Store, gamification and AI-enabled product operations.") &&
+      files.data.includes("I use AI as a layer over product context, not a substitute for it.") &&
+      files.data.includes('title: "The tools behind the work"') &&
+      files.data.includes("I have used these systems directly while testing APIs, mapping data, setting up workflows and supporting live products.")
+  },
+  {
+    name: "homepage follows the approved content order",
+    pass:
+      files.page.indexOf('id="work"') < files.page.indexOf('id="systems"') &&
+      files.page.indexOf('id="systems"') < files.page.indexOf("<ProductMemorySection") &&
+      files.page.indexOf('id="ecosystem"') < files.page.indexOf('id="supporting-work"') &&
+      files.page.indexOf('id="supporting-work"') < files.page.indexOf('id="experience"') &&
+      files.frameNav.indexOf('label: "Capabilities"') < files.frameNav.indexOf('label: "Selected work"')
+  },
+  {
+    name: "AI practice uses the same light surface system as the homepage",
+    pass:
+      files.page.includes('data-product-memory-surface="integrated"') &&
+      !files.page.includes('rounded-[18px] bg-ink text-canvas') &&
+      !files.page.includes('border-canvas/20')
   },
   {
     name: "flagship cases match the approved Product Manager hierarchy",
@@ -344,9 +372,18 @@ const checks = [
   {
     name: "confirmed public URL is used in SEO and the resume contact line",
     pass:
-      files.data.includes('siteUrl: "https://portfolio-black-tau-27.vercel.app"') &&
-      files.resume.includes("portfolio-black-tau-27.vercel.app") &&
-      files.resumeGenerator.includes('part.endswith(".vercel.app")')
+      files.data.includes('siteUrl: "https://anjelikatan.com"') &&
+      files.resume.includes("anjelikatan.com") &&
+      !files.resume.includes("portfolio-black-tau-27.vercel.app") &&
+      files.resumeGenerator.includes('part == "anjelikatan.com"')
+  },
+  {
+    name: "resume contact line uses Australian phone and omits visa status",
+    pass:
+      files.resume.includes("0494 726 205") &&
+      !files.resume.includes("+65 9641 1517") &&
+      !files.resume.includes("Work and Holiday visa") &&
+      !files.resume.toLowerCase().includes("seeking sponsorship")
   },
   {
     name: "global styles include reduced motion handling",
@@ -356,16 +393,16 @@ const checks = [
 
 checks.push(
   {
-    name: "approved zero-to-one hero is exact",
+    name: "approved zero-to-one hero is specific and natural",
     pass:
-      files.data.includes('intro: "I take complex B2B2C products from 0 to 1."') &&
+      files.data.includes('intro: "I build B2B2C products from the first messy brief to live operation."') &&
       files.page.includes("const { person } = portfolio") &&
       files.page.includes("eyebrow={person.title}") &&
       !files.page.includes('eyebrow="Overview"') &&
       files.page.includes("title={person.intro}") &&
       files.referenceWorkbench.includes("<h1") &&
       files.referenceWorkbench.includes("<HighlightedTitle title={title} />") &&
-      files.data.includes("ambiguous client and operational needs") &&
+      files.data.includes("new product capabilities") &&
       files.data.includes("Delivery, evidence and limits")
   },
   {
@@ -430,25 +467,22 @@ checks.push(
       files.frameNav.includes("min-h-11 min-w-11")
   },
   {
-    name: "hero support, technical proof and independent actions are exact",
+    name: "hero links to selected work and the integrated AI practice",
     pass:
-      files.data.includes('intro: "I take complex B2B2C products from 0 to 1."') &&
+      files.data.includes('intro: "I build B2B2C products from the first messy brief to live operation."') &&
       files.page.includes("supportText={person.heroLines[0]}") &&
-      files.page.includes("technicalText={person.heroTechnical}") &&
       files.page.includes("proofLine={person.heroProof}") &&
-      files.page.includes('label: "View flagship case"') &&
-      files.page.includes('label: "View resume"') &&
+      files.page.includes('label: "View selected work"') &&
+      files.page.includes('label: "How I work with AI"') &&
       files.referenceWorkbench.includes("supportText: string") &&
-      files.referenceWorkbench.includes("technicalText: string") &&
       files.referenceWorkbench.includes("proofLine: string") &&
       files.referenceWorkbench.includes("primaryAction: { label: string; href: string }") &&
       files.referenceWorkbench.includes("secondaryAction: { label: string; href: string }") &&
-      files.referenceWorkbench.indexOf("{supportText}") < files.referenceWorkbench.indexOf("{technicalText}") &&
-      files.referenceWorkbench.indexOf("{technicalText}") < files.referenceWorkbench.indexOf("{proofLine}") &&
+      files.referenceWorkbench.indexOf("{supportText}") < files.referenceWorkbench.indexOf("{proofLine}") &&
       files.referenceWorkbench.indexOf("href={primaryAction.href}") < files.referenceWorkbench.indexOf("href={secondaryAction.href}") &&
       files.referenceWorkbench.indexOf("{primaryAction.label}") < files.referenceWorkbench.indexOf("{secondaryAction.label}") &&
-      files.page.includes("href: `/work/${caseOrder[0]}`") &&
-      files.page.includes("href: person.resumeHref")
+      files.page.includes('href: "#systems"') &&
+      files.page.includes('href: "#product-memory"')
   },
   {
     name: "global layout does not clip horizontal overflow",
@@ -493,20 +527,31 @@ checks.push(
       !platformEcosystemSource.includes("onClick") &&
       !platformEcosystemSource.includes("onFocus") &&
       !platformEcosystemSource.includes("onMouseEnter") &&
-      !platformEcosystemSource.includes("opacity-55")
+      !platformEcosystemSource.includes("opacity-55") &&
+      !platformEcosystemSource.toLowerCase().includes("carousel") &&
+      ["Postman", "Activepieces", "Intercom"].every((tool) => files.data.includes(`"${tool}"`))
   },
   {
-    name: "resume controls each perform one clearly labelled action",
+    name: "resume controls appear in About and Contact plus one footer download",
     pass:
       files.downloadOpenLink === "" &&
       !files.page.includes("DownloadOpenLink") &&
       !files.referenceWorkbench.includes("DownloadOpenLink") &&
       !files.referenceWorkbench.includes("link.download") &&
-      files.page.includes('label: "View resume"') &&
-      (files.page.match(/View resume/g) ?? []).length === 4 &&
-      (files.referenceWorkbench.match(/View resume/g) ?? []).length === 1 &&
+      (files.page.match(/View resume/g) ?? []).length === 2 &&
+      (files.referenceWorkbench.match(/View resume/g) ?? []).length === 0 &&
+      files.page.includes("heroAboutLinks") &&
+      files.page.includes("href={person.resumeHref}") &&
       files.page.includes("Download resume PDF") &&
       (files.page.match(/\bdownload\b/g) ?? []).length === 1
+  },
+  {
+    name: "View resume links open a new tab without replacing the portfolio",
+    pass:
+      /label:\s*"View resume",\s*href:\s*person\.resumeHref,\s*external:\s*true/.test(files.page) &&
+      /href=\{person\.resumeHref\}\s*target="_blank"\s*rel="noreferrer"/.test(files.page) &&
+      files.referenceWorkbench.includes('target={link.external ? "_blank" : undefined}') &&
+      files.referenceWorkbench.includes('rel={link.external ? "noreferrer" : undefined}')
   },
   {
     name: "case pages end with onward actions",
@@ -627,11 +672,11 @@ checks.push(
       files.referenceWorkbench.includes("hidden sm:block")
   },
   {
-    name: "desktop workbench connectors land on a labelled decision output",
+    name: "desktop workbench removes the redundant floating decision card",
     pass:
-      files.referenceWorkbench.includes("Product decision") &&
-      files.referenceWorkbench.includes("Testable delivery") &&
-      files.referenceWorkbench.includes("data-workbench-destination")
+      !files.referenceWorkbench.includes("Product decision") &&
+      !files.referenceWorkbench.includes("Testable delivery") &&
+      !files.referenceWorkbench.includes("data-workbench-destination")
   },
   {
     name: "mobile menu selection transfers focus to a focusable homepage destination",
@@ -652,7 +697,7 @@ checks.push(
       files.resumeGenerator.includes("verify_required_links") &&
       files.resumeGenerator.includes("mailto:") &&
       files.resumeGenerator.includes("linkedin.com/") &&
-      files.resumeGenerator.includes(".vercel.app") &&
+      files.resumeGenerator.includes("anjelikatan.com") &&
       files.resumeGenerator.indexOf("verify_required_links") < files.resumeGenerator.indexOf("OUTPUT.write_bytes")
   }
 );

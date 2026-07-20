@@ -9,48 +9,12 @@ type ExperienceRole = Portfolio["experience"]["roles"][number];
 type CaseStudy = Portfolio["selectedWork"][number];
 type AdditionalWorkGroup = Portfolio["additionalWork"]["groups"][number];
 
-type ActionLinkProps = {
-  href: string;
-  children: ReactNode;
-  variant?: "primary" | "secondary" | "quiet";
-  external?: boolean;
-};
-
 const caseOrder = [
   "multi-region-loyalty-programme",
   "store-redemption-platform",
   "custom-workflows-platform",
   "large-community-operations"
 ];
-
-function ActionLink({
-  href,
-  children,
-  variant = "secondary",
-  external = false
-}: ActionLinkProps) {
-  const classNameByVariant = {
-    primary:
-      "inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-4 py-3 text-sm font-semibold text-canvas transition duration-200 hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas sm:px-5",
-    secondary:
-      "inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-surface px-4 py-3 text-sm font-semibold text-ink transition duration-200 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas sm:px-5",
-    quiet:
-      "inline-flex min-h-11 items-center justify-center rounded-full px-2 py-3 text-sm font-semibold text-ink underline decoration-line underline-offset-8 transition duration-200 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
-  };
-
-  const className = classNameByVariant[variant];
-
-  return (
-    <a
-      href={href}
-      className={className}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noreferrer" : undefined}
-    >
-      {children}
-    </a>
-  );
-}
 
 function MiniIcon({ type }: { type: string }) {
   const className = "h-5 w-5 stroke-current";
@@ -139,9 +103,6 @@ function WorkbenchHero() {
   const storyMap = new Map<string, Portfolio["person"]["workbenchStories"][number]>(
     person.workbenchStories.map((story) => [story.label, story])
   );
-  const heroAboutFacts = (
-    person.glance as ReadonlyArray<{ label: string; value: string }>
-  ).filter((fact) => fact.label !== "Current role");
   const heroAboutLinks = [
     {
       label: "LinkedIn",
@@ -150,7 +111,8 @@ function WorkbenchHero() {
     },
     {
       label: "View resume",
-      href: person.resumeHref
+      href: person.resumeHref,
+      external: true
     },
     {
       label: "Email me",
@@ -181,18 +143,16 @@ function WorkbenchHero() {
         eyebrow={person.title}
         title={person.intro}
         supportText={person.heroLines[0]}
-        technicalText={person.heroTechnical}
         proofLine={person.heroProof}
         primaryAction={{
-          label: "View flagship case",
-          href: `/work/${caseOrder[0]}`
+          label: "View selected work",
+          href: "#systems"
         }}
         secondaryAction={{
-          label: "View resume",
-          href: person.resumeHref
+          label: "How I work with AI",
+          href: "#product-memory"
         }}
         aboutText={person.heroLines[1]}
-        aboutFacts={heroAboutFacts}
         aboutName={person.name}
         aboutPortrait={person.portrait}
         aboutLinks={heroAboutLinks}
@@ -275,56 +235,53 @@ function ProductMemorySection({ sectionLabel }: { sectionLabel: string }) {
   const { productMemory } = portfolio;
 
   return (
-    <section id="product-memory" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
-      <div className="overflow-hidden rounded-[18px] bg-ink text-canvas">
-        <div className="grid gap-10 p-6 sm:p-8 lg:grid-cols-[0.58fr_0.42fr] lg:p-10">
-          <div>
-            <p className="text-sm font-semibold text-yellow">{sectionLabel}</p>
-            <h2 className="mt-4 max-w-4xl text-balance font-serif text-[clamp(2rem,4.5vw,4rem)] leading-[1.02] tracking-[-0.035em]">
-              {productMemory.title}
-            </h2>
-            <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-canvas/80">
-              {productMemory.description}
-            </p>
-          </div>
-          <div className="border-t border-canvas/20 pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-yellow">Why I built it</p>
-            <p className="mt-4 text-base leading-8 text-canvas/80">{productMemory.problem}</p>
-          </div>
+    <section id="product-memory" data-product-memory-surface="integrated" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+      <div className="grid gap-8 lg:grid-cols-[0.58fr_0.42fr] lg:gap-12">
+        <div>
+          <p className="text-sm font-semibold text-accent">{sectionLabel}</p>
+          <h2 className="mt-4 max-w-4xl text-balance font-serif text-[clamp(2rem,4.5vw,4rem)] leading-[1.02] tracking-[-0.035em] text-ink">
+            {productMemory.title}
+          </h2>
+          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-muted">
+            {productMemory.description}
+          </p>
         </div>
-
-        <div className="border-t border-canvas/20 px-6 sm:px-8 lg:px-10">
-          {productMemory.memoryLayers.map((layer, index) => (
-            <article
-              key={layer.label}
-              className="grid gap-3 border-b border-canvas/15 py-6 last:border-b-0 md:grid-cols-[5rem_0.34fr_0.66fr] md:items-start"
-            >
-              <span className="text-sm font-semibold text-yellow">0{index + 1}</span>
-              <h3 className="text-lg font-semibold text-canvas">{layer.label}</h3>
-              <p className="text-sm leading-7 text-canvas/75">{layer.detail}</p>
-            </article>
-          ))}
+        <div className="border-t border-line pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+          <p className="text-sm font-semibold text-accent">Why I built it</p>
+          <p className="mt-4 text-base leading-8 text-muted">{productMemory.problem}</p>
         </div>
+      </div>
 
-        <div className="grid border-t border-canvas/20 lg:grid-cols-[0.44fr_0.56fr]">
-          <div className="p-6 sm:p-8 lg:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-yellow">Used across</p>
-            <ul className="mt-5 grid gap-3">
-              {productMemory.uses.map((use) => (
-                <li key={use} className="flex gap-3 text-sm leading-6 text-canvas/80">
-                  <span aria-hidden="true" className="text-yellow">-&gt;</span>
-                  <span>{use}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="border-t border-canvas/20 bg-canvas/[0.05] p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-yellow">{productMemory.yamlStory.title}</p>
-            <p className="mt-5 text-base leading-8 text-canvas/80">{productMemory.yamlStory.body}</p>
-            <p className="mt-6 border-t border-canvas/20 pt-5 text-sm leading-7 text-canvas/60">
-              {productMemory.evidenceLimit}
-            </p>
-          </div>
+      <div className="mt-10 border-y border-line">
+        {productMemory.memoryLayers.map((layer) => (
+          <article
+            key={layer.label}
+            className="grid gap-3 border-b border-line py-6 last:border-b-0 md:grid-cols-[0.34fr_0.66fr] md:items-start"
+          >
+            <h3 className="text-lg font-semibold text-ink">{layer.label}</h3>
+            <p className="text-sm leading-7 text-muted">{layer.detail}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="grid border-b border-line lg:grid-cols-[0.44fr_0.56fr]">
+        <div className="py-8 lg:pr-10">
+          <p className="text-sm font-semibold text-accent">Used across</p>
+          <ul className="mt-5 grid gap-3">
+            {productMemory.uses.map((use) => (
+              <li key={use} className="flex gap-3 text-sm leading-6 text-muted">
+                <span aria-hidden="true" className="text-accent">-&gt;</span>
+                <span>{use}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="border-t border-line py-8 lg:border-l lg:border-t-0 lg:pl-10">
+          <p className="text-sm font-semibold text-accent">{productMemory.yamlStory.title}</p>
+          <p className="mt-5 text-base leading-8 text-muted">{productMemory.yamlStory.body}</p>
+          <p className="mt-6 border-t border-line pt-5 text-sm leading-7 text-muted">
+            {productMemory.evidenceLimit}
+          </p>
         </div>
       </div>
     </section>
@@ -382,8 +339,10 @@ function ContactPanel() {
             LinkedIn
           </a>
           <a
-            className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8"
             href={person.resumeHref}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8"
           >
             View resume
           </a>
@@ -436,6 +395,17 @@ export default function HomePage() {
         <main id="main-content">
           <WorkbenchHero />
 
+          <section id="work" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Capabilities"
+              title="I define how the product should behave, fail and recover."
+              description="Most of my work sits across APIs, webhooks, workflows, Store, gamification and AI-enabled product operations."
+            />
+            <div className="mt-8">
+              <InputStoryExplorer stories={person.workbenchStories} />
+            </div>
+          </section>
+
           <section id="systems" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
             <SectionIntro
               label="Selected work"
@@ -460,60 +430,44 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section id="work" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+          <ProductMemorySection sectionLabel="AI practice" />
+
+          <section id="ecosystem" className="scroll-mt-28 border-t border-line px-5 py-12 sm:px-9 lg:px-10">
             <SectionIntro
-              label="Capabilities"
-              title="I make the rules, failures and handoffs easier to see."
-              description={`${person.heroLines[1]} Below is the practical detail behind the system map: APIs, webhooks, workflows, Store, gamification and AI product operations.`}
+              label="Systems I’ve worked with"
+              title={platforms.title}
+              description={platforms.description}
             />
             <div className="mt-8">
-              <InputStoryExplorer stories={person.workbenchStories} />
+              <PlatformEcosystem groups={platforms.groups} />
             </div>
           </section>
 
-          <ProductMemorySection sectionLabel="AI practice" />
+          <section id="supporting-work" className="border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Other platform work"
+              title={additionalWork.title}
+              description={additionalWork.description}
+            />
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {additionalWork.groups.map((group) => (
+                <AdditionalWorkGroupColumn key={group.title} group={group} />
+              ))}
+            </div>
+          </section>
 
-        <section id="ecosystem" className="scroll-mt-28 border-t-2 border-accent/45 px-5 py-12 sm:px-9 lg:px-10">
-          <SectionIntro
-            label="Systems I’ve worked with"
-            title={platforms.title}
-            description={platforms.description}
-          />
-          <div className="mt-8">
-            <PlatformEcosystem groups={platforms.groups} />
-          </div>
-        </section>
-
-        <section id="experience" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
-          <SectionIntro
-            label="Experience"
-            title="A short career anchor for context."
-            description={experience.description}
-            action={
-              <ActionLink href={person.resumeHref}>
-                View resume
-              </ActionLink>
-            }
-          />
-          <div className="mt-8">
-            {experience.roles.map((role) => (
-              <ExperienceRow key={`${role.company}-${role.role}`} role={role} />
-            ))}
-          </div>
-        </section>
-
-        <section id="supporting-work" className="border-t border-line px-5 py-12 sm:px-9 lg:px-10">
-          <SectionIntro
-            label="Other platform work"
-            title={additionalWork.title}
-            description={additionalWork.description}
-          />
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {additionalWork.groups.map((group) => (
-              <AdditionalWorkGroupColumn key={group.title} group={group} />
-            ))}
-          </div>
-        </section>
+          <section id="experience" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Experience"
+              title="A short career anchor for context."
+              description={experience.description}
+            />
+            <div className="mt-8">
+              {experience.roles.map((role) => (
+                <ExperienceRow key={`${role.company}-${role.role}`} role={role} />
+              ))}
+            </div>
+          </section>
 
           <ContactPanel />
         </main>
