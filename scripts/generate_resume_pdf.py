@@ -100,7 +100,7 @@ def parse_resume(path: Path) -> dict:
             data[heading.lower()] = entries
             continue
 
-        if heading == "SELECTED STRENGTHS":
+        if heading in {"SELECTED STRENGTHS", "SKILLS"}:
             strengths: List[str] = []
             while index < len(lines):
                 skip_blank()
@@ -224,6 +224,22 @@ def make_styles(body_size: float) -> dict:
     }
 
 
+def format_contact(value: str) -> str:
+    parts = []
+    for raw_part in value.split(" | "):
+        part = raw_part.strip()
+        safe_part = escape(part)
+        if "@" in part and " " not in part:
+            parts.append(f'<link href="mailto:{safe_part}">{safe_part}</link>')
+        elif part.startswith("linkedin.com/"):
+            parts.append(f'<link href="https://{safe_part}">{safe_part}</link>')
+        elif part == "anjelikatan.com":
+            parts.append(f'<link href="https://{safe_part}">{safe_part}</link>')
+        else:
+            parts.append(safe_part)
+    return " &nbsp;|&nbsp; ".join(parts)
+
+
 def build_story(data: dict, body_size: float):
     styles = make_styles(body_size)
     date_width = 1.45 * inch
@@ -231,7 +247,7 @@ def build_story(data: dict, body_size: float):
     story = [
         Paragraph(escape(data["name"]), styles["name"]),
         Paragraph(escape(data["title"]), styles["title"]),
-        Paragraph(escape(data["contact"]), styles["contact"]),
+        Paragraph(format_contact(data["contact"]), styles["contact"]),
         Paragraph(escape(data["summary"]), styles["summary"]),
         Paragraph("EXPERIENCE", styles["section"]),
     ]
@@ -266,17 +282,17 @@ def build_story(data: dict, body_size: float):
         story.append(Spacer(1, 3))
         for bullet in entry.bullets:
             story.append(
-                Paragraph(f"&bull;&nbsp; {escape(bullet)}", styles["bullet"])
+                Paragraph(f"-&nbsp; {escape(bullet)}", styles["bullet"])
             )
         story.append(Spacer(1, 4))
 
-    story.append(Paragraph("SELECTED STRENGTHS", styles["section"]))
+    story.append(Paragraph("SKILLS", styles["section"]))
     for strength in data["strengths"]:
         if ":" in strength:
             label, value = strength.split(":", 1)
-            text = f"&bull;&nbsp; <b>{escape(label.strip())}</b>: {escape(value.strip())}"
+            text = f"-&nbsp; <b>{escape(label.strip())}</b>: {escape(value.strip())}"
         else:
-            text = f"&bull;&nbsp; {escape(strength)}"
+            text = f"-&nbsp; {escape(strength)}"
         story.append(Paragraph(text, styles["strength"]))
     story.append(Spacer(1, 4))
 
@@ -327,6 +343,43 @@ def render_pdf(data: dict, body_size: float) -> bytes:
     return buffer.getvalue()
 
 
+def required_contact_links(contact: str) -> set[str]:
+    links: set[str] = set()
+    for raw_part in contact.split(" | "):
+        part = raw_part.strip()
+        if "@" in part and " " not in part:
+            links.add(f"mailto:{part}")
+        elif part.startswith("linkedin.com/"):
+            links.add(f"https://{part}")
+        elif part == "anjelikatan.com":
+            links.add(f"https://{part}")
+
+    required_types = ("mailto:", "https://linkedin.com/", "https://anjelikatan.com")
+    if not all(any(marker in link for link in links) for marker in required_types):
+        raise RuntimeError("Resume source must include email, LinkedIn, and portfolio contact URLs")
+
+    return links
+
+
+def verify_required_links(reader: PdfReader, contact: str) -> None:
+    found_links: set[str] = set()
+    for page in reader.pages:
+        for annotation_ref in page.get("/Annots", []):
+            annotation = annotation_ref.get_object()
+            action_ref = annotation.get("/A")
+            if action_ref is None:
+                continue
+            action = action_ref.get_object()
+            uri = action.get("/URI")
+            if uri:
+                found_links.add(str(uri))
+
+    missing_links = required_contact_links(contact) - found_links
+    if missing_links:
+        missing = ", ".join(sorted(missing_links))
+        raise RuntimeError(f"Generated resume is missing required links: {missing}")
+
+
 def main() -> None:
     data = parse_resume(SOURCE)
 
@@ -341,6 +394,12 @@ def main() -> None:
         chosen_pages = pages
         if pages <= 1:
             break
+
+    if chosen_pages != 1:
+        raise RuntimeError(f"Generated resume must be exactly one page; got {chosen_pages}")
+
+    reader = PdfReader(BytesIO(pdf_bytes))
+    verify_required_links(reader, data["contact"])
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_bytes(pdf_bytes)

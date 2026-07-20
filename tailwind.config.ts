@@ -9,13 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        canvas: "#f6f2ea",
-        paper: "#fffdf9",
-        ink: "#1f2933",
-        mist: "#5d6a75",
-        line: "#ded7ca",
-        accent: "#3f6f6b",
-        accentSoft: "#e5f0ee"
+        canvas: "#f7f8f4",
+        surface: "#ffffff",
+        paper: "#ffffff",
+        ink: "#16201f",
+        muted: "#52625f",
+        mist: "#52625f",
+        line: "#d9dfd8",
+        accent: "#3a7069",
+        accentSoft: "#dcebe7",
+        coral: "#d66f50",
+        coralSoft: "#f3d9cf",
+        yellow: "#e1b848",
+        yellowSoft: "#f7edc8"
       },
       fontFamily: {
         sans: [
@@ -33,11 +39,7 @@ const config: Config = {
         ]
       },
       boxShadow: {
-        card: "0 16px 48px rgba(31, 41, 51, 0.08)"
-      },
-      backgroundImage: {
-        grain:
-          "radial-gradient(circle at top left, rgba(63, 111, 107, 0.12), transparent 32%), radial-gradient(circle at bottom right, rgba(223, 214, 193, 0.5), transparent 28%)"
+        card: "0 8px 16px rgba(22, 32, 31, 0.06)"
       }
     }
   },

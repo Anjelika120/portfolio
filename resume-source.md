@@ -1,41 +1,40 @@
 # ANJELIKA TAN
-Product & Platform Generalist | Integrations, Workflows, AI Tools
-anjelikatan99@gmail.com · +65 9641 1517 · Singapore · Relocating to Australia, July 2026
+Product Manager
+anjelikatan99@gmail.com | 0494 726 205 | Melbourne, VIC | anjelikatan.com | linkedin.com/in/anjelika-tan-219522148
 
-Early-career product generalist with a Computer Science background and hands-on experience building platform features, integrations, internal tools, and AI-assisted workflows in a B2B SaaS environment. Strong in 0-to-1 delivery, systems thinking, and turning client or operational needs into reusable product capability.
+Product Manager with a Computer Science background who takes complex B2B2C products from ambiguous client need to testable capability, launch and live operation. My work spans APIs, integrations, workflow automation, commerce, identity and large-scale operations. I also use source-linked product context and human review to make AI-assisted delivery safer.
 
 ## EXPERIENCE
 
 ### Product Manager
 Returning AI Pte Ltd, Singapore
-May 2024 – Present
-- Built an internal AI-assisted PRD workflow to bridge UX and engineering, grounding specs in codebase, schema, and design-system context; improved logic clarity, reduced PM bottlenecks, and helped one delivery move from a one-week estimate to three days.
-- Used the same AI-assisted workflow to design, spec, code, and ship a Trustpilot integration to production, adding review completion as a milestone condition with admin-side account connection and user-generated review links.
-- Evolved the platform's store from a simple voucher redemption flow into its most-used feature, owning logic across redemption methods, permissions, statuses, refunds, eligibility checks, and supporting operational workflows.
-- Built out milestone from a simple reward feature into a flexible rules and progression engine for coins, XP, role assignment, approvals, hidden permission control, recurring campaigns, and integration-driven reward logic.
-- Led rollout of integrations across HubSpot, Salesforce, Snowflake, Meta, Instagram, LinkedIn, X, and YouTube, translating client and operational needs into reusable platform workflows.
-- Worked backwards from product and operational use cases to help define a significant portion of the APIs in the platform's documentation, including bulk-update and workflow-supporting endpoints.
-- Designed reusable widget deployment methods, including a script-based approach for restricted client environments, and worked through the security implications to make embeds safer and more reusable.
-- Improved the platform's translation workflow by extending support to dynamic fields and introducing token-saving logic across the wider system.
-- Built internal support and transaction tooling to surface live client and trading data, improve operational visibility, and reduce dependency on engineering for routine lookups.
+May 2024 - Present
+- Led the product and integration workstream for a multi-region brokerage loyalty programme across source-data mapping, authenticated member experiences, trading-credit automation, campaign rules, operational tooling, monitored launch and live incident recovery.
+- Framed and verified a production Store correction for nearly 3,000 historical purchase responses; rejected a manual record-by-record rewrite and partnered with engineering on correct future writes plus backward-compatible historical reads, followed by positive client feedback.
+- Shaped Custom and Data Workflows from configurable actions into an execution platform with concurrency, testing, retry, stop-on-error, branching, idempotent events and run history; followed missed and duplicate trigger cases into investigation and recovery requirements.
+- Owned product requirements for large-community operations after QA/test exposed about 360 MB of duplicated client state at 200,000 records; QA later loaded a 300,000-record list and completed a 50,000-record multi-field update in under 15 minutes, while separate production jobs ran in batches up to 5,000 records.
+- Defined a two-phase identity approach: fail-closed authentication for zero, one or multiple matches, followed by a separate community-scoped indexed identifier for create, import and update flows without broadening authentication.
+- Designed an AI-ready product-memory practice that turns feature, client, QA and technical context into source-qualified documentation, handoffs, test plans and successor context, with explicit human review, attribution, uncertainty and secret-exclusion rules.
+- Ran a 100-check Store API review with 83 passes, 15 failures and two clarification items, and made operability part of product scope through API logs, workflow run history and inspectable failure evidence.
 
 ### Financial Advisor
 Great Eastern, Singapore
-Dec 2021 – Jan 2024
-- Built trust-based relationships across individual and SME clients, translating financial products into clear recommendations and business outcomes.
-- Developed a personalised Excel-based financial planning calculator with visual scenario outputs to improve client understanding during advisory discussions.
+Dec 2021 - Jan 2024
+- Built trust-based relationships with individual and SME clients, translating regulated financial products into clear recommendations and decisions.
+- Developed an Excel-based financial planning calculator with visual scenarios to make trade-offs easier to understand during advisory discussions.
 
-## SELECTED STRENGTHS
+## SKILLS
 
-- Product & Platform: 0-to-1 delivery, systems thinking, platform logic, workflow design, product requirement writing
-- Integrations: CRM/data integrations, webhooks, external platform handoff, API-driven workflows
-- AI & Automation: prompt engineering, AI-assisted delivery workflows, Claude, ChatGPT, Cursor, ActivePieces, UseParagon
-- Technical: REST APIs, OAuth, SQL, AES encryption, custom fields, rules logic, backend-integrated product design
-- Domain: B2B SaaS, loyalty systems, trading data, reward systems, payments, operational tooling
+- Product & Platform: B2B2C SaaS, platform products, PRDs, acceptance criteria, prioritisation, stakeholder management
+- APIs & Integrations: API design and documentation, REST/JSON, SDKs, webhooks, OAuth 2.0, CRM and data integrations, identity and access
+- Delivery & Quality: cross-functional delivery, QA/UAT, release management, incident response, client operations, roadmap sequencing
+- Systems & Operations: workflow automation, observability, idempotency, asynchronous and queued processing, bulk operations, permissions
+- Technical Fluency: data mapping, SQL-backed integrations, event-driven workflows, SQS concepts, Figma, ClickUp
+- AI Product Operations: AI-enabled product workflows, grounded agent workflows, product knowledge systems, context engineering, human-in-the-loop review, Claude, ChatGPT, Codex, Cursor
 - Languages: English (native), Chinese (fluent), Japanese (conversational)
 
 ## EDUCATION
 
 ### Bachelor of Computer Science
-SIM – University of London
-Aug 2021 – Oct 2024
+University of London (SIM Global Education)
+Aug 2021 - Oct 2024

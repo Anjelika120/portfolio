@@ -1,506 +1,918 @@
 export const portfolio = {
   person: {
     name: "Anjelika Tan",
-    title: "Product & Platform Generalist | Integrations, Workflows, AI Tools",
-    intro:
-      "Product generalist working across integrations, internal tooling, AI-assisted workflows, and platform systems in B2B SaaS.",
+    title: "Product Manager",
+    intro: "I build B2B2C products from the first messy brief to live operation.",
     heroLines: [
-      "Product & Platform Generalist with a Computer Science background, building across integrations, workflows, internal tools, and AI-assisted product systems in a B2B SaaS environment.",
-      "I work best in startup settings where the pace is fast, the problems are messy, and clear systems make the biggest difference."
+      "I turn complex client and operational needs into new product capabilities, then stay close through engineering, QA, launch and live use.",
+      "I'm a Product Manager who enjoys finding the bigger platform problem behind a one-off client request. I work across workflows, integrations, identity and commerce, including the operational details that determine whether a feature still works once it is live."
     ],
+    heroProof:
+      "0-to-1 work: workflow execution, client-owned identity and AI-ready product memory.",
     portrait: {
-      src: "/me2.png",
+      src: "/me2-portrait.png",
       alt: "Portrait of Anjelika Tan"
     },
     email: "anjelikatan99@gmail.com",
     linkedin: "https://www.linkedin.com/in/anjelika-tan-219522148/",
     resumeHref: "/resume.pdf",
-    glance: [
+    workbenchArtifacts: [
       {
-        label: "Current role",
-        value: "Product Manager at Returning AI Pte Ltd"
+        label: "API",
+        lane: "Inputs",
+        description: "Contracts and client data"
       },
       {
-        label: "Focus",
-        value: "Product, platform, and workflow systems"
+        label: "Webhooks",
+        lane: "Inputs",
+        description: "Events and delivery states"
       },
       {
-        label: "Domain",
-        value: "B2B SaaS | fintech-adjacent"
+        label: "Workflows",
+        lane: "Logic",
+        description: "Execution and recovery"
+      },
+      {
+        label: "Store",
+        lane: "Logic",
+        description: "Eligibility and redemption"
+      },
+      {
+        label: "Gamification",
+        lane: "Output",
+        description: "Rules and rewards"
+      },
+      {
+        label: "AI Automation",
+        lane: "Output",
+        description: "Product memory and grounded delivery"
+      }
+    ],
+    workbenchStories: [
+      {
+        id: "api",
+        label: "API",
+        title: "External contracts that do not guess",
+        preview: "I turn client payloads and operating needs into deterministic platform APIs.",
+        body:
+          "I work with platform APIs from both sides: reading client documentation and payloads, then defining how our own endpoints should validate, fail and expose data. That includes permissions, type-specific date and time formats, bulk operations and product flows where an ambiguous contract can create incorrect rewards or account state.",
+        points: [
+          "Client payloads mapped into product behaviour",
+          "Deterministic validation and failure states",
+          "A PM-led Store API review covering 100 checks"
+        ]
+      },
+      {
+        id: "webhooks",
+        label: "Webhooks",
+        title: "Events designed for delivery and investigation",
+        preview: "I define event contracts, failure isolation and the logs needed to support them.",
+        body:
+          "Incoming events and outgoing callbacks only become product capability when teams can trust and investigate them. I scope payloads, authentication and one-way versus response-processing behaviour, then define what happens on timeout, duplicate delivery or failure. I also bring delivery logs and run identifiers into scope so support has evidence before escalating to engineering.",
+        points: [
+          "Incoming and outgoing event contracts",
+          "Non-blocking callback and failure semantics",
+          "Delivery history, run IDs and inspectable payloads"
+        ]
+      },
+      {
+        id: "workflows",
+        label: "Workflows",
+        title: "Workflow automation that can be operated after launch",
+        preview: "I helped stage a workflow product from actions into an inspectable execution system.",
+        body:
+          "I shaped Custom and Data Workflows across triggers, actions, transformations, concurrency, branching, retries, stop-on-error behaviour, idempotent ingestion and run history. Production exposure showed why the execution contract mattered: missed and duplicate triggers made observability and recovery part of the product, not follow-up engineering work.",
+        points: [
+          "Progressive platform scope instead of one large release",
+          "Test, retry, stop-on-error and idempotency decisions",
+          "Named-client use with reliability limits kept visible"
+        ]
+      },
+      {
+        id: "store",
+        label: "Store",
+        title: "A redemption system built around rules, not one fulfilment path",
+        preview: "I shaped eligibility, redemption, status and integration contracts across the Store.",
+        body:
+          "The Store grew from voucher redemption into a configurable product system spanning eligibility checks, product fields, permissions, refunds, order states, SDK callbacks and external fulfilment. One production correction made API responses return the intended custom statuses for nearly 3,000 historical purchases without manually rewriting each order.",
+        points: [
+          "Reusable eligibility and redemption methods",
+          "Configurable status, permission and refund logic",
+          "Historical correctness plus future-write consistency"
+        ]
+      },
+      {
+        id: "gamification",
+        label: "Gamification",
+        title: "Reward mechanics backed by explicit rules",
+        preview: "I work on the conditions, integrity and operations behind engagement features.",
+        body:
+          "Milestones, referrals, social actions and prediction campaigns sit on top of user state that affects rewards, roles and access. I define condition wording, reset and revocation behaviour, duplicate safeguards, approval flows and the operational path when a result cannot be verified automatically.",
+        points: [
+          "Reward, role and permission conditions",
+          "Reset, revocation and duplicate safeguards",
+          "Hybrid automation and human review flows"
+        ]
+      },
+      {
+        id: "ai-automation",
+        label: "AI Automation",
+        title: "AI-enabled product work grounded in durable context",
+        preview: "I build product memory that keeps AI useful without hiding uncertainty.",
+        body:
+          "I built an AI-ready product memory from feature intent, decisions, trade-offs, known gaps and evidence boundaries. I use the record for requirements, QA planning, research and handover. It is designed to support onboarding, but I do not claim team-wide onboarding use or adoption. Source confidence, human review, attribution and secret exclusion stay explicit. A YAML PRD generator was one supporting workflow, not the whole story.",
+        points: [
+          "Source-qualified context before generation",
+          "Human review, visible assumptions and attribution",
+          "Safe reuse across delivery and handover"
+        ]
       }
     ]
   },
   whatIWorkOn: {
     description:
-      "The kinds of product and operational problems I am most useful in.",
+      "I work on B2B2C SaaS product problems where technical and operational context matters.",
     intro:
-      "I am strongest in work that sits between product definition, system logic, and day-to-day operations, especially when the goal is to make something clearer, more reusable, and easier to run.",
+      "I work across the boundary between a client need and the platform contract required to support it safely.",
     areas: [
       {
-        label: "Product systems",
+        label: "Platform product design",
         description:
-          "I shape product logic across flows, rules, permissions, and edge cases, especially in systems that need to scale beyond one-off requests."
+          "Reusable rules, permissions, states and contracts that can serve more than one client workflow.",
+        transformation: "client request -> reusable platform rule"
       },
       {
-        label: "Integrations",
+        label: "APIs and integrations",
         description:
-          "I work across APIs, webhooks, CRM/data systems, and platform connections to turn external requirements into usable product workflows."
+          "Client payloads, SDKs, webhooks, CRM and data systems translated into product behaviour.",
+        transformation: "external data -> deterministic product behaviour"
       },
       {
-        label: "Workflow design",
+        label: "Workflow automation",
         description:
-          "I think through how teams and users actually move through a process, then simplify or structure it so the system is easier to operate."
+          "Execution models that include testing, visibility, failure handling and recovery from the start.",
+        transformation: "manual operation -> inspectable workflow"
       },
       {
-        label: "Automation",
+        label: "Commerce and redemption",
         description:
-          "I build and improve repeatable processes that reduce manual work, improve consistency, and make operations easier to manage."
+          "Eligibility, fulfilment, refunds and order states for reward and account-credit use cases.",
+        transformation: "reward request -> validated redemption"
       },
       {
-        label: "Internal tooling",
+        label: "Scale and operability",
         description:
-          "I create tools that help teams work faster, resolve issues more easily, and avoid unnecessary dependency on engineering."
+          "Bulk operations, exports, logging and support tools that keep large systems usable after release.",
+        transformation: "large job -> observable operation"
       },
       {
-        label: "AI-assisted product work",
+        label: "Quality and release",
         description:
-          "I use AI tools to improve specs, planning, prototyping, and workflow quality, especially where they help bridge communication gaps."
-      },
-      {
-        label: "API and platform capability design",
-        description:
-          "I work backwards from real product and operational use cases to define workflow and integration APIs, including bulk-update capability design."
-      },
-      {
-        label: "E-Commerce & redemption logic",
-        description:
-          "I have worked on store, transaction, eligibility, and redemption systems where business rules and real-time checks matter."
-      },
-      {
-        label: "Customer and operational context",
-        description:
-          "My background includes client-facing and advisory work, which helps me stay grounded in real user and business needs."
+          "Acceptance criteria, failure states and QA collaboration tied back to the intended product contract.",
+        transformation: "written intent -> verified behaviour"
       }
     ]
   },
+  productMemory: {
+    label: "How I work with AI",
+    title: "Building product memory that humans and AI can actually use",
+    description:
+      "I use AI as a layer over product context, not a substitute for it. I built a product memory that records why a feature exists, what changed, where the evidence came from and which decisions still need a person.",
+    problem:
+      "Important context was scattered across tickets, chats, PRDs, QA notes, designs and production follow-up. That made it easy for both people and AI tools to repeat an old assumption, miss a trade-off or present test evidence as a production outcome.",
+    memoryLayers: [
+      {
+        label: "Intent and decisions",
+        detail:
+          "Feature purpose, user and operator needs, included and excluded scope, decision history, trade-offs and known gaps."
+      },
+      {
+        label: "Evidence and confidence",
+        detail:
+          "Clear source-confidence categories, production evidence versus QA or test evidence, and explicit notes where adoption or business impact was not measured."
+      },
+      {
+        label: "Delivery context",
+        detail:
+          "Engineering, UX, QA and support handoffs, acceptance criteria, failure states, operational history and the source links needed to verify a claim."
+      },
+      {
+        label: "Safe AI use",
+        detail:
+          "Human review, attribution, uncertainty labels and secret exclusion before context is reused in a PRD, ticket, test plan, research task or handover."
+      }
+    ],
+    uses: [
+      "PRDs and engineering tickets",
+      "QA plans and acceptance checks",
+      "Research and evidence audits",
+      "Successor handover",
+      "Client and support context without secrets"
+    ],
+    yamlStory: {
+      title: "One supporting workflow: YAML PRDs",
+      body:
+        "Rob introduced the concept. Thuta built the generator. I adopted, operationalised, tested and refined the AI-assisted workflow on live product work. No measured time, quality or defect improvement is claimed. The useful lesson was narrower: generated requirements became safer when the workflow retrieved product, repository, schema and design-system context first, then required a person to review the result."
+    },
+    evidenceLimit:
+      "I use this record for requirements, QA planning, research and handover. It is designed to support onboarding, but I do not claim team-wide onboarding use or adoption. This is evidence of a working product-operations practice, not proof that AI improved delivery speed or defect rates."
+  },
   experience: {
     description:
-      "A short career anchor for context. Full role scope and detail live in the resume.",
+      "Product experience across B2B2C platform systems, client integrations and operational delivery.",
     roles: [
       {
         company: "Returning AI Pte Ltd",
         role: "Product Manager",
         period: "May 2024 to Present",
         summary:
-          "Working across platform features, integrations, internal tools, and AI-assisted workflows in a B2B SaaS environment."
+          "First and sole Product Manager for a configurable B2B2C loyalty platform, working across client integrations, administrative tooling and member reward experiences. I introduced clearer acceptance criteria, operational visibility and durable product context alongside delivery."
       },
       {
         company: "Great Eastern",
         role: "Financial Advisor",
         period: "Dec 2021 to Jan 2024",
         summary:
-          "Built client-facing judgment, communication, and ownership in a regulated, trust-based environment."
+          "Built client communication and decision-making discipline in a regulated environment, including a scenario-based financial planning tool."
       }
     ]
   },
   platforms: {
-    title: "Platforms and ecosystems I’ve worked across",
+    title: "The tools behind the work",
     description:
-      "A quick-glance view of the systems, channels, and platforms I have worked with across product, integrations, and operations.",
+      "I have used these systems directly while testing APIs, mapping data, setting up workflows and supporting live products.",
     groups: [
       {
-        title: "CRM & data",
+        title: "CRM and data",
+        description: "Customer records, trading data, segmentation and workflow inputs.",
         items: ["HubSpot", "Salesforce", "Snowflake"]
       },
       {
-        title: "Channels & social",
+        title: "Channels and social",
+        description: "OAuth, verification, rewards and platform-specific API constraints.",
         items: ["Meta", "Instagram", "LinkedIn", "X", "YouTube"]
       },
       {
-        title: "Commerce & trust",
+        title: "Commerce and trust",
+        description: "Store logic, external catalogue experiments and governed review flows.",
         items: ["Stripe", "WooCommerce", "Trustpilot"]
+      },
+      {
+        title: "Product and operations",
+        description: "API testing, workflow automation and support operations.",
+        items: ["Postman", "Activepieces", "Intercom"]
       }
     ]
   },
   additionalWork: {
-    title: "Additional work",
+    title: "Supporting product decisions",
     description:
-      "Broader work across product, integrations, and operations that complements the featured case studies below.",
+      "Smaller examples that show how I handle identity, quality, client operations and external constraints.",
     groups: [
       {
-        title: "Integrations",
+        title: "Safety, contracts and quality",
         items: [
-          "HubSpot, Salesforce, and Snowflake integrations",
-          "Social integrations across Meta, Instagram, LinkedIn, X, and YouTube",
-          "Trustpilot integration",
-          "Webhook workflow improvements"
+          "Split a client identifier need into a fail-closed authentication bridge and a separate indexed, community-scoped model",
+          "Required exact date and time formats in an external API rather than guessing local or server time",
+          "Ran a 100-check Store API review across permissions, invalid inputs and success and failure paths",
+          "Used QA rejection and re-test loops to keep delivered behaviour tied to acceptance criteria"
         ]
       },
       {
-        title: "Operations and infrastructure",
+        title: "Client and operational delivery",
         items: [
-          "Widget deployment methods for restricted client environments",
-          "Translation workflow improvements for dynamic fields and token savings",
-          "Bulk-update infrastructure for trade-data sync and rewards workflows",
-          "Internal CS / transaction tooling"
+          "Isolated a broker client's widget failure to Store and Socials while other widgets worked with the same token, then routed the boundary to the right engineers and QA",
+          "Supported repeated production bulk jobs with queue-aware retry and cancellation while keeping in-progress and idempotency limits visible",
+          "Supported live operation of a prediction campaign with 63 participants and 552 attempts; the figures show usage, not measured engagement lift",
+          "Designed logs and histories around the operator question: what happened to this user, job or delivery?"
         ]
       }
     ]
   },
   selectedWork: [
     {
-      id: "ai-prd-workflow",
-      label: "Workflow design",
-      featured: false,
+      id: "multi-region-loyalty-programme",
+      label: "Client platform and live operations",
+      featured: true,
       detailLayout: "feature",
-      title: "AI-assisted PRD workflow for UX-to-dev handoff",
+      title: "Multi-region brokerage loyalty programme",
       summary:
-        "Built an internal AI-assisted PRD workflow grounded in codebase, schema, and design-system context, reducing PM bottlenecks and improving logic quality before engineering handoff.",
-      tags: [
-        "Cross-functional handoff",
-        "Grounded AI workflow",
-        "Logic-heavy features"
-      ],
-      railTags: [
-        "Cross-functional handoff",
-        "Grounded AI workflow",
-        "Logic-heavy features"
-      ],
-      scope: "Internal workflow design",
-      impactLabel: "Impact",
-      impactLine: "Used on logic-heavy features; one implementation moved from a one-week estimate to three days.",
-      railNoteLabel: "",
-      railNote: "",
+        "Led the product and integration workstream for a multi-region brokerage loyalty programme, translating client goals into embedded experiences, data contracts, campaign mechanics, operational tooling and automated fulfilment.",
+      caseTitle: "Building and operating a multi-region brokerage loyalty programme",
+      problemLine:
+        "One client programme crossed data integration, identity, embedded widgets, Store fulfilment, campaigns, regional experiences and live support, with different teams owning each technical boundary.",
+      decisionLine:
+        "Treat the account as one product lifecycle: make the data and business rules explicit, connect each team through testable contracts, and design monitoring and recovery into the operating model.",
+      outcomeLine:
+        "The programme reached live multi-region operation across embedded reward experiences and automated trading-credit fulfilment, with reconciliation and incident evidence used to tighten the product after launch.",
+      tags: ["B2B2C platform", "Client integrations", "Live operations"],
+      railTags: ["Account lifecycle", "Multi-region delivery", "Shared authorship"],
+      scope: "Data integration, embedded experiences, automated fulfilment and programme operation",
+      impactLabel: "Bounded operational check",
+      impactLine:
+        "In one reconciliation window, 66 trading-credit orders had 66 matching success messages with no missing message or duplicate in that comparison. A later 19-order gap exposed the limit and triggered further investigation.",
+      team: "Client stakeholders, product, engineering, QA, portal and data teams",
+      delivery: "Live multi-region operation with ongoing incident recovery",
+      artifact: {
+        title: "Account lifecycle",
+        caption: "A sanitized view of the product boundaries that had to work as one programme.",
+        stages: [
+          { label: "Data and identity", detail: "Field mapping, account matching and launch risks" },
+          { label: "Member experience", detail: "Authenticated regional reward surfaces" },
+          { label: "Fulfilment", detail: "Eligibility, trading-credit automation and order states" },
+          { label: "Operation", detail: "Monitoring, reconciliation, support and recovery" }
+        ],
+        contribution: "Connected client goals and incidents to product rules and testable team handoffs.",
+        evidence: "Live programme use is proven; the 66-to-66 check was bounded and a later 19-order outage remained visible."
+      },
+      railNoteLabel: "My role",
+      railNote:
+        "Client-facing product and integration coordination across stakeholders, engineering, QA, portal, data and operations teams",
       bullets: [
-        "Grounded in repo, schema, and design-system context",
-        "Reduced PM bottlenecks in logic-heavy handoff",
-        "Asked logic questions before drafting",
-        "Improved engineering starting quality"
+        "Translated programme goals into data mappings, authenticated widgets, campaign rules and fulfilment contracts",
+        "Coordinated regional, device and language variants across client and internal teams",
+        "Defined eligibility, failure, duplicate-risk, monitoring and support paths for trading-credit automation",
+        "Stayed involved through launch, reconciliation, recurring incidents and product correction"
       ],
       detail:
-        "Built an internal AI-assisted PRD workflow that improved cross-functional handoff by grounding requirements in real product context before engineering work began.",
-      evolutionPhases: [],
+        "This case shows account-level product work rather than a single feature. The programme only worked when client goals, platform rules, portal behaviour, source data, fulfilment automation and support operations stayed connected.",
+      evolutionPhases: [
+        {
+          phase: "01",
+          title: "Foundation",
+          detailTitle: "Make the data and identity risks visible",
+          description:
+            "The programme depended on client trading data, member identity and regional configuration. Before launch, field mapping and data-quality gaps had to be treated as product constraints rather than hidden integration details.",
+          changes: [
+            "Snowflake approach validation and field mapping",
+            "Identity and duplicate-data risks surfaced before launch",
+            "Loyalty, redemption and outstanding-liability reporting needs",
+            "Client discovery on catalogue, permissions and support workflows"
+          ],
+          decision:
+            "Keep uncertain or incomplete source data visible in the launch plan instead of designing the member experience around an assumed clean feed.",
+          shaped:
+            "I worked directly with client, data and engineering stakeholders to turn field-level questions into product rules, blockers and follow-up decisions."
+        },
+        {
+          phase: "02",
+          title: "Experience",
+          detailTitle: "Join the embedded member journey across regions",
+          description:
+            "The loyalty programme appeared inside the client's authenticated portal across global and China experiences, desktop and mobile layouts, and multilingual navigation.",
+          changes: [
+            "Store, Milestone and Currency Overview widgets",
+            "Quest, rewards-log, leaderboard and mini-game experiences",
+            "Global and China configuration variants",
+            "Permissions, navigation and responsive portal handoffs"
+          ],
+          decision:
+            "Use conditional product variants when a shared widget depended on capabilities that were not enabled in every community.",
+          shaped:
+            "I connected client expectations to UX, portal and platform teams, clarified incomplete handoffs and followed defects through QA and release."
+        },
+        {
+          phase: "03",
+          title: "Automation",
+          detailTitle: "Move trading-credit fulfilment into a monitored flow",
+          description:
+            "Trading-credit rewards needed more than a success action. The flow covered eligibility, pre-credit checks, order states, failure handling, duplicate-credit risk, review and support guidance.",
+          changes: [
+            "Eligibility and account checks before fulfilment",
+            "Success, failure and review states",
+            "Duplicate-risk safeguards and monitoring",
+            "Phased rollout with a client-service operating guide"
+          ],
+          decision:
+            "Treat reconciliation and failure recovery as launch requirements, because a completed Store order did not by itself prove that downstream credit had succeeded.",
+          shaped:
+            "I led the product and integration workstream while engineering built the automation and client teams supplied source-system evidence."
+        },
+        {
+          phase: "04",
+          title: "Operation",
+          detailTitle: "Use live evidence without overstating reliability",
+          description:
+            "Launch created real reconciliation and incident evidence. One 82-redemption window contained 66 trading-credit orders and 66 corresponding success messages with no missing message or duplicate in the Slack-to-Slack check. A later report found all 19 trading-credit orders absent from the automation channel.",
+          changes: [
+            "Daily order and message reconciliation",
+            "Regional order views, refunds and status tooling",
+            "Campaign rankings, winners and entitlement recovery",
+            "Recurring incident triage across client and internal teams"
+          ],
+          decision:
+            "Present the 66-to-66 comparison as a bounded operational check, not as full API-to-broker proof or sustained reliability.",
+          shaped:
+            "I gathered evidence, coordinated recovery and carried recurring gaps back into product decisions. Too many recoveries still depended on my direct intervention."
+        }
+      ],
       detailSections: [
         {
-          heading: "Overview",
+          heading: "Context",
           items: [],
           layout: "default",
           body:
-            "As product work scaled, handoff depended heavily on me translating between leadership, UX, and engineering. Once I also took on more client and operational responsibilities, that became a bottleneck. Direct UX-to-dev handoff looked faster, but business logic and edge cases were often lost, creating rework and too much dependency on PM review before implementation."
+            "The client ran a brokerage loyalty programme across multiple regions. Members used embedded rewards, Store, milestones, campaigns and games, while client teams needed data integration, fulfilment, reporting, permissions and support controls behind those experiences."
         },
         {
-          heading: "What I built",
+          heading: "What I owned",
           items: [],
           layout: "default",
           body:
-            "I helped build an internal AI-assisted PRD workflow for the UX team. It was grounded in our GitHub repo, feature-directory notes, AWS schema references, and design-system guidance, and it was designed to ask logic questions first before generating the PRD."
+            "I was the practical client-facing Platform PM and product operator for the programme. I translated goals and incidents into product rules, coordinated client stakeholders with engineering, QA, portal, data and operations teams, and followed the work from discovery into launch and live recovery. I did not own the engineering implementation alone."
         },
         {
-          heading: "AI workflow design",
-          body: "",
+          heading: "Campaign and operational scope",
           items: [
-            "Prompt engineering and iteration",
-            "Grounded context from repo, schema, and internal docs",
-            "Retrieval-style setup across internal references",
-            "Human review before PRD generation",
-            "Structured markdown output for implementation"
+            "Defined campaign instrument scope, deposit eligibility, counting boundaries, timezone rules, privacy and widget permissions.",
+            "Supported weekly ranking and winner operations alongside refunds, status correction and entitlement restoration.",
+            "Used client discovery to clarify coin expiry, currency liability, catalogue APIs, permissions and support needs.",
+            "Kept regional and language differences visible instead of treating one portal configuration as universal."
           ],
-          layout: "compact-bullets"
-        },
-        {
-          heading: "Key decisions",
-          body: "",
-          items: [
-            "Grounded the workflow in repo, schema, and design-system context instead of generic prompting",
-            "Used markdown PRDs because they worked better downstream",
-            "Added a preview layer so non-engineers could review output more easily"
-          ],
-          layout: "compact-bullets"
-        },
-        {
-          heading: "Outcome",
-          items: [],
-          layout: "default",
+          layout: "compact-bullets",
           body:
-            "The workflow is now used for logic-heavy features. It helped UX validate logic earlier without always waiting on PM availability, improved component reuse, and gave engineering a stronger starting point for AI-assisted implementation."
+            "The breadth matters because each surface depended on the same member identity, reward rules and operating evidence."
         },
         {
-          heading: "Proof points",
-          body: "",
+          heading: "Evidence and limits",
           items: [
-            "In a milestone-reset use case, it surfaced a flaw in start-date logic that delayed rewards while still evaluating all-time data, exposing a design issue early.",
-            "I also used the same workflow to design, spec, code, and ship a Trustpilot integration to production."
+            "Authenticated Store, Milestone, Currency Overview, quest, rewards-log, leaderboard and mini-game experiences reached live multi-region use.",
+            "Trading-credit automation reached live launch and was reconciled through order and message evidence, but the 66-to-66 window was not full downstream broker proof.",
+            "A later 19-order failure and recurring fixture issues show that reliability was not yet repeatable.",
+            "The portfolio does not claim measured retention, revenue, conversion or sustained automation success."
           ],
-          layout: "compact-bullets"
+          layout: "compact-bullets",
+          body:
+            "Client and internal names are generalised. Any screenshots, direct quotes or identifiable operational records require permission and redaction before publication."
+        },
+        {
+          heading: "What I would change now",
+          items: [
+            "Set clearer work-in-progress limits and assign durable operational owners before launch.",
+            "Consolidate fragmented handoffs into one versioned programme contract and evidence dashboard.",
+            "Add earlier rule reviews for exclusions, naming and campaign fixtures.",
+            "Define outcome and reliability measures with the client before rollout."
+          ],
+          layout: "compact-bullets",
+          body:
+            "A campaign handoff ran two days late, an early rule missed a demo-account exclusion, I confused two similarly named boosters before correcting them, and some fixture issues recurred. The lesson is not that broad ownership is heroic. It is that the operating model needed more repeatability and less dependence on personal recovery."
         }
       ]
     },
     {
-      id: "store-redemption-eligibility",
-      label: "Core platform system",
+      id: "store-redemption-platform",
+      label: "Commerce and platform systems",
       featured: true,
       detailLayout: "feature",
-      title: "E-commerce store",
+      title: "Store and redemption platform",
       summary:
-        "Evolved a simple voucher store into the platform’s most-used feature, supporting coin-based redemption, external commerce handoff, API-based eligibility checks, configurable permissions, and fulfilment-aware order logic.",
-      tags: ["E-Commerce logic", "Permissions", "Operational systems"],
-      railTags: ["Most-used feature", "Commerce logic", "Platform systems"],
-      scope: "Coin-based reward redemption",
-      impactLabel: "Proof",
-      impactLine: "High daily redemption volume across clients",
-      railNoteLabel: "What I shaped",
+        "Shaped a voucher Store into a configurable redemption platform spanning eligibility, permissions, order states, refunds, SDK and API contracts, and operational investigation.",
+      caseTitle: "Making Store logic reusable without hiding historical errors",
+      problemLine:
+        "A simple voucher flow had become a shared foundation for different reward types, client systems and fulfilment models.",
+      decisionLine:
+        "Separate reusable eligibility, redemption and status contracts from client-specific integration logic, then preserve both future and historical correctness.",
+      outcomeLine:
+        "Production work made historical API responses return the intended statuses for nearly 3,000 purchases without manually rewriting every order.",
+      tags: ["Commerce", "API and SDK", "Operational systems"],
+      railTags: ["B2B2C Store", "Platform contracts", "Production outcome"],
+      scope: "Store, redemption and integration product work",
+      impactLabel: "Production outcome",
+      impactLine:
+        "Correct historical status responses for nearly 3,000 Store purchases in production, followed by positive client feedback.",
+      team: "Product, engineering, QA, UX, SDK, API and client support teams",
+      delivery: "Production correction for historical and future status responses",
+      artifact: {
+        title: "Redemption lifecycle",
+        caption: "A sanitized view of the Store contract from eligibility through historical status.",
+        stages: [
+          { label: "Eligibility", detail: "Permissions, account checks and diagnostic states" },
+          { label: "Purchase", detail: "Product fields, redemption method and order creation" },
+          { label: "Fulfilment", detail: "Internal or external delivery with bounded callback scope" },
+          { label: "Status and history", detail: "Future-write correction and historical read-time status" }
+        ],
+        contribution: "I defined reusable product contracts, migration choices, failure states and QA checks.",
+        evidence: "Correct status responses for nearly 3,000 historical purchases reached production; callback runtime use was not verified."
+      },
+      railNoteLabel: "My role",
       railNote:
-        "Permissions, redemption methods, statuses, refunds, and supporting workflows",
+        "Product contracts, scope, state behaviour, migration choices, supportability and QA follow-through",
       bullets: [
-        "Owned logic across products, permissions, redemption methods, and catalogue structure",
-        "Designed real-time eligibility checks for fintech-related use cases",
-        "Considered future fulfilment workflows, even though fulfilment was handled externally",
-        "Built supporting transaction tooling for better operational management"
+        "Turned new client needs into reusable eligibility and redemption capability",
+        "Defined permissions, statuses, refunds, migration behaviour and failure states",
+        "Connected admin, storefront, API, SDK and support requirements",
+        "Kept shipped callback fields separate from an unverified follow-on callback runtime"
       ],
       detail:
-        "What began as a simple voucher page became a configurable redemption system shaped around access, eligibility, order states, and operational handling.",
+        "This case is about the product contracts around a transaction: who can see an item, what information is required, whether a user is eligible, what state is written and how an operator investigates the result.",
       evolutionPhases: [
         {
           phase: "01",
           title: "Voucher",
-          detailTitle: "Voucher redemption",
+          detailTitle: "A narrow redemption flow",
           description:
-            "The store started as a simple voucher redemption flow, mainly for prop trading firms, where users spent platform-earned coins on voucher rewards.",
+            "The Store began with coin-funded voucher redemption. The early model was useful, but category-first access and a fixed claim path became limiting as more clients and reward types arrived.",
           changes: [
-            "Products were initially voucher-based",
-            "Access followed a category-first visibility model",
-            "Users needed category permission before they could see products under it",
-            "The redemption experience was straightforward, with users receiving voucher codes after purchase"
+            "Voucher products and platform currency",
+            "Category-led visibility and simple purchase history",
+            "A straightforward code fulfilment path"
           ],
           shaped:
-            "I joined from the first iteration, which gave me a strong view of where the original structure worked well and where it would later become limiting as client needs grew."
+            "I worked from the first version and used that history to distinguish what could be extended from what needed a new product contract."
         },
         {
           phase: "02",
-          title: "Commerce",
-          detailTitle: "Commerce handoff",
+          title: "Eligibility",
+          detailTitle: "External data inside the purchase decision",
           description:
-            "The system later expanded to support Stripe and WooCommerce-backed purchase flows, while product and payment management stayed on those external systems.",
+            "Account-credit and other client use cases needed fields and eligibility decisions that ReturningAI did not own. Manual acknowledgement created refund and support risk.",
           changes: [
-            "Added Stripe-backed purchase flows",
-            "Supported both one-time and recurring purchase setups",
-            "Added WooCommerce-backed purchase flows",
-            "Kept product management and payment handling outside the platform, while our product handled access and redemption flow"
+            "Configurable information collection and Product Fields",
+            "API-backed account and eligibility checks",
+            "Pass, fail and diagnostic states before purchase"
           ],
+          decision:
+            "Replace a user acknowledgement with API-based validation when the redemption depended on account state.",
           shaped:
-            "This phase clarified that the harder product work was not payment itself, but how store logic connected external commerce systems with internal reward and redemption flows."
+            "I defined the user and admin states, what data had to be visible for investigation, and where client-specific code stopped and reusable Store behaviour began."
         },
         {
           phase: "03",
-          title: "Redemption",
-          detailTitle: "Redemption methods",
+          title: "Contracts",
+          detailTitle: "Reusable redemption and SDK behaviour",
           description:
-            "As client needs expanded beyond vouchers, the store had to support more complex redemption types such as account credit and physical reward claims.",
+            "The Store needed to collect or resolve client-owned information without embedding a bespoke flow into every product.",
           changes: [
-            "Added configurable redemption fields based on claim type",
-            "Allowed different fields depending on reward type",
-            "Supported CRM-linked values, such as account selection, during redemption",
-            "Expanded the system to support account credit and physical delivery flows"
+            "Inherited redemption configuration and reusable Product Fields",
+            "Signed and typed callback-field behaviour across admin, storefront and SDK",
+            "Loading, success, empty and failure states",
+            "One-way follow-on callback scope kept non-blocking"
           ],
           decision:
-            "For account-credit redemption, I initially supported a manual acknowledgement step where users confirmed they held equal value in their account balance. That proved unreliable and created refund and support issues, so I replaced it with API-based validation before the claim could move forward.",
+            "Keep purchase notification one-way and non-blocking rather than turning it into a general workflow or response-processing system.",
           shaped:
-            "This phase pushed the store beyond basic redemption and into more operationally sensitive flows where validation and claim handling mattered much more."
+            "I framed the contracts and scope, carried client and support needs into the requirements, and worked with Saw, Hein, Wunna, QA, UX and technical leadership through delivery."
         },
         {
           phase: "04",
-          title: "Permissions",
-          detailTitle: "Permissions",
+          title: "History",
+          detailTitle: "Correct future writes and historical reads",
           description:
-            "As clients requested more granular regional access, the original category-parent permission model became difficult to manage across many roles and edge cases.",
+            "A production API returned every custom order status as completed, which made nearly 3,000 historical purchases misleading to one client.",
           changes: [
-            "Reworked the original category-parent permission structure",
-            "Allowed product-level rules to override category-level access",
-            "Introduced explicit access states: no access, view only, and full access",
-            "Added purchase limits on top of access rules",
-            "Designed precedence rules for overlapping roles"
+            "Correct status values written for future purchases",
+            "Historical status joined at read time",
+            "Old purchases verified without manual record-by-record updates"
           ],
           decision:
-            "One of the hardest tradeoffs was deciding how precedence should work when users held conflicting roles. I chose full access to take priority over view only and no access, and simplified default behavior so the system stayed manageable without becoming overly complex.",
+            "Reject a manual rewrite of every order and require a solution that fixed future source data while returning correct history.",
           shaped:
-            "This was one of the biggest logic redesigns in the system and a strong example of turning a client-specific pain point into reusable platform logic."
-        },
-        {
-          phase: "05",
-          title: "Operations",
-          detailTitle: "Statuses, refunds, and operations",
-          description:
-            "As the store matured, it needed to support more flexible operational handling across different client workflows and future fulfilment partners.",
-          changes: [
-            "Structured order flow into four broad status categories: Purchase, In Progress, Completed, and Refunded",
-            "Allowed products to define a starting status",
-            "Allowed redemption methods to override that starting status, with redemption method taking highest priority",
-            "Kept status changes manual or API-driven rather than hardcoding one fulfilment flow",
-            "Added refund rules, including request-based or automatic refund flows",
-            "Built supporting order history and transaction tooling for teams managing redemption activity"
-          ],
-          decision:
-            "I designed statuses as configurable categories rather than a fixed lifecycle, so the same system could support different fulfilment and refund models across clients.",
-          shaped:
-            "I also knew we would eventually need to work with fulfilment partners, so I helped shape the status model early and later worked with a fulfilment company around those flows. On the operational side, I also built additional transaction tooling when the default history workflow was too rigid for clients managing activity across regions."
+            "I held the product requirement for historical correctness, accepted the combined engineering approach, verified old purchases and carried the result back to the client."
         }
       ],
       detailSections: [
         {
-          heading: "Overview",
+          heading: "Context",
           items: [],
           layout: "default",
           body:
-            "The store began as a simple voucher redemption feature inside the platform, where users earned client-specific coins through actions, CRM-linked events, milestones, social quests, and bulk updates. As client needs expanded, the real challenge became turning a basic voucher flow into reusable product capability instead of letting every new requirement become one-off custom logic."
+            "ReturningAI serves businesses that configure loyalty experiences for their own members. Store purchases can depend on platform currency, broker account state, client-owned identifiers, regional access, external fulfilment and support workflows. The product had to serve those differences without becoming a collection of one-off implementations."
         },
         {
           heading: "What I owned",
           items: [],
           layout: "default",
           body:
-            "I was involved from the first version and later owned major logic decisions across Stripe, WooCommerce, redemption methods, permissions, statuses, refunds, and supporting workflows. A big part of the role was deciding when a client request should stay custom and when it needed to become reusable platform capability."
+            "I owned product decisions across eligibility, redemption methods, product fields, permissions, status precedence, refunds, migration defaults, SDK and API behaviour, and operational visibility. Engineers owned the implementation architecture; QA and UX challenged the behaviour through delivery."
         },
         {
-          heading: "Outcome",
+          heading: "Evidence and limits",
+          items: [
+            "Multiple Store components and SDK callback fields reached production; the callback-field SDK release was version 1.5.0.",
+            "The historical status correction reached production and made API responses return the intended result for nearly 3,000 purchases.",
+            "Purchase-success callback types and staging work existed, but production client use and populated callback logs were not verified.",
+            "Revenue, conversion and broad Store adoption were not measured in the available evidence."
+          ],
+          layout: "compact-bullets",
+          body:
+            "The strongest proof is the decision and production outcome, not a claim that every Store capability had broad adoption."
+        },
+        {
+          heading: "What this demonstrates",
           items: [],
           layout: "default",
           body:
-            "Over time, the store became the platform’s most-used feature. What started as a simple voucher page grew into a configurable redemption system that could support different reward types, access patterns, eligibility checks, refund rules, and fulfilment-aware workflows on the same foundation."
-        },
-        {
-          heading: "What I learned",
-          items: [],
-          layout: "default",
-          body:
-            "This project taught me that commerce features become much more interesting when the hard part is not payment, but the logic around access, redemption, eligibility, and operations."
+            "Technical product work is often the choice between a quick client patch and a contract the platform can keep supporting. This system required both: narrow scope where reuse was not justified, and deliberate platform capability where the same problem would recur."
         }
       ]
     },
     {
-      id: "milestone-gamification-engine",
-      label: "Platform thinking",
+      id: "custom-workflows-platform",
+      label: "Workflow automation",
       featured: true,
       detailLayout: "feature",
-      title: "Milestone",
+      title: "Custom Workflows",
       summary:
-        "Built out milestone from a simple reward flow into a flexible backend engine for coins, XP, roles, approvals, hidden permissions, recurring campaigns, and integration-driven logic.",
-      tags: ["Rules engine", "Permissions", "Backend systems"],
-      railTags: ["Rules engine", "Permissions", "Backend systems"],
-      scope: "",
-      impactLabel: "Impact",
-      impactLine: "",
-      railNoteLabel: "",
-      railNote: "",
+        "Helped evolve a visual workflow builder into an operable execution platform with triggers, actions, transformations, concurrency, test and retry behaviour, branching, bulk operations and run history.",
+      caseTitle: "Designing workflow automation for what happens after deployment",
+      problemLine:
+        "Client automations were moving into the product, but an action builder without execution controls or investigation tools would create a new support dependency.",
+      decisionLine:
+        "Stage the platform around an explicit execution contract: state, concurrency, failure handling, idempotency, testing and inspectable history.",
+      outcomeLine:
+        "Workflow paths reached production use and exposed real missed and duplicate-trigger cases that sharpened the observability and recovery model.",
+      tags: ["Workflow automation", "Reliability", "Platform strategy"],
+      railTags: ["Execution model", "Progressive delivery", "Operational exposure"],
+      scope: "Custom and Data Workflow product development",
+      impactLabel: "Production exposure",
+      impactLine:
+        "Production use was internally confirmed for client workflows; volume, sustained reliability and external acceptance remain unmeasured.",
+      team: "Product, engineering, QA, UX and client-facing teams",
+      delivery: "Production exposure with unresolved reliability limits",
+      artifact: {
+        title: "Workflow execution lifecycle",
+        caption: "A sanitized view of the execution contract used to define scope and operational checks.",
+        stages: [
+          { label: "Trigger", detail: "HTTP, webhook, Store Purchase and data events" },
+          { label: "Queue", detail: "Run state, concurrency and idempotent ingestion" },
+          { label: "Actions", detail: "Transformations, conditions, branching and bulk updates" },
+          { label: "Error and history", detail: "Stop behaviour, retry, run history and investigation" }
+        ],
+        contribution: "I sequenced the work and defined execution, failure and recovery rules.",
+        evidence: "Named-client production use was internally confirmed; volume, sustained reliability and external acceptance were not measured."
+      },
+      railNoteLabel: "My role",
+      railNote:
+        "Product sequencing, execution semantics, review, client context and release follow-through",
       bullets: [
-        "Evolved from simple rewards into a flexible rules engine",
-        "Powered roles, permissions, approvals, and backend control",
-        "Supported recurring campaigns and integration-driven logic"
+        "Sequenced the platform from actions into branching, bulk and event-driven use cases",
+        "Defined test, retry, stop-on-error, concurrency and idempotency behaviour",
+        "Returned incorrect execution behaviour for fixes and verified the correction",
+        "Kept production failures and verification limits visible"
       ],
       detail:
-        "Milestone evolved from a simple reward mechanic into a reusable backend system for progression, permissions, approvals, and structured business logic.",
-      evolutionPhases: [],
+        "The product challenge was not drawing boxes and arrows. It was defining what each run means, how errors change the state, and what an operator can do when production behaviour differs from the design.",
+      evolutionPhases: [
+        {
+          phase: "01",
+          title: "Actions",
+          detailTitle: "Triggers, HTTP and webhook actions",
+          description:
+            "The first useful layer let teams configure external triggers and actions instead of moving every automation into another tool or engineering script.",
+          changes: [
+            "HTTP and webhook actions",
+            "Currency and user-data operations",
+            "Transformations and reusable data selection"
+          ],
+          shaped:
+            "I helped define the user jobs, action boundaries and product sequence so the builder could grow without pretending to support every automation at once."
+        },
+        {
+          phase: "02",
+          title: "Execution",
+          detailTitle: "A contract for each run",
+          description:
+            "As workflows handled real product state, the system needed explicit queued and running states, concurrency rules and predictable behaviour after an error.",
+          changes: [
+            "Queued execution and concurrency control",
+            "Test Workflow and full-flow testing",
+            "Retry and stop-on-error behaviour",
+            "Task and run history with duration and state"
+          ],
+          decision:
+            "When a test continued after an error despite the specified stop behaviour, I returned it for fixes and later verified the correction.",
+          shaped:
+            "I connected the written execution semantics to review and QA instead of treating delivery status as proof that the contract worked."
+        },
+        {
+          phase: "03",
+          title: "Platform",
+          detailTitle: "Branching, bulk work and reusable events",
+          description:
+            "Later releases added conditional paths, bulk actions and event-driven product triggers, which made coupling and duplicate execution more consequential.",
+          changes: [
+            "Conditional branching",
+            "Bulk actions and idempotent event ingestion",
+            "Named milestone completion events rather than direct state queries",
+            "Store Purchase and data-event triggers"
+          ],
+          decision:
+            "Challenge direct workflow coupling to milestone state and frame reusable named completion events as the product boundary.",
+          shaped:
+            "Thuta proposed the trigger flow, Rui Tong specified the experience, Denny and Thuta implemented the foundation and integration, and QA verified the available boundary. My role was the architecture question and product contract."
+        },
+        {
+          phase: "04",
+          title: "Operation",
+          detailTitle: "Production made the gaps measurable",
+          description:
+            "Named-client workflows reached production exposure. One Store Purchase path missed triggers; another condition path required a production correction and exposed two histories for one update.",
+          changes: [
+            "Production correction followed by trigger verification",
+            "Missed-trigger and duplicate-history investigation",
+            "Internal confirmation of deposit events entering a client Data Workflow",
+            "Run histories used as an operator surface"
+          ],
+          decision:
+            "Treat deployment as the start of the reliability requirement, not the end of the feature story.",
+          shaped:
+            "I carried client context, failure evidence and investigation needs back into product and engineering discussions while keeping the missing volume and acceptance evidence explicit."
+        }
+      ],
       detailSections: [
         {
-          heading: "Overview",
+          heading: "Context",
           items: [],
           layout: "default",
           body:
-            "Milestone started as a simple gamification flow for awarding coins and XP when users met certain conditions. Over time, it became much more than a reward feature. As the platform gained access to richer data through integrations, webhooks, bulk updates, and CRM systems, milestone evolved into a flexible rules engine for progression, role assignment, submissions, approvals, resets, and repeatable engagement logic. Importantly, milestone was not always a visible user-facing feature. In many cases, it operated in the background to assign roles, control permissions, and trigger access changes elsewhere in the product."
+            "ReturningAI receives events from client systems and uses them to update member data, rewards, Store eligibility and engagement experiences. Bringing that automation into the platform gave clients more control, but also made execution state and recovery part of the customer experience."
         },
         {
           heading: "What I owned",
           items: [],
           layout: "default",
           body:
-            "I was involved in milestone from the beginning and shaped it across its full evolution. That included core condition logic, reward behavior, role assignment, progression models, approval flows, user-facing rule phrasing, resets, start dates, and newer urgency mechanics such as limited redemption windows. It was one of the systems that came most directly out of my hands."
+            "I shaped product scope and sequencing, execution and failure semantics, data selection, reusable event boundaries, acceptance criteria and production follow-through. Engineering and design collaborators owned implementation and detailed interaction work; my role was to keep the system coherent and operable."
         },
         {
-          heading: "Core capabilities",
+          heading: "Evidence and limits",
+          items: [
+            "Internal platform inspection showed deployed and draft workflows plus successful run histories.",
+            "Named-client production use was confirmed internally for Store Purchase and deposit-event paths.",
+            "The archive also contains missed and duplicate-trigger evidence; the final reliability outcome was not fully recovered.",
+            "Execution volume, stable-operation rate and external client acceptance were not measured."
+          ],
+          layout: "compact-bullets",
+          body:
+            "The case demonstrates platform judgment and operational ownership. It does not claim a mature automation product with proven broad adoption."
+        },
+        {
+          heading: "What this demonstrates",
           items: [],
           layout: "default",
           body:
-            "Milestone became useful because it could combine product rules, external data, hidden backend logic, and user-facing progression in the same system."
-        },
+            "A workflow product is a runtime as much as a builder. The PM decisions that mattered most were the ones that made execution predictable, inspectable and recoverable when real client events arrived."
+        }
+      ]
+    },
+    {
+      id: "large-community-operations",
+      label: "Scale and operability",
+      featured: true,
+      detailLayout: "feature",
+      title: "Large-community operations",
+      summary:
+        "Turned a failing large-user list into a wider operability programme across normalized state, queued imports and updates, cancellation, API Logs, background export and export history.",
+      caseTitle: "Making large community operations observable and controllable",
+      problemLine:
+        "In QA/test with a 200,000-record community, the admin experience consumed heavy memory, repeated requests, became unresponsive and could spend more than 40 minutes on an export that did not complete.",
+      decisionLine:
+        "Treat the problem as more than page rendering: redesign client state and move large jobs into queued, inspectable operations with explicit limits.",
+      outcomeLine:
+        "QA loaded a 300,000-record list and completed a 50,000-record multi-field update in under 15 minutes; production use is proven at smaller batch sizes.",
+      tags: ["Scale", "Bulk operations", "Product operations"],
+      railTags: ["300k QA validation", "Background jobs", "Honest limits"],
+      scope: "User management, bulk operations and exports",
+      impactLabel: "QA/test validation",
+      impactLine:
+        "A test environment showed about 360 MB of duplicated Redux state at 200,000 records; later QA exercised 200,000 to 300,000-record scenarios.",
+      team: "Product, engineering, QA, support and client operations teams",
+      delivery: "QA scale validation with smaller production batch use",
+      artifact: {
+        title: "Bulk operation lifecycle",
+        caption: "Delivery, evidence and limits for a sanitized large-community job.",
+        stages: [
+          { label: "Queued", detail: "Validated input, run creation and cancellation before processing" },
+          { label: "Running", detail: "Batched work, progress state and inspectable API logs" },
+          { label: "Partial or error", detail: "Row outcomes, retry limits and duplicate-effect risk" },
+          { label: "Cancelled or duplicate", detail: "Queued cancellation, restart behaviour and idempotency follow-up" }
+        ],
+        contribution: "I expanded a page-performance issue into requirements for state, queues, logs and recovery.",
+        evidence: "QA validated a 300,000-record list and a 50,000-record multi-field update under 15 minutes; production use is proven at smaller batch sizes."
+      },
+      railNoteLabel: "My role",
+      railNote:
+        "Problem framing, requirements, QA scope, operational controls and client-use follow-through",
+      bullets: [
+        "Expanded a performance ticket into an operability programme",
+        "Separated UI, state, queue, export and idempotency concerns",
+        "Used QA evidence instead of converting test scale into a production claim",
+        "Documented cancellation, restart and duplicate-effect limits"
+      ],
+      detail:
+        "The original symptom was a slow user list. The product problem was that large reads and writes had no safe operating model for admins, support or client data jobs.",
+      evolutionPhases: [
         {
-          heading: "Data-driven conditions",
-          items: [
-            "Used custom fields and external system data as milestone conditions",
-            "Enabled reward logic from CRM, webhook, and bulk-update data",
-            "Supported use cases where users were rewarded when tracked business events occurred"
+          phase: "01",
+          title: "Failure",
+          detailTitle: "The page stopped being an admin tool",
+          description:
+            "Large-community testing exposed an unresponsive list, slow search, repeated API calls, missing profile and online state, incorrect counts and a synchronous export that exceeded 40 minutes.",
+          changes: [
+            "About 1.4 GB browser memory after refresh in one test",
+            "About 2.5 GB during export",
+            "More than 40 minutes without a completed download",
+            "Repeated requests and broken state on core admin paths"
           ],
-          layout: "compact-bullets",
-          body:
-            "As integrations expanded, milestone stopped depending on in-platform actions alone and became a broader rules layer that could react to external signals."
+          shaped:
+            "I wrote the product problem around the admin workflows that had failed, not only a generic request to make the page faster."
         },
         {
-          heading: "Rewards and role logic",
-          items: [
-            "Awarded coins and XP when conditions were met",
-            "Added role assignment, removal, and overwrite behavior",
-            "Enabled hidden milestones that ran purely as backend permission logic"
+          phase: "02",
+          title: "State",
+          detailTitle: "Normalize the client-side model",
+          description:
+            "In testing, the Redux store duplicated user records across five to seven indexes and consumed about 360 MB at 200,000 records. Engineering moved the state toward normalized records and references.",
+          changes: [
+            "Normalized user records instead of repeated copies",
+            "Fast list loading and working username and email search in QA",
+            "Restored profile and online-state behaviour",
+            "One remaining count-label defect preserved after sign-off"
           ],
-          layout: "compact-bullets",
-          body:
-            "Milestone eventually supported tiers, access changes, and backend control, not just visible reward mechanics. I also used hidden milestone logic to award regional roles that determined access to the store."
+          decision:
+            "Do not calculate a memory-reduction percentage because the available baseline and later browser observations measured different layers.",
+          shaped:
+            "I kept the user and operator behaviours in scope while engineering owned the Redux implementation and QA validated the affected surfaces."
         },
         {
-          heading: "Progression models",
-          items: [
-            "Added progressive logic where later stages stayed locked until earlier ones were cleared",
-            "Added non-progressive logic where tasks could be completed independently",
-            "Supported more flexible campaign structures such as multi-platform review actions"
+          phase: "03",
+          title: "Jobs",
+          detailTitle: "Queue and inspect bulk work",
+          description:
+            "Imports and multi-field updates became background jobs with validation, run state, API Logs and cancellation while queued.",
+          changes: [
+            "CSV and JSON validation with row-level outcomes",
+            "Internal batches up to 5,000 rows",
+            "API Logs with input and output inspection",
+            "Queued cancellation and email side-effect queueing"
           ],
-          layout: "compact-bullets",
-          body:
-            "Different campaigns needed different progression behavior, so milestone had to support both sequential and independent completion models without assuming one default structure."
+          decision:
+            "Describe cancellation precisely: it could remove queued work, but it could not stop or roll back rows already processing.",
+          shaped:
+            "I defined the operating states and failure visibility, then followed repeated client batches, retries and queue-aware support use."
         },
         {
-          heading: "Submission and approval workflows",
-          items: [
-            "Added support for text and image submissions",
-            "Allowed required fields and admin-configured submission instructions",
-            "Added approval and rejection workflows for actions that could not be validated automatically",
-            "Introduced custom conditions around review-based milestone handling"
+          phase: "04",
+          title: "Exports",
+          detailTitle: "Move synchronous export out of the page",
+          description:
+            "Large export became a background workflow with history and later download, allowing admins to continue working while the file was prepared.",
+          changes: [
+            "Asynchronous export and Export History",
+            "Completed internal/test exports around 10,000 users",
+            "A recorded gamification-log export of 91,715 rows",
+            "All Users was the supported scope at QA sign-off"
           ],
-          layout: "compact-bullets",
-          body:
-            "This pushed milestone beyond automated tracking and into hybrid workflows where platform logic and operational review had to work together."
-        },
+          decision:
+            "Separate shipped background export from an unproven 200,000 or 300,000-record export runtime.",
+          shaped:
+            "I treated export as a product operation with state and retrieval, not a button that blocked the browser until success or failure."
+        }
+      ],
+      detailSections: [
         {
-          heading: "Recurring and urgency mechanics",
-          items: [
-            "Improved user-facing condition phrasing without changing admin setup logic",
-            "Added start-date and reset logic for recurring milestone use cases",
-            "Added limited-redemption windows to create urgency and support repeatable engagement loops",
-            "Used milestone as the basis for the Trustpilot review flow once completion conditions were met"
-          ],
-          layout: "compact-bullets",
-          body:
-            "As milestone grew more complex, it also had to become easier to understand and more reusable over time, especially for recurring engagement and time-based reward behavior."
-        },
-        {
-          heading: "Outcome",
+          heading: "Context",
           items: [],
           layout: "default",
           body:
-            "Milestone grew from a simple reward mechanic into one of the platform’s most flexible backend systems. It powered coins, XP, role assignment, approvals, hidden access control, recurring campaigns, and integration-driven rewards. In practice, it became just as important as the store and, in some ways, more widely used because it controlled the logic behind how progression, access, and reward behavior worked across the product."
+            "Client demand reached communities and migration plans in the hundreds of thousands of records. Admins still needed to search, update, import and export users without freezing the application or relying on engineering to inspect every job."
         },
         {
-          heading: "What I learned",
+          heading: "What I owned",
           items: [],
           layout: "default",
           body:
-            "This project taught me that gamification becomes much more powerful when it stops being about points alone and starts acting as a reusable system for progression, permissions, behavior, and structured business logic."
+            "I framed the affected workflows, created and sequenced product requirements, worked with engineering on the operational model, and used QA and later client jobs to keep failure states and unsafe assumptions visible. Engineering owned the state and queue implementations."
+        },
+        {
+          heading: "Evidence and limits",
+          items: [
+            "QA loaded a 300,000-record list and completed a 50,000-record multi-field update in under 15 minutes.",
+            "Production operation is proven for repeated 5,000-record batches, recurring automation and a bounded 10,000-record import test.",
+            "A restart edge produced duplicate effects for 60 users and triggered an idempotency investigation.",
+            "There is no proof of 300,000 active production users, a completed 746,000-user migration or safe rollback of in-progress work."
+          ],
+          layout: "compact-bullets",
+          body:
+            "Every number is labelled by where it came from. Test scale demonstrates validation; smaller production jobs demonstrate operation."
+        },
+        {
+          heading: "What this demonstrates",
+          items: [],
+          layout: "default",
+          body:
+            "Performance work became product work once admins needed job state, cancellation, evidence and recovery. Scaling the interface without scaling the operating model would have moved the failure rather than solved it."
         }
       ]
     }
   ],
   seo: {
-    title: "Anjelika Tan | Product & Platform Generalist",
+    title: "Anjelika Tan | Product Manager for 0-to-1 B2B2C Products",
     description:
-      "Portfolio of Anjelika Tan, a product and platform generalist focused on integrations, workflows, internal tools, and AI-assisted systems in B2B SaaS.",
-    siteUrl: "https://example.com",
-    socialImage: "/me2.png"
+      "Portfolio of Anjelika Tan, a Product Manager taking complex B2B2C products from client need to launch and live operation across APIs, integrations, workflows, commerce, identity and AI-enabled product operations.",
+    siteUrl: "https://anjelikatan.com",
+    socialImage: "/opengraph-image",
+    socialImageAlt: "Anjelika Tan Product Manager portfolio preview"
   }
 } as const;
 

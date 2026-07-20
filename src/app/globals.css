@@ -4,6 +4,7 @@
 
 :root {
   color-scheme: light;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 html {
@@ -12,9 +13,10 @@ html {
 
 body {
   margin: 0;
-  background: #f6f2ea;
-  color: #1f2933;
+  background: #f7f8f4;
+  color: #16201f;
   font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -27,5 +29,251 @@ a {
 }
 
 ::selection {
-  background: rgba(63, 111, 107, 0.18);
+  background: rgba(58, 112, 105, 0.18);
+}
+
+@keyframes phaseIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes referenceFrameIn {
+  from {
+    opacity: 0.001;
+    filter: blur(2px);
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes referenceInputSettle {
+  from {
+    opacity: 0.001;
+    transform: translateY(12px) rotate(var(--card-rotate, 0deg));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--card-rotate, 0deg));
+  }
+}
+
+@keyframes referenceConnectorDraw {
+  from {
+    stroke-dashoffset: 32;
+    opacity: 0.1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes phraseUnderlineWipe {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes messyLetter {
+  0%,
+  100% {
+    filter: blur(0);
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  35% {
+    filter: blur(0.5px);
+    transform: translate(var(--messy-x, 0), var(--messy-y, 0)) rotate(var(--messy-r, 0deg));
+  }
+
+  70% {
+    filter: blur(0);
+    transform: translate(calc(var(--messy-x, 0) * -0.45), calc(var(--messy-y, 0) * -0.35)) rotate(calc(var(--messy-r, 0deg) * -0.35));
+  }
+}
+
+.reference-hero figure {
+  animation: referenceFrameIn 520ms var(--ease-out-quart) both;
+}
+
+.reference-input-card {
+  animation: referenceInputSettle 520ms var(--ease-out-quart) both;
+  animation-delay: var(--reference-card-delay, 0ms);
+}
+
+.reference-flip-card {
+  perspective: 900px;
+}
+
+.reference-flip-card-inner {
+  display: block;
+  min-height: 5.75rem;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 360ms var(--ease-out-quart);
+}
+
+.reference-input-card-face {
+  backface-visibility: hidden;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  inset: 0;
+  justify-content: center;
+  min-height: 5.75rem;
+  padding: 0.75rem;
+}
+
+.reference-input-card-front {
+  position: relative;
+}
+
+.reference-input-card-back {
+  position: absolute;
+  transform: rotateY(180deg);
+}
+
+.reference-flip-card:hover .reference-flip-card-inner,
+.reference-flip-card:focus-visible .reference-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.reference-connector {
+  animation: referenceConnectorDraw 720ms var(--ease-out-quart) both;
+  animation-delay: 260ms;
+}
+
+.phrase-underline {
+  transform-origin: left center;
+  animation: phraseUnderlineWipe 420ms var(--ease-out-quart) 560ms both;
+}
+
+.messy-word {
+  display: inline-block;
+  color: #16201f;
+}
+
+.messy-letter {
+  display: inline-block;
+  transform-origin: center;
+}
+
+.messy-letter:nth-child(1) {
+  --messy-x: -0.08em;
+  --messy-y: 0.05em;
+  --messy-r: -7deg;
+}
+
+.messy-letter:nth-child(2) {
+  --messy-x: 0.07em;
+  --messy-y: -0.04em;
+  --messy-r: 5deg;
+}
+
+.messy-letter:nth-child(3) {
+  --messy-x: -0.05em;
+  --messy-y: -0.07em;
+  --messy-r: 8deg;
+}
+
+.messy-letter:nth-child(4) {
+  --messy-x: 0.08em;
+  --messy-y: 0.06em;
+  --messy-r: -5deg;
+}
+
+.messy-letter:nth-child(5) {
+  --messy-x: -0.04em;
+  --messy-y: 0.08em;
+  --messy-r: 6deg;
+}
+
+.messy-word:hover .messy-letter,
+.messy-word:focus-visible .messy-letter {
+  animation: messyLetter 520ms var(--ease-out-quart) both;
+}
+
+.messy-word:hover .messy-letter:nth-child(2),
+.messy-word:focus-visible .messy-letter:nth-child(2) {
+  animation-delay: 34ms;
+}
+
+.messy-word:hover .messy-letter:nth-child(3),
+.messy-word:focus-visible .messy-letter:nth-child(3) {
+  animation-delay: 68ms;
+}
+
+.messy-word:hover .messy-letter:nth-child(4),
+.messy-word:focus-visible .messy-letter:nth-child(4) {
+  animation-delay: 46ms;
+}
+
+.messy-word:hover .messy-letter:nth-child(5),
+.messy-word:focus-visible .messy-letter:nth-child(5) {
+  animation-delay: 88ms;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reference-hero figure,
+  .reference-input-card,
+  .reference-flip-card-inner,
+  .reference-connector,
+  .phrase-underline,
+  .messy-letter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reference-input-card-back {
+    display: none;
+    transform: none !important;
+  }
+
+  .reference-flip-card:hover .reference-input-card-front,
+  .reference-flip-card:focus-visible .reference-input-card-front {
+    display: none;
+  }
+
+  .reference-flip-card:hover .reference-input-card-back,
+  .reference-flip-card:focus-visible .reference-input-card-back {
+    display: flex;
+  }
 }

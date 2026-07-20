@@ -1,261 +1,302 @@
-import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
-import { DownloadOpenLink } from "@/components/download-open-link";
-import { EvolutionRoadmap } from "@/components/evolution-roadmap";
+import { InputStoryExplorer, PlatformEcosystem } from "@/components/clarity-interactions";
+import { FrameNav } from "@/components/frame-nav";
+import { PortfolioFrame } from "@/components/portfolio-frame";
+import { ReferenceWorkbenchVisual } from "@/components/reference-workbench-visual";
 import { portfolio, type Portfolio } from "@/data/portfolio";
-import hubspotLogo from "../../public/logo/HubSpot-Logo.png";
-import trustpilotLogo from "../../public/logo/Trustpilot_Logo.png";
-import facebookLogo from "../../public/logo/facebook.png";
-import instagramLogo from "../../public/logo/instagram.webp";
-import linkedinLogo from "../../public/logo/linkedin.png";
-import salesforceLogo from "../../public/logo/salesforce.png";
-import snowflakeLogo from "../../public/logo/snowflake.png";
-import stripeLogo from "../../public/logo/stripe.png";
-import woocommerceLogo from "../../public/logo/woocommerce-logo.png";
-import xLogo from "../../public/logo/x.avif";
-import youtubeLogo from "../../public/logo/Youtube_logo.png";
 
 type ExperienceRole = Portfolio["experience"]["roles"][number];
-type PlatformGroup = Portfolio["platforms"]["groups"][number];
-type Capability = Portfolio["whatIWorkOn"]["areas"][number];
 type CaseStudy = Portfolio["selectedWork"][number];
 type AdditionalWorkGroup = Portfolio["additionalWork"]["groups"][number];
 
-type SectionHeadingProps = {
-  eyebrow?: string;
-  title: string;
-  description?: string;
-};
-
-type ActionLinkProps = {
-  href: string;
-  children: ReactNode;
-  variant?: "solid" | "outline";
-  download?: boolean;
-  external?: boolean;
-};
-
-type SectionLink = {
-  href: string;
-  label: string;
-  download?: boolean;
-};
-
-type PlatformLogoConfig = {
-  alt: string;
-  src: StaticImageData;
-  variant: "wordmark" | "icon";
-};
-
-const sectionLinks: SectionLink[] = [
-  { href: "#experience", label: "Experience" },
-  { href: "#platforms", label: "Platforms" },
-  { href: "#what-i-work-on", label: "What I Work On" },
-  { href: "#selected-work", label: "Selected Work" },
-  { href: "#contact", label: "Contact" }
+const caseOrder = [
+  "multi-region-loyalty-programme",
+  "store-redemption-platform",
+  "custom-workflows-platform",
+  "large-community-operations"
 ];
 
-const platformLogoMap: Record<string, PlatformLogoConfig> = {
-  HubSpot: {
-    alt: "HubSpot logo",
-    src: hubspotLogo,
-    variant: "wordmark"
-  },
-  Salesforce: {
-    alt: "Salesforce logo",
-    src: salesforceLogo,
-    variant: "wordmark"
-  },
-  Snowflake: {
-    alt: "Snowflake logo",
-    src: snowflakeLogo,
-    variant: "wordmark"
-  },
-  Meta: {
-    alt: "Meta logo",
-    src: facebookLogo,
-    variant: "icon"
-  },
-  Instagram: {
-    alt: "Instagram logo",
-    src: instagramLogo,
-    variant: "icon"
-  },
-  LinkedIn: {
-    alt: "LinkedIn logo",
-    src: linkedinLogo,
-    variant: "icon"
-  },
-  X: {
-    alt: "X logo",
-    src: xLogo,
-    variant: "icon"
-  },
-  YouTube: {
-    alt: "YouTube logo",
-    src: youtubeLogo,
-    variant: "icon"
-  },
-  Stripe: {
-    alt: "Stripe logo",
-    src: stripeLogo,
-    variant: "wordmark"
-  },
-  WooCommerce: {
-    alt: "WooCommerce logo",
-    src: woocommerceLogo,
-    variant: "wordmark"
-  },
-  Trustpilot: {
-    alt: "Trustpilot logo",
-    src: trustpilotLogo,
-    variant: "wordmark"
+function MiniIcon({ type }: { type: string }) {
+  const className = "h-5 w-5 stroke-current";
+
+  if (type === "cart") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <path d="M5 5h2l2 11h9l2-8H8" />
+        <circle cx="10" cy="20" r="1.5" />
+        <circle cx="18" cy="20" r="1.5" />
+      </svg>
+    );
   }
-};
 
-function SectionHeading({ eyebrow, title, description }: SectionHeadingProps) {
+  if (type === "trophy") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <path d="M8 4h8v5a4 4 0 0 1-8 0z" />
+        <path d="M8 6H5a3 3 0 0 0 3 3M16 6h3a3 3 0 0 1-3 3M12 13v4M8 20h8M9 17h6" />
+      </svg>
+    );
+  }
+
+  if (type === "file") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <path d="M7 3.5h7l3 3V20H7z" />
+        <path d="M14 3.5V7h3M9.5 11h5M9.5 14h5M9.5 17h3" />
+      </svg>
+    );
+  }
+
+  if (type === "link") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <path d="M10 13a4 4 0 0 0 5.5.3l2-2a4 4 0 0 0-5.6-5.6l-1.1 1.1" />
+        <path d="M14 11a4 4 0 0 0-5.5-.3l-2 2a4 4 0 0 0 5.6 5.6l1.1-1.1" />
+      </svg>
+    );
+  }
+
+  if (type === "sliders") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+        <circle cx="9" cy="7" r="2" />
+        <circle cx="15" cy="12" r="2" />
+        <circle cx="11" cy="17" r="2" />
+      </svg>
+    );
+  }
+
+  if (type === "x") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <circle cx="12" cy="12" r="8" />
+        <path d="m9 9 6 6M15 9l-6 6" />
+      </svg>
+    );
+  }
+
+  if (type === "spark") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+        <path d="M12 3v5M12 16v5M4 12h5M15 12h5M7 7l2.5 2.5M14.5 14.5 17 17M17 7l-2.5 2.5M9.5 14.5 7 17" />
+      </svg>
+    );
+  }
+
   return (
-    <div className="max-w-3xl space-y-2.5">
-      {eyebrow ? (
-        <p className="text-[0.92rem] font-medium uppercase tracking-[0.18em] text-accent">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className="font-serif text-[clamp(1.8rem,2.8vw,1.95rem)] leading-[1.08] tracking-[-0.03em] text-ink">
-        {title}
-      </h2>
-      {description ? (
-        <p className="max-w-2xl text-[1.125rem] leading-8 text-mist">{description}</p>
-      ) : null}
-    </div>
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" strokeWidth="1.8">
+      <path d="M5 19 19 5M8 5h11v11" />
+    </svg>
   );
 }
 
-function ActionLink({
-  href,
-  children,
-  variant = "outline",
-  download = false,
-  external = false
-}: ActionLinkProps) {
-  const className =
-    variant === "solid"
-      ? "inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-[0.98rem] font-medium text-white transition hover:bg-accent/90"
-      : "inline-flex items-center justify-center rounded-full border border-line/70 bg-paper/45 px-5 py-3 text-[0.98rem] font-medium text-ink transition hover:border-accent hover:text-accent";
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function WorkbenchHero() {
+  const { person } = portfolio;
+  const storyMap = new Map<string, Portfolio["person"]["workbenchStories"][number]>(
+    person.workbenchStories.map((story) => [story.label, story])
+  );
+  const heroAboutLinks = [
+    {
+      label: "LinkedIn",
+      href: person.linkedin,
+      external: true
+    },
+    {
+      label: "View resume",
+      href: person.resumeHref,
+      external: true
+    },
+    {
+      label: "Email me",
+      href: `mailto:${person.email}`
+    }
+  ];
+  const heroInputs = person.workbenchArtifacts.map((artifact) => {
+    const label = artifact.label;
+    const story = storyMap.get(label);
+
+    return {
+      label,
+      description: artifact.description,
+      href: "#work",
+      targetStoryId: story?.id ?? slugify(label),
+      lane: artifact.lane,
+      storyTitle: story?.title,
+      storyBody: story?.body,
+      storyPreview: story?.preview,
+      storyPoints: story?.points
+    };
+  });
 
   return (
-    download ? (
-      <DownloadOpenLink href={href} className={className} download={download}>
-        {children}
-      </DownloadOpenLink>
-    ) : (
-      <a
-        href={href}
-        className={className}
-        target={external ? "_blank" : undefined}
-        rel={external ? "noreferrer" : undefined}
-      >
-        {children}
-      </a>
-    )
+    <section id="top" tabIndex={-1} className="reference-hero scroll-mt-28 px-5 pb-5 pt-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 sm:pb-7 lg:px-10 lg:pt-8">
+      <ReferenceWorkbenchVisual
+        inputs={heroInputs}
+        eyebrow={person.title}
+        title={person.intro}
+        supportText={person.heroLines[0]}
+        proofLine={person.heroProof}
+        primaryAction={{
+          label: "View selected work",
+          href: "#systems"
+        }}
+        secondaryAction={{
+          label: "How I work with AI",
+          href: "#product-memory"
+        }}
+        aboutText={person.heroLines[1]}
+        aboutName={person.name}
+        aboutPortrait={person.portrait}
+        aboutLinks={heroAboutLinks}
+        className="border-0 bg-transparent p-0 shadow-none sm:p-0 lg:p-0"
+      />
+    </section>
   );
 }
 
-function ExperienceRow({ role }: { role: ExperienceRole }) {
-  return (
-    <article className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
-      <div className="space-y-1.5">
-        <h3 className="text-[clamp(1.25rem,2vw,1.4rem)] font-medium leading-tight text-ink">
-          {role.company}
-        </h3>
-        <p className="text-[1.05rem] leading-7 text-mist">{role.role}</p>
-        <p className="pt-1 text-base leading-7 text-mist">{role.summary}</p>
-      </div>
-      <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-        {role.period}
-      </p>
-    </article>
-  );
-}
-
-function PlatformGroupColumn({ group }: { group: PlatformGroup }) {
-  const isSocialGroup = group.title === "Channels & social";
-
-  return (
-    <div className="space-y-4">
-      <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-mist">
-        {group.title}
-      </p>
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
-        {group.items.map((item) => {
-          const logo = platformLogoMap[item];
-
-          if (!logo) {
-            return <span key={item} className="text-[1rem] font-medium text-ink/84">{item}</span>;
-          }
-
-          if (isSocialGroup || logo.variant === "icon") {
-            return (
-              <div key={item} className="flex h-10 w-10 items-center justify-center">
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  className="h-8 w-8 object-contain"
-                  sizes="40px"
-                />
-              </div>
-            );
-          }
-
-          return (
-            <div key={item} className="flex h-8 items-center">
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                className="h-8 w-auto object-contain"
-                sizes="(min-width: 1024px) 180px, 140px"
-              />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function CapabilityItem({
-  capability,
-  index
+function SectionIntro({
+  label,
+  title,
+  description,
+  action
 }: {
-  capability: Capability;
-  index: number;
+  label: string;
+  title: string;
+  description?: string;
+  action?: ReactNode;
 }) {
   return (
-    <article className="grid grid-cols-[auto_1fr] gap-4">
-      <span className="pt-1 text-[0.92rem] font-medium tracking-[0.12em] text-accent/85">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <div className="space-y-2.5">
-        <h3 className="text-[clamp(1.25rem,2vw,1.4rem)] font-medium leading-tight text-ink">
-          {capability.label}
-        </h3>
-        <p className="max-w-xl text-base leading-7 text-mist">{capability.description}</p>
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="max-w-3xl">
+        <p className="text-sm font-semibold text-accent">{label}</p>
+        <h2 className="mt-3 text-balance font-serif text-[clamp(1.65rem,3vw,2.4rem)] leading-tight tracking-[-0.03em] text-ink">
+          {title}
+        </h2>
+        {description ? (
+          <p className="mt-3 max-w-2xl text-pretty text-base leading-7 text-muted">
+            {description}
+          </p>
+        ) : null}
       </div>
-    </article>
+      {action}
+    </div>
+  );
+}
+
+function SystemCaseCard({ project, index }: { project: CaseStudy; index: number }) {
+  const icons = ["link", "cart", "sliders", "file"];
+  const icon = icons[index] ?? "spark";
+  const isLeadCase = index === 0;
+
+  return (
+    <a
+      href={`/work/${project.id}`}
+      className={`group flex min-h-[18rem] flex-col rounded-[14px] border border-line bg-surface p-6 transition duration-200 hover:-translate-y-0.5 hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas ${
+        isLeadCase ? "lg:col-span-3 lg:min-h-[15rem] lg:p-8" : ""
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <span className="flex h-12 w-12 items-center justify-center text-accent">
+          <MiniIcon type={icon} />
+        </span>
+        <span className="rounded-lg border border-line bg-canvas px-3 py-1.5 text-xs font-semibold text-muted">
+          {project.impactLabel}
+        </span>
+      </div>
+      <div className={`mt-8 space-y-3 ${isLeadCase ? "lg:grid lg:grid-cols-[0.56fr_0.44fr] lg:gap-12 lg:space-y-0" : ""}`}>
+        <div>
+        <h3 className="text-balance text-2xl font-semibold leading-tight tracking-[-0.02em] text-ink">
+          {project.caseTitle}
+        </h3>
+        <p className={`${isLeadCase ? "max-w-2xl" : "max-w-sm"} mt-3 text-pretty text-base leading-7 text-muted`}>{project.summary}</p>
+        </div>
+        <div className="border-t border-line pt-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">Observed result</p>
+          <p className="mt-2 text-sm leading-6 text-ink">{project.outcomeLine}</p>
+        </div>
+      </div>
+
+      <span className="mt-auto pt-8 text-sm font-semibold text-ink">
+        View case study <span className="inline-block transition group-hover:translate-x-1" aria-hidden="true">-&gt;</span>
+      </span>
+    </a>
+  );
+}
+
+function ProductMemorySection({ sectionLabel }: { sectionLabel: string }) {
+  const { productMemory } = portfolio;
+
+  return (
+    <section id="product-memory" data-product-memory-surface="integrated" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+      <div className="grid gap-8 lg:grid-cols-[0.58fr_0.42fr] lg:gap-12">
+        <div>
+          <p className="text-sm font-semibold text-accent">{sectionLabel}</p>
+          <h2 className="mt-4 max-w-4xl text-balance font-serif text-[clamp(2rem,4.5vw,4rem)] leading-[1.02] tracking-[-0.035em] text-ink">
+            {productMemory.title}
+          </h2>
+          <p className="mt-6 max-w-3xl text-pretty text-base leading-8 text-muted">
+            {productMemory.description}
+          </p>
+        </div>
+        <div className="border-t border-line pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+          <p className="text-sm font-semibold text-accent">Why I built it</p>
+          <p className="mt-4 text-base leading-8 text-muted">{productMemory.problem}</p>
+        </div>
+      </div>
+
+      <div className="mt-10 border-y border-line">
+        {productMemory.memoryLayers.map((layer) => (
+          <article
+            key={layer.label}
+            className="grid gap-3 border-b border-line py-6 last:border-b-0 md:grid-cols-[0.34fr_0.66fr] md:items-start"
+          >
+            <h3 className="text-lg font-semibold text-ink">{layer.label}</h3>
+            <p className="text-sm leading-7 text-muted">{layer.detail}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="grid border-b border-line lg:grid-cols-[0.44fr_0.56fr]">
+        <div className="py-8 lg:pr-10">
+          <p className="text-sm font-semibold text-accent">Used across</p>
+          <ul className="mt-5 grid gap-3">
+            {productMemory.uses.map((use) => (
+              <li key={use} className="flex gap-3 text-sm leading-6 text-muted">
+                <span aria-hidden="true" className="text-accent">-&gt;</span>
+                <span>{use}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="border-t border-line py-8 lg:border-l lg:border-t-0 lg:pl-10">
+          <p className="text-sm font-semibold text-accent">{productMemory.yamlStory.title}</p>
+          <p className="mt-5 text-base leading-8 text-muted">{productMemory.yamlStory.body}</p>
+          <p className="mt-6 border-t border-line pt-5 text-sm leading-7 text-muted">
+            {productMemory.evidenceLimit}
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 
 function AdditionalWorkGroupColumn({ group }: { group: AdditionalWorkGroup }) {
   return (
-    <div className="space-y-4">
-      <h3 className="text-[clamp(1.25rem,2vw,1.4rem)] font-medium leading-tight text-ink">
-        {group.title}
-      </h3>
-      <ul className="space-y-3">
+    <div className="rounded-lg border border-line bg-surface p-5">
+      <h3 className="text-xl font-semibold text-ink">{group.title}</h3>
+      <ul className="mt-5 grid gap-3">
         {group.items.map((item) => (
-          <li key={item} className="relative pl-4 text-base leading-7 text-mist">
-            <span className="absolute left-0 top-2.5 h-1.5 w-1.5 rounded-full bg-accent/70" />
-            {item}
+          <li key={item} className="grid grid-cols-[0.6rem_1fr] gap-3 text-sm leading-6 text-muted">
+            <span className="mt-2 h-2 w-2 rounded-full bg-coral" />
+            <span>{item}</span>
           </li>
         ))}
       </ul>
@@ -263,465 +304,176 @@ function AdditionalWorkGroupColumn({ group }: { group: AdditionalWorkGroup }) {
   );
 }
 
-function CaseStudyCard({
-  project,
-  index
-}: {
-  project: CaseStudy;
-  index: number;
-}) {
+function ExperienceRow({ role }: { role: ExperienceRole }) {
   return (
-    <a
-      href={`#${project.id}`}
-      className="group flex h-full flex-col gap-4 rounded-[1.85rem] border border-white/70 bg-paper/78 p-5 shadow-[0_18px_46px_rgba(31,41,51,0.05)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(31,41,51,0.08)] sm:p-6"
-    >
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-[0.92rem] uppercase tracking-[0.16em] text-accent">{project.label}</p>
-        <span className="text-[0.92rem] text-mist">0{index + 1}</span>
+    <article className="grid gap-3 border-t border-line py-5 md:grid-cols-[0.32fr_0.68fr]">
+      <div>
+        <p className="text-sm font-semibold text-accent">{role.period}</p>
+        <h3 className="mt-2 text-xl font-semibold text-ink">{role.company}</h3>
       </div>
-
-      <div className="space-y-2.5">
-        <h3 className="font-serif text-[clamp(1.45rem,2.4vw,1.6rem)] leading-[1.08] tracking-[-0.03em] text-ink">
-          {project.title}
-        </h3>
-        <p className="text-base leading-7 text-mist">{project.summary}</p>
+      <div>
+        <p className="text-base font-semibold text-ink">{role.role}</p>
+        <p className="mt-2 max-w-2xl text-base leading-7 text-muted">{role.summary}</p>
       </div>
-
-      <div className="flex flex-wrap gap-x-4 gap-y-2 text-[0.98rem] text-ink/75">
-        {project.tags.map((tag) => (
-          <span key={tag} className="relative pl-4">
-            <span className="absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-accent/80" />
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <span className="mt-auto inline-flex text-[0.98rem] font-medium text-accent/90">
-        View details
-      </span>
-    </a>
+    </article>
   );
 }
 
-function FeatureDetailSection({
-  heading,
-  body,
-  items,
-  layout
-}: {
-  heading: string;
-  body: string;
-  items: readonly string[];
-  layout: string;
-}) {
+function ContactPanel() {
+  const { person } = portfolio;
+
   return (
-    <section className="space-y-2.5">
-      <h4 className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-        {heading}
-      </h4>
-      {body ? <p className="max-w-3xl text-base leading-7 text-mist">{body}</p> : null}
-      {items.length > 0 ? (
-        <ul
-          className={`grid gap-x-8 gap-y-3 text-base leading-7 text-ink ${
-            layout === "compact-bullets" ? "md:grid-cols-2" : ""
-          }`}
-        >
-          {items.map((item) => (
-            <li key={item} className="relative pl-4">
-              <span className="absolute left-0 top-2.5 h-1.5 w-1.5 rounded-full bg-accent/80" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      ) : null}
+    <section id="contact" tabIndex={-1} className="scroll-mt-28 px-5 py-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-7 lg:px-9">
+      <div className="mx-auto grid max-w-7xl gap-8 rounded-lg bg-ink p-6 text-canvas sm:p-8 lg:grid-cols-[0.62fr_0.38fr] lg:p-10">
+        <div>
+          <p className="text-sm font-semibold text-yellow">Contact</p>
+          <h2 className="mt-4 max-w-3xl text-balance text-[clamp(2.2rem,5vw,4.6rem)] font-semibold leading-none tracking-[-0.035em]">
+            {"Let's talk about the product, platform or integration problem you're trying to untangle."}
+          </h2>
+        </div>
+        <div className="flex flex-col justify-end gap-3">
+          <a className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8" href={`mailto:${person.email}`}>
+            {person.email}
+          </a>
+          <a className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8" href={person.linkedin} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+          <a
+            href={person.resumeHref}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center text-base font-semibold underline decoration-accent underline-offset-8"
+          >
+            View resume
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
 
-function FeaturedCaseStudyDetail({
-  project,
-  index
-}: {
-  project: CaseStudy;
-  index: number;
-}) {
-  const leadSections =
-    project.evolutionPhases.length > 0
-      ? project.detailSections.slice(0, 2)
-      : project.detailSections;
-  const trailingSections =
-    project.evolutionPhases.length > 0 ? project.detailSections.slice(2) : [];
+function PortfolioFooter() {
+  const { person } = portfolio;
 
   return (
-    <article
-      id={project.id}
-      className="scroll-mt-32 rounded-[2rem] bg-paper px-7 py-7 shadow-[0_22px_64px_rgba(31,41,51,0.08)] sm:px-9 sm:py-9"
-    >
-      <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-10">
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <p className="text-[0.92rem] uppercase tracking-[0.16em] text-accent">
-              Case Study 0{index + 1}
-            </p>
-            <h3 className="font-serif text-[clamp(1.8rem,3vw,2rem)] leading-[1.06] tracking-[-0.03em] text-ink">
-              {project.title}
-            </h3>
-            <p className="text-[1.125rem] leading-8 text-mist">{project.summary}</p>
-          </div>
-
-          <div className="flex flex-wrap gap-x-4 gap-y-2 text-[0.98rem] text-ink/75">
-            {project.railTags.map((tag) => (
-              <span key={tag} className="relative pl-4">
-                <span className="absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-accent/80" />
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="space-y-4 pt-1">
-            {project.scope ? (
-              <div>
-                <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                  Used for
-                </p>
-                <p className="mt-2 text-base leading-7 text-ink">{project.scope}</p>
-              </div>
-            ) : null}
-            {project.impactLine ? (
-              <div>
-                <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                  {project.impactLabel}
-                </p>
-                <p className="mt-2 text-base leading-7 text-mist">{project.impactLine}</p>
-              </div>
-            ) : null}
-            {project.railNote ? (
-              <div>
-                <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                  {project.railNoteLabel}
-                </p>
-                <p className="mt-2 text-base leading-7 text-mist">{project.railNote}</p>
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="space-y-7">
-          {leadSections.map((section) => (
-            <FeatureDetailSection
-              key={section.heading}
-              heading={section.heading}
-              body={section.body}
-              items={section.items}
-              layout={section.layout}
-            />
-          ))}
-
-          {project.evolutionPhases.length > 0 ? (
-            <section className="space-y-3">
-              <h4 className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                How the system evolved
-              </h4>
-              <EvolutionRoadmap phases={project.evolutionPhases} />
-            </section>
-          ) : null}
-
-          {trailingSections.map((section) => (
-            <FeatureDetailSection
-              key={section.heading}
-              heading={section.heading}
-              body={section.body}
-              items={section.items}
-              layout={section.layout}
-            />
-          ))}
+    <footer className="border-t border-line px-5 py-8 text-sm text-muted sm:px-9 lg:px-10">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p>© {new Date().getFullYear()} {person.name}. All rights reserved.</p>
+        <div className="flex flex-wrap gap-3 sm:gap-5">
+          <a href={`mailto:${person.email}`} className="inline-flex min-h-11 items-center transition hover:text-ink">
+            Email
+          </a>
+          <a href={person.linkedin} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition hover:text-ink">
+            LinkedIn
+          </a>
+          <a href={person.resumeHref} download className="inline-flex min-h-11 items-center transition hover:text-ink">
+            Download resume PDF
+          </a>
         </div>
       </div>
-    </article>
+    </footer>
   );
-}
-
-function StandardCaseStudyDetail({
-  project,
-  index
-}: {
-  project: CaseStudy;
-  index: number;
-}) {
-  return (
-    <article
-      id={project.id}
-      className="scroll-mt-32 rounded-[1.95rem] bg-paper/84 px-7 py-7 shadow-[0_18px_52px_rgba(31,41,51,0.06)] sm:px-9 sm:py-9"
-    >
-      <div className="grid gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:gap-9">
-        <div className="space-y-3">
-          <p className="text-[0.92rem] uppercase tracking-[0.16em] text-accent">
-            Case Study 0{index + 1}
-          </p>
-          <h3 className="font-serif text-[clamp(1.8rem,3vw,2rem)] leading-[1.06] tracking-[-0.03em] text-ink">
-            {project.title}
-          </h3>
-          <p className="text-[1.05rem] leading-7 text-mist">{project.label}</p>
-          <div className="flex flex-wrap gap-x-4 gap-y-2 text-[0.98rem] text-ink/75">
-            {project.tags.map((tag) => (
-              <span key={tag} className="relative pl-4">
-                <span className="absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-accent/80" />
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-5">
-          <p className="max-w-3xl text-[1.125rem] leading-8 text-ink/90">{project.summary}</p>
-          <p className="max-w-3xl text-base leading-7 text-mist">{project.detail}</p>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {project.bullets.map((bullet) => (
-              <li key={bullet} className="relative pl-4 text-base leading-7 text-ink/88">
-                <span className="absolute left-0 top-2.5 h-1.5 w-1.5 rounded-full bg-accent/80" />
-                {bullet}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function CaseStudyDetail({
-  project,
-  index
-}: {
-  project: CaseStudy;
-  index: number;
-}) {
-  if (project.detailLayout === "feature" && project.detailSections.length > 0) {
-    return <FeaturedCaseStudyDetail project={project} index={index} />;
-  }
-
-  return <StandardCaseStudyDetail project={project} index={index} />;
 }
 
 export default function HomePage() {
   const {
-    person,
     experience,
     platforms,
-    whatIWorkOn,
     additionalWork,
-    selectedWork
+    selectedWork,
+    person
   } = portfolio;
 
+  const orderedWork = caseOrder
+    .map((id) => selectedWork.find((project) => project.id === id))
+    .filter((project): project is CaseStudy => Boolean(project));
+
   return (
-    <main className="min-h-screen bg-canvas bg-grain text-ink">
-      <div className="mx-auto max-w-6xl px-6 pb-16 pt-2 sm:px-7 lg:px-8">
-        <header className="sticky top-0 z-30 mb-8 flex items-center justify-between border-b border-line/35 bg-canvas/72 py-3 backdrop-blur-[6px]">
-          <a href="#top" className="font-serif text-[1.45rem] tracking-tight text-ink">
-            {person.name}
-          </a>
-          <nav className="hidden flex-wrap gap-5 text-[0.98rem] text-mist md:flex">
-            {sectionLinks.map((section) => (
-              <a
-                key={section.href}
-                href={section.href}
-                className="transition hover:text-ink"
-                download={section.download}
-              >
-                {section.label}
-              </a>
-            ))}
-          </nav>
-        </header>
+    <div className="min-h-screen bg-[#eef1eb] px-3 py-3 text-ink sm:px-5 sm:py-5">
+      <PortfolioFrame>
+        <FrameNav isHomePage />
+        <main id="main-content">
+          <WorkbenchHero />
 
-        <section id="top" className="scroll-mt-28 pb-16 pt-2">
-          <div className="max-w-4xl space-y-6">
-            <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-paper/82 shadow-[0_12px_30px_rgba(31,41,51,0.06)]">
-              <Image
-                src={person.portrait.src}
-                alt={person.portrait.alt}
-                width={112}
-                height={112}
-                className="h-full w-full object-cover"
-                priority
-              />
-            </div>
-
-            <div className="space-y-3">
-              <h1 className="max-w-4xl font-serif text-[clamp(3rem,6vw,3.5rem)] leading-[0.96] tracking-[-0.045em] text-ink">
-                {person.name}
-              </h1>
-              <p className="max-w-3xl text-[clamp(1.25rem,2.3vw,1.5rem)] leading-[1.4] text-mist">
-                {person.title}
-              </p>
-            </div>
-
-            <p className="max-w-3xl text-[1.125rem] leading-8 text-ink/90">{person.intro}</p>
-
-            <div className="flex flex-wrap gap-3">
-              <ActionLink href={person.resumeHref} variant="solid" download>
-                Download Resume
-              </ActionLink>
-              <ActionLink href={person.linkedin} external>
-                LinkedIn Profile
-              </ActionLink>
-              <ActionLink href={`mailto:${person.email}`}>Email Me</ActionLink>
-            </div>
-          </div>
-        </section>
-
-        <section id="experience" className="scroll-mt-28 py-16">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Experience"
-              title="Experience"
-              description={experience.description}
+          <section id="work" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Capabilities"
+              title="I define how the product should behave, fail and recover."
+              description="Most of my work sits across APIs, webhooks, workflows, Store, gamification and AI-enabled product operations."
             />
-            <ActionLink href={person.resumeHref} download>
-              Download Resume
-            </ActionLink>
-          </div>
+            <div className="mt-8">
+              <InputStoryExplorer stories={person.workbenchStories} />
+            </div>
+          </section>
 
-          <div className="mt-7 rounded-[1.8rem] bg-paper/76 px-6 py-6 shadow-[0_16px_44px_rgba(31,41,51,0.05)] sm:px-7">
-            <div className="space-y-7">
-              {experience.roles.map((role) => (
-                <ExperienceRow key={`${role.company}-${role.role}`} role={role} />
+          <section id="systems" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Selected work"
+              title="One client lifecycle and three platform systems."
+              description="The lead case follows a client programme from data and product rules through launch and live operation. The next three show how I shaped and expanded the platform systems underneath it with engineering, design and QA."
+              action={
+                <a
+                  href="#supporting-work"
+                  className="inline-flex min-h-11 items-center justify-center rounded-[12px] border border-line bg-surface px-5 text-sm font-semibold text-ink transition hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+                >
+                  Other work
+                </a>
+              }
+            />
+            <p className="mt-5 max-w-4xl text-sm leading-6 text-muted">
+              Client names, screenshots and identifying operational details are generalized or omitted. Metrics are labelled as production, QA/test or bounded operational evidence.
+            </p>
+            <div className="mt-8 grid gap-6 lg:grid-cols-3">
+              {orderedWork.map((project, index) => (
+                <SystemCaseCard key={project.id} project={project} index={index} />
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="platforms" className="scroll-mt-28 py-16">
-          <SectionHeading
-            eyebrow="Platforms"
-            title={platforms.title}
-            description={platforms.description}
-          />
+          <ProductMemorySection sectionLabel="AI practice" />
 
-          <div className="mt-7 rounded-[1.8rem] bg-paper/72 px-6 py-6 shadow-[0_16px_44px_rgba(31,41,51,0.05)] sm:px-7">
-            <div className="grid gap-7 lg:grid-cols-3">
-              {platforms.groups.map((group) => (
-                <PlatformGroupColumn key={group.title} group={group} />
-              ))}
+          <section id="ecosystem" className="scroll-mt-28 border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Systems I’ve worked with"
+              title={platforms.title}
+              description={platforms.description}
+            />
+            <div className="mt-8">
+              <PlatformEcosystem groups={platforms.groups} />
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="what-i-work-on" className="scroll-mt-28 py-16">
-          <SectionHeading
-            eyebrow="What I Work On"
-            title="The kinds of problems I solve"
-            description={whatIWorkOn.description}
-          />
-          <p className="mt-5 max-w-3xl text-[1.125rem] leading-8 text-mist">
-            {whatIWorkOn.intro}
-          </p>
-
-          <div className="mt-8 grid gap-x-12 gap-y-7 md:grid-cols-2">
-            {whatIWorkOn.areas.map((capability, index) => (
-              <CapabilityItem key={capability.label} capability={capability} index={index} />
-            ))}
-          </div>
-        </section>
-
-        <section id="selected-work" className="scroll-mt-28 py-16">
-          <SectionHeading
-            eyebrow="Selected Work"
-            title="Three featured case studies"
-            description="A focused set of projects that show how I approach workflow clarity, platform logic, and reusable product systems."
-          />
-
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            {selectedWork.map((project, index) => (
-              <CaseStudyCard key={project.id} project={project} index={index} />
-            ))}
-          </div>
-
-          <div
-            id="supporting-work"
-            className="mt-12 rounded-[1.8rem] bg-paper/70 px-6 py-6 shadow-[0_16px_44px_rgba(31,41,51,0.05)] sm:px-7"
-          >
-            <SectionHeading
-              eyebrow="Supporting Work"
+          <section id="supporting-work" className="border-t border-line px-5 py-12 sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Other platform work"
               title={additionalWork.title}
               description={additionalWork.description}
             />
-
-            <div className="mt-7 grid gap-7 md:grid-cols-2 md:gap-x-12">
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
               {additionalWork.groups.map((group) => (
                 <AdditionalWorkGroupColumn key={group.title} group={group} />
               ))}
             </div>
-          </div>
+          </section>
 
-          <div className="mt-12 space-y-6">
-            {selectedWork.map((project, index) => (
-              <CaseStudyDetail key={project.id} project={project} index={index} />
-            ))}
-          </div>
-        </section>
-
-        <section id="contact" className="scroll-mt-28 py-16">
-          <div className="rounded-[1.95rem] bg-paper/80 px-7 py-8 shadow-[0_20px_54px_rgba(31,41,51,0.07)] sm:px-8 sm:py-9">
-            <div className="grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-              <div className="space-y-4">
-                <p className="text-[0.92rem] font-medium uppercase tracking-[0.16em] text-accent">
-                  Contact / Resume
-                </p>
-                <h2 className="font-serif text-[clamp(1.8rem,2.8vw,1.95rem)] leading-[1.08] tracking-[-0.03em] text-ink">
-                  Get in touch or download the resume
-                </h2>
-                <p className="max-w-2xl text-[1.125rem] leading-8 text-mist">
-                  If you are hiring for a thoughtful early-career generalist with hands-on
-                  experience in technical product work, operational systems, and cross-functional
-                  execution, I would love to connect.
-                </p>
-              </div>
-
-              <div className="space-y-3.5 text-base">
-                <a className="block transition hover:text-accent" href={`mailto:${person.email}`}>
-                  {person.email}
-                </a>
-                <a
-                  className="block transition hover:text-accent"
-                  href={person.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
-                </a>
-                <DownloadOpenLink
-                  className="block transition hover:text-accent"
-                  href={person.resumeHref}
-                  download
-                >
-                  Download Resume
-                </DownloadOpenLink>
-              </div>
+          <section id="experience" tabIndex={-1} className="scroll-mt-28 border-t border-line px-5 py-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent sm:px-9 lg:px-10">
+            <SectionIntro
+              label="Experience"
+              title="A short career anchor for context."
+              description={experience.description}
+            />
+            <div className="mt-8">
+              {experience.roles.map((role) => (
+                <ExperienceRow key={`${role.company}-${role.role}`} role={role} />
+              ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <footer className="pt-6 text-[0.98rem] text-mist sm:flex sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {person.name}. All rights reserved.</p>
-          <div className="mt-3 flex flex-wrap gap-5 sm:mt-0">
-            <a href={`mailto:${person.email}`} className="transition hover:text-ink">
-              Email
-            </a>
-            <a
-              href={person.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="transition hover:text-ink"
-            >
-              LinkedIn
-            </a>
-            <DownloadOpenLink href={person.resumeHref} download className="transition hover:text-ink">
-              Resume
-            </DownloadOpenLink>
-          </div>
-        </footer>
-      </div>
-    </main>
+          <ContactPanel />
+        </main>
+
+        <PortfolioFooter />
+      </PortfolioFrame>
+    </div>
   );
 }
